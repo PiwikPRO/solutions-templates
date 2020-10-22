@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "module": "None",
+    "importHelpers": false,
+    "moduleResolution": "node",
+    "declaration": false,
+    "isolatedModules": false,
+    "noEmit": false,
+    "types": [
+      "shared-dev"
+    ]
+  },
+}

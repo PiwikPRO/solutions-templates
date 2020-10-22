@@ -1,0 +1,7 @@
+{
+  "name": "dead-clicks",
+  "private": true,
+  "devDependencies": {
+    "shared-dev": "workspace:*"
+  }
+}

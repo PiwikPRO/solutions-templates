@@ -1,0 +1,3 @@
+{
+  "extends": "shared-dev/tsconfig.json"
+}

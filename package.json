@@ -1,0 +1,16 @@
+{
+  "name": "detection-helpers",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "eslint packages/**/*.js"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "eslint": "^7.11.0",
+    "shared-dev": "workspace:*",
+    "typescript": "^4.0.3"
+  }
+}
