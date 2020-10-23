@@ -1,21 +1,18 @@
-# Dead Clicks detection
+# Error Clicks detection
 
-Dead clicks are clicks that have no effect on the page. The visitor clicks on the image to zoom it in, but nothing happens. He expects a text string to be a link, but it isn’t. Or he clicks on a button, but to no avail. In such situations, the visitor will end up clicking twice, quickly. Looking for dead clicks will help you find these main points of frustration and improve visitors` experience as soon as possible.
+Error clicks are clicks that result in JavaScript errors. The visitor doesn’t have to click on something many times in a row. Just one click is enough to spot an error. Often the visitor doesn’t notice that something is broken, but for you, it’s a signal that a particular JavaScript element is not working.
 
 ## Solution
 
-This script listen on click event on whole document and count number of clicks on the same element in interval of time
+This scripts listen on click, when click is triggered set timeout for 0 ms (this move execution of code for the next tick what allow us to catch error). The second listening watch for errors in browser
 
 ## Configuration
 
 ```js
-detectDeadClicks((target, unsubscribe) => {
-  _paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
+detectErrorClicks((target, error, unsubscribe) => {
+  console.log('Error detected:', error); // You can get message from error
+  _paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
 
   // unsubscribe() // Uncomment this line when you want to finish after first trigger
-}, {
-  interval: 1000, // Number of milliseconds to reset counter
-  limit: 2, // Number of clicks to trigger function above
 });
 ```
-

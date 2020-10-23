@@ -27,6 +27,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/dead-clicks"
       },
       {
+        "name": "error-clicks",
+        "reference": "workspace:packages/error-clicks"
+      },
+      {
         "name": "mouse-shake",
         "reference": "workspace:packages/mouse-shake"
       },
@@ -44,6 +48,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "fallbackExclusionList": [
       ["dead-clicks", ["workspace:packages/dead-clicks"]],
       ["detection-helpers", ["workspace:."]],
+      ["error-clicks", ["workspace:packages/error-clicks"]],
       ["mouse-shake", ["workspace:packages/mouse-shake"]],
       ["rage-clicks", ["workspace:packages/rage-clicks"]],
       ["shared-dev", ["workspace:packages/shared-dev"]]
@@ -687,6 +692,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ansi-colors", "npm:4.1.1"]
           ],
           "linkType": "HARD",
+        }]
+      ]],
+      ["error-clicks", [
+        ["workspace:packages/error-clicks", {
+          "packageLocation": "./packages/error-clicks/",
+          "packageDependencies": [
+            ["error-clicks", "workspace:packages/error-clicks"],
+            ["http-server", "npm:0.12.3"],
+            ["shared-dev", "workspace:packages/shared-dev"],
+            ["terser", "npm:5.3.8"],
+            ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5bf698"]
+          ],
+          "linkType": "SOFT",
         }]
       ]],
       ["escape-string-regexp", [

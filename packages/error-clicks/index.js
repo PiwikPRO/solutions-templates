@@ -5,25 +5,25 @@ const getSelectorFromTarget = (target) => {
   return [target.nodeName, className, targetId].join(' ');
 }
 
-const detectDeadClicks = (subscribe, { interval, limit } = {}, ) => {
-  let clickCounts = {};
+const detectErrorClicks = (subscribe) => {
+  let error;
 
-  // Clear state when reach time limit
-  const countClear = setInterval(() => {
-    clickCounts = {};
-  }, interval);
+  window.onerror = (msg) => {
+    error = msg;
+  }
 
   const listener = (event) => {
     const selector = getSelectorFromTarget(event.target)
 
-    if (clickCounts[selector] === limit) {
-      subscribe(selector, () => {
-        clearInterval(countClear);
-        document.removeEventListener('click', listener);
-      });
-    }
+    setTimeout(() => {
+      if (error) {
+        subscribe(selector, error, () => {
+          document.removeEventListener('click', listener);
+        });
+      }
 
-    clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1
+      error = undefined;
+    }, 0);
   };
 
   // Listen on all clicks

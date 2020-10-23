@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    window._paq = [];
+  </script>
+
+  <button id="error-button" class="btn btn-primary">Click me!</button>
+  <button class="btn btn-primary">Click me working!</button>
+
+  <script>
+    const el = document.getElementById('error-button');
+
+    el.addEventListener('click', () => {
+      throw new Error('Something is broken!');
+    });
+  </script>
+  <script src="dist/index.js"></script>
+</body>
+</html>
