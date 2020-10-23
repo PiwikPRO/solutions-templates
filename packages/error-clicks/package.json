@@ -1,5 +1,5 @@
 {
-  "name": "dead-clicks",
+  "name": "error-clicks",
   "private": true,
   "scripts": {
     "start": "hs .",

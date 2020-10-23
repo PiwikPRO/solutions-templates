@@ -428,7 +428,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dead-clicks@workspace:packages/dead-clicks"
   dependencies:
+    http-server: ^0.12.3
     shared-dev: "workspace:*"
+    terser: ^5.3.8
+    typescript: ^4.0.3
   languageName: unknown
   linkType: soft
 
@@ -1064,6 +1067,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mouse-shake@workspace:packages/mouse-shake":
+  version: 0.0.0-use.local
+  resolution: "mouse-shake@workspace:packages/mouse-shake"
+  dependencies:
+    http-server: ^0.12.3
+    shared-dev: "workspace:*"
+    terser: ^5.3.8
+    typescript: ^4.0.3
+  languageName: unknown
+  linkType: soft
+
 "ms@npm:2.1.2, ms@npm:^2.1.1":
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
@@ -1194,7 +1208,6 @@ __metadata:
     shared-dev: "workspace:*"
     terser: ^5.3.8
     typescript: ^4.0.3
-    uglify-js: ^3.11.3
   languageName: unknown
   linkType: soft
 
@@ -1477,15 +1490,6 @@ typescript@^4.0.3:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 72db87d09f728c83062d64b5e12ed52effb6278963b6bc5c006219b22c104e02b8ce80164261de554923d3c47d894a1ca937ed542328caccb83ebaedeae98a69
-  languageName: node
-  linkType: hard
-
-"uglify-js@npm:^3.11.3":
-  version: 3.11.3
-  resolution: "uglify-js@npm:3.11.3"
-  bin:
-    uglifyjs: bin/uglifyjs
-  checksum: 893090b962e6f1026c818a5b442e0ff84838560c4d91ab56dea154d51e1a531dfb34ec775e44c603d3ea40a25fe5374e679bd042afaf790372c8fabf3aa84694
   languageName: node
   linkType: hard
 

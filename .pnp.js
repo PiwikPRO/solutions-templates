@@ -27,6 +27,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/dead-clicks"
       },
       {
+        "name": "mouse-shake",
+        "reference": "workspace:packages/mouse-shake"
+      },
+      {
         "name": "rage-clicks",
         "reference": "workspace:packages/rage-clicks"
       },
@@ -40,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "fallbackExclusionList": [
       ["dead-clicks", ["workspace:packages/dead-clicks"]],
       ["detection-helpers", ["workspace:."]],
+      ["mouse-shake", ["workspace:packages/mouse-shake"]],
       ["rage-clicks", ["workspace:packages/rage-clicks"]],
       ["shared-dev", ["workspace:packages/shared-dev"]]
     ],
@@ -575,7 +580,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/dead-clicks/",
           "packageDependencies": [
             ["dead-clicks", "workspace:packages/dead-clicks"],
-            ["shared-dev", "workspace:packages/shared-dev"]
+            ["http-server", "npm:0.12.3"],
+            ["shared-dev", "workspace:packages/shared-dev"],
+            ["terser", "npm:5.3.8"],
+            ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5bf698"]
           ],
           "linkType": "SOFT",
         }]
@@ -1292,6 +1300,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["mouse-shake", [
+        ["workspace:packages/mouse-shake", {
+          "packageLocation": "./packages/mouse-shake/",
+          "packageDependencies": [
+            ["mouse-shake", "workspace:packages/mouse-shake"],
+            ["http-server", "npm:0.12.3"],
+            ["shared-dev", "workspace:packages/shared-dev"],
+            ["terser", "npm:5.3.8"],
+            ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5bf698"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["ms", [
         ["npm:2.1.2", {
           "packageLocation": "./.yarn/cache/ms-npm-2.1.2-ec0c1512ff-9b65fb709b.zip/node_modules/ms/",
@@ -1446,8 +1467,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["http-server", "npm:0.12.3"],
             ["shared-dev", "workspace:packages/shared-dev"],
             ["terser", "npm:5.3.8"],
-            ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5bf698"],
-            ["uglify-js", "npm:3.11.3"]
+            ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5bf698"]
           ],
           "linkType": "SOFT",
         }]
@@ -1774,15 +1794,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/typescript-patch-1c53dc8ca0-72db87d09f.zip/node_modules/typescript/",
           "packageDependencies": [
             ["typescript", "patch:typescript@npm%3A4.0.3#builtin<compat/typescript>::version=4.0.3&hash=5bf698"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["uglify-js", [
-        ["npm:3.11.3", {
-          "packageLocation": "./.yarn/cache/uglify-js-npm-3.11.3-119efc0f9d-893090b962.zip/node_modules/uglify-js/",
-          "packageDependencies": [
-            ["uglify-js", "npm:3.11.3"]
           ],
           "linkType": "HARD",
         }]

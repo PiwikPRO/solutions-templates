@@ -1,5 +1,5 @@
 {
-  "name": "dead-clicks",
+  "name": "mouse-shake",
   "private": true,
   "scripts": {
     "start": "hs .",
