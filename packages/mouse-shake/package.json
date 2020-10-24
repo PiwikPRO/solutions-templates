@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "hs .",
-    "build": "tsc && terser ./dist/index.js -o ./dist/index.js && yarn empty-line && yarn concat && yarn iife",
+    "build": "tsc -p tsconfig.json && terser ./dist/index.js -o ./dist/index.js && yarn empty-line && yarn concat && yarn iife",
     "concat": "cat ./main.js >> ./dist/index.js",
     "empty-line": "echo '\n' >> ./dist/index.js",
     "iife": "echo \"(function (){\n$(cat ./dist/index.js)\n})()\" > ./dist/index.js"

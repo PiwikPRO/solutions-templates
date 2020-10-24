@@ -1,4 +1,4 @@
-detectDeadClicks((target, unsubscribe) => {
+detectDeadClicks(function (target, unsubscribe) {
   _paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
 
   // unsubscribe() // Uncomment this line when you want to finish after first trigger

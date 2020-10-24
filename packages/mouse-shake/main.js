@@ -1,4 +1,4 @@
-detectMouseShake((target) => {
+detectMouseShake(function (target) {
   _paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
 
   // unsubscribe() // Uncomment this line when you want to finish after first trigger

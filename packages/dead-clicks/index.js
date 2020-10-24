@@ -5,7 +5,7 @@ const getSelectorFromTarget = (target) => {
   return [target.nodeName, className, targetId].join(' ');
 }
 
-const detectDeadClicks = (subscribe, { interval, limit } = {}, ) => {
+const detectDeadClicks = (subscribe, { interval, limit }) => {
   let clickCounts = {};
 
   // Clear state when reach time limit

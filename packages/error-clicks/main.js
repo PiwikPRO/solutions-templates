@@ -1,4 +1,4 @@
-detectErrorClicks((target, error, unsubscribe) => {
+detectErrorClicks(function (target, error, unsubscribe) {
   console.log('Error detected:', error);
   _paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
 

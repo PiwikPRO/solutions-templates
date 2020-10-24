@@ -1,4 +1,4 @@
-detectRageClicks((target, unsubscribe) => {
+detectRageClicks(function (target, unsubscribe) {
   _paq.push(['trackEvent', 'UX research', 'Rage click', target]);
 
   // unsubscribe() // Uncomment this line when you want to finish after first trigger

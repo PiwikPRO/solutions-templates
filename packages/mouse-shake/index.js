@@ -12,7 +12,7 @@ const detectMouseShake = (subscribe, { interval, sensitiveness }) => {
     if ((Math.abs(relative) / distance) * 100 < sensitiveness) {
       subscribe(() => {
         clearInterval(intervalClear);
-        document.removeEventListener('mounsemove', listener);
+        document.removeEventListener('mousemove', listener);
       });
     }
 

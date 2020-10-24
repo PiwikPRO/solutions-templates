@@ -4,7 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "eslint packages/**/*.js"
+    "lint": "eslint packages/**/*.js",
+    "build": "yarn workspaces foreach --exclude detection-helpers run build"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.5.0",

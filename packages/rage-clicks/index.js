@@ -5,7 +5,7 @@ const getSelectorFromTarget = (target) => {
   return [target.nodeName, className, targetId].join(' ');
 }
 
-const detectRageClicks = (subscribe, { interval, limit = 3 } = {}, ) => {
+const detectRageClicks = (subscribe, { interval, limit }) => {
   let count = 1;
 
   // Clear state when reach time limit
