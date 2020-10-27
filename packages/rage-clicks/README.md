@@ -9,8 +9,10 @@ This script listen on click event on whole document and count number of clicks. 
 ## Configuration
 
 ```js
-detectRageClicks((target, unsubscribe) => {
+detectRageClicks(function (target, unsubscribe) {
   _paq.push(['trackEvent', 'UX research', 'Rage click', target]);
+
+  // unsubscribe() // Uncomment this line when you want to finish after first trigger
 }, {
   interval: 750, // Number of milliseconds to reset counter
   limit: 3, // Number of clicks to trigger function above

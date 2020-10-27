@@ -9,8 +9,8 @@ This scripts listen on click, when click is triggered set timeout for 0 ms (this
 ## Configuration
 
 ```js
-detectErrorClicks((target, error, unsubscribe) => {
-  console.log('Error detected:', error); // You can get message from error
+detectErrorClicks(function (target, error, unsubscribe) {
+  console.log('Error detected:', error);
   _paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
 
   // unsubscribe() // Uncomment this line when you want to finish after first trigger

@@ -9,7 +9,7 @@ This script listen on click event on whole document and count number of clicks o
 ## Configuration
 
 ```js
-detectDeadClicks((target, unsubscribe) => {
+detectDeadClicks(function (target, unsubscribe) {
   _paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
 
   // unsubscribe() // Uncomment this line when you want to finish after first trigger
