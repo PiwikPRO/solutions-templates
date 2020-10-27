@@ -1,15 +1,33 @@
-const detectMouseShake = (subscribe, { interval, sensitiveness }) => {
+const detectMouseShake = (subscribe, { interval, threshold }) => {
+  let velocity;
+  let direction;
+  let directionChangeCount = 0;
   let distance = 0;
-  let relative = 0;
 
   const listener = (event) => {
-    relative += event.movementX + event.movementY;
-    distance += Math.abs(event.movementX + event.movementY);
+    const nextDirection = Math.sign(event.movementX);
+
+    distance += Math.abs(event.movementX) + Math.abs(event.movementY);
+
+    if (nextDirection !== direction) {
+      direction = nextDirection;
+      directionChangeCount++;
+    }
   };
 
   // Clear state when reach time limit
   const intervalClear = setInterval(() => {
-    if ((Math.abs(relative) / distance) * 100 < sensitiveness) {
+    const nextVelocity = distance / interval
+    
+    if (!velocity) {
+      velocity = nextVelocity;
+    
+      return
+    }
+
+    const acceleration = (nextVelocity - velocity) / interval
+
+    if (directionChangeCount && acceleration > threshold) {
       subscribe(() => {
         clearInterval(intervalClear);
         document.removeEventListener('mousemove', listener);
@@ -17,7 +35,8 @@ const detectMouseShake = (subscribe, { interval, sensitiveness }) => {
     }
 
     distance = 0;
-    relative = 0;
+    directionChangeCount = 0;
+    velocity = nextVelocity;
   }, interval);
 
   // Listen on all clicks
