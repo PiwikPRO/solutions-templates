@@ -1,5 +1,5 @@
 detectMouseShake(function (unsubscribe) {
-  _paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
+  window._paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
 
   // unsubscribe() // Uncomment this line when you want to finish after first trigger
 }, {
