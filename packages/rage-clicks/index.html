@@ -12,45 +12,6 @@
 
   <button class="btn btn-primary">Click me!</button>
 
-  <script>
-    (function (){
-    "use strict";var getSelectorFromTarget=function(target){var className=target.className!==""?"."+target.className:"";var targetId=target.id!==""?"#"+target.id:"";return[target.nodeName,className,targetId].join(" ")};var detectDeadClicks=function(subscribe,_a){var interval=_a.interval,limit=_a.limit;var clickCounts={};var countClear=setInterval((function(){clickCounts={}}),interval);var listener=function(event){var selector=getSelectorFromTarget(event.target);if(clickCounts[selector]===limit){subscribe(selector,(function(){clearInterval(countClear);document.removeEventListener("click",listener)}))}clickCounts[selector]=clickCounts[selector]?clickCounts[selector]+1:1};document.addEventListener("click",listener)};
-    detectDeadClicks(function (target, unsubscribe) {
-      window._paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
-      // unsubscribe() // Uncomment this line when you want to finish after first trigger
-    }, {
-      interval: 1000, // Number of milliseconds to reset counter
-      limit: 2, // Number of clicks to trigger function above
-    });
-    })();
-    (function (){
-    "use strict";var getSelectorFromTarget=function(target){var className=target.className!==""?"."+target.className:"";var targetId=target.id!==""?"#"+target.id:"";return[target.nodeName,className,targetId].join(" ")};var detectRageClicks=function(subscribe,_a){var interval=_a.interval,limit=_a.limit;var count=1;var countClear=setInterval((function(){count=1}),interval);var listener=function(event){if(count===limit){subscribe(getSelectorFromTarget(event.target),(function(){clearInterval(countClear);document.removeEventListener("click",listener)}))}count++};document.addEventListener("click",listener)};
-    detectRageClicks(function (target, unsubscribe) {
-      window._paq.push(['trackEvent', 'UX research', 'Rage click', target]);
-      // unsubscribe() // Uncomment this line when you want to finish after first trigger
-    }, {
-      interval: 750, // Number of milliseconds to reset counter
-      limit: 3, // Number of clicks to trigger function above
-    });
-    })();
-    (function (){
-    "use strict";var detectMouseShake=function(subscribe,_a){var interval=_a.interval,threshold=_a.threshold;var velocity;var direction;var directionChangeCount=0;var distance=0;var listener=function(event){var nextDirection=Math.sign(event.movementX);distance+=Math.abs(event.movementX)+Math.abs(event.movementY);if(nextDirection!==direction){direction=nextDirection;directionChangeCount++}};var intervalClear=setInterval((function(){var nextVelocity=distance/interval;if(!velocity){velocity=nextVelocity;return}var acceleration=(nextVelocity-velocity)/interval;if(directionChangeCount&&acceleration>threshold){subscribe((function(){clearInterval(intervalClear);document.removeEventListener("mousemove",listener)}))}distance=0;directionChangeCount=0;velocity=nextVelocity}),interval);document.addEventListener("mousemove",listener)};
-    detectMouseShake(function (unsubscribe) {
-      window._paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
-      // unsubscribe() // Uncomment this line when you want to finish after first trigger
-    }, {
-      interval: 350, // Number of milliseconds to reset counter
-      threshold: 0.01, // Acceleration of mouse movement threshold
-    });
-    })();
-    (function (){
-    "use strict";var getSelectorFromTarget=function(target){var className=target.className!==""?"."+target.className:"";var targetId=target.id!==""?"#"+target.id:"";return[target.nodeName,className,targetId].join(" ")};var detectErrorClicks=function(subscribe){var error;window.onerror=function(msg){error=msg};var listener=function(event){var selector=getSelectorFromTarget(event.target);setTimeout((function(){if(error){subscribe(selector,error,(function(){document.removeEventListener("click",listener)}))}error=undefined}),0)};document.addEventListener("click",listener)};
-    detectErrorClicks(function (target, error, unsubscribe) {
-      console.log('Error detected:', error);
-      window._paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
-      // unsubscribe() // Uncomment this line when you want to finish after first trigger
-    });
-    })();
-    </script>  
+  <script src="./dist/index.js"></script>
 </body>
 </html>

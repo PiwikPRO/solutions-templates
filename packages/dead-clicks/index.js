@@ -16,14 +16,14 @@ const detectDeadClicks = (subscribe, { interval, limit }) => {
   const listener = (event) => {
     const selector = getSelectorFromTarget(event.target)
 
+    clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1
+
     if (clickCounts[selector] === limit) {
       subscribe(selector, () => {
         clearInterval(countClear);
         document.removeEventListener('click', listener);
       });
     }
-
-    clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1
   };
 
   // Listen on all clicks
