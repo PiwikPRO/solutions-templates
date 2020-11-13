@@ -1,4 +1,4 @@
-const detectMouseShake = (subscribe, { interval, threshold }) => {
+export const detectMouseShake = (subscribe, { interval, threshold }) => {
   let velocity;
   let direction;
   let directionChangeCount = 0;

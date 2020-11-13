@@ -1,11 +1,6 @@
-const getSelectorFromTarget = (target) => {
-  const className = target.className !== '' ? `.${target.className}` : '';
-  const targetId = target.id !== '' ? `#${target.id}` : '';
+import { getSelectorFromTarget } from './getSelectorFromTarget'
 
-  return [target.nodeName, className, targetId].join(' ');
-}
-
-const detectDeadClicks = (subscribe, { interval, limit }) => {
+export const detectDeadClicks = (subscribe, { interval, limit }) => {
   let clickCounts = {};
 
   // Clear state when reach time limit

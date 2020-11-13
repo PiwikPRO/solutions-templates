@@ -1,3 +1,5 @@
+import { detectDeadClicks } from './helpers/detectDeadClicks'
+
 detectDeadClicks(function (target, unsubscribe) {
   window._paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
 

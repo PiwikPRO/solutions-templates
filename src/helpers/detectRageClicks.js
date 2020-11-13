@@ -1,11 +1,6 @@
-const getSelectorFromTarget = (target) => {
-  const className = target.className !== '' ? `.${target.className}` : '';
-  const targetId = target.id !== '' ? `#${target.id}` : '';
+import { getSelectorFromTarget } from './getSelectorFromTarget'
 
-  return [target.nodeName, className, targetId].join(' ');
-}
-
-const detectRageClicks = (subscribe, { interval, limit }) => {
+export const detectRageClicks = (subscribe, { interval, limit }) => {
   let count = 1;
 
   // Clear state when reach time limit

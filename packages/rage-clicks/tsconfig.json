@@ -1,9 +1,0 @@
-{
-  "extends": "shared-dev/tsconfig.json",
-  "compilerOptions": {
-    "outFile": "dist/index.js"
-  },
-  "files": [
-    "index.js"
-  ]
-}
