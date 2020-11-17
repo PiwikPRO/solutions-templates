@@ -20,7 +20,8 @@
     "moduleResolution": "node",
     "declaration": false,
     "isolatedModules": false,
-    "noEmit": false
+    "noEmit": false,
+    "outDir": "dist"
   },
   "include": [
     "src/**/*.js",
