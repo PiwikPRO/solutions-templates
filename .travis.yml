@@ -13,7 +13,7 @@ jobs:
   include:
     - stage: Building scripts
       # No installs are needed but we need to be sure that 
-      install: yarn --immutable --immutable-cache
+      install: yarn install
       script:
         - yarn lint
         - yarn build
