@@ -7,6 +7,6 @@
 # Documentation here: https://yarnpkg.com/features/zero-installs
 #!/.yarn/cache
 /.pnp.*
-dist
+#dist
 node_modules
 tmp
