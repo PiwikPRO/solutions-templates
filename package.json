@@ -1,5 +1,8 @@
 {
   "name": "@piwikpro/solution-templates",
+  "license": "MIT",
+  "author": "Piwik PRO",
+  "repository": "https://github.com/PiwikPRO/solutions-templates",
   "scripts": {
     "lint": "eslint src/**/*.js",
     "test": "jest",
