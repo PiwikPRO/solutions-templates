@@ -1,0 +1,27 @@
+language: node_js
+sudo: required
+
+node_js:
+  - '14'
+
+cache:
+  npm: false
+  yarn: false
+
+jobs:
+  fast_finish: true
+  include:
+    - stage: Building scripts
+      # No installs are needed but we need to be sure that 
+      install: yarn install
+      script:
+        - yarn lint
+        - yarn build
+        - yarn test
+      after_success:
+        - test $TRAVIS_BRANCH = "master" &&
+          git config --global user.email "travis@travis-ci.org" &&
+          git config --global user.name "Travis CI" &&
+          git config --global push.followTags true &&
+          git checkout $TRAVIS_BRANCH &&
+          yarn release
