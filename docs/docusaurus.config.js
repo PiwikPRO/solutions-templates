@@ -11,8 +11,8 @@ const generator = require('../templates');
 module.exports = {
   title: 'Solution Templates',
   tagline: 'A library of detection helpers that can be used in Tag Managers to improve tracking abilities of Analytics software.',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  url: 'https://piwikpro.github.io',
+  baseUrl: '/solutions-templates/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'https://piwik.pro/wp-content/assets/img/favicon.png?ver=1608560712',
