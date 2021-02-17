@@ -6,4 +6,4 @@ export default (target) => {
   const targetId = target.id !== '' ? `#${target.id}` : '';
 
   return [target.nodeName, className, targetId].join(' ');
-}
+};
