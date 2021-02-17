@@ -35,15 +35,15 @@ export default (subscribe, { interval, threshold }) => {
 
   // Clear state when reach time limit
   const intervalClear = setInterval(() => {
-    const nextVelocity = distance / interval
+    const nextVelocity = distance / interval;
     
     if (!velocity) {
       velocity = nextVelocity;
     
-      return
+      return;
     }
 
-    const acceleration = (nextVelocity - velocity) / interval
+    const acceleration = (nextVelocity - velocity) / interval;
 
     if (directionChangeCount && acceleration > threshold) {
       subscribe(() => {
@@ -59,4 +59,4 @@ export default (subscribe, { interval, threshold }) => {
 
   // Listen on all clicks
   document.addEventListener('mousemove', listener);
-}
+};
