@@ -20,6 +20,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     library: '[name]',
+    libraryExport: 'default',
     path: DESTINATION
   },
   module: {

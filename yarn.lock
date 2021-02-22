@@ -11859,6 +11859,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"mustache@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "mustache@npm:4.1.0"
+  bin:
+    mustache: bin/mustache
+  checksum: 28485b250d88eba57d607cdf63626654a89ab43b23a959fd0773b1a815ea45e0afa0f1cab4abd6cc26b04ff6f507186ecfbdf30c0ad84606917e4607a0368132
+  languageName: node
+  linkType: hard
+
 "mute-stream@npm:0.0.8":
   version: 0.0.8
   resolution: "mute-stream@npm:0.0.8"
@@ -15797,6 +15806,7 @@ fsevents@~2.3.1:
     eslint-plugin-react-hooks: ^4.0.4
     http-server: ^0.12.3
     minified: ^1.0.1
+    mustache: ^4.1.0
     prettier: ^2.0.2
     react: ^16.8.4
     react-dom: ^16.8.4

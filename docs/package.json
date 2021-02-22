@@ -21,6 +21,7 @@
     "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",
     "minified": "^1.0.1",
+    "mustache": "^4.1.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "uglify-js": "^3.12.8",

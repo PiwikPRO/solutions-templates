@@ -31,7 +31,7 @@ limit: {{limit}},
       `,
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to reset counter', default: 1000 },
-        { id: 'limit', type: 'number', displayName: 'Number of clicks to trigger function above', default: 2 },
+        { id: 'limit', type: 'number', displayName: 'Number of clicks needed to trigger subscription', default: 2 },
       ],
     },
     {
@@ -94,7 +94,7 @@ threshold: {{threshold}},
 ${fs.readFileSync(path.join(__dirname, 'build/detectRageClicks.js'), { encoding: 'utf-8' })}
 
 detectRageClicks((target, unsubscribe) => {
-window._paq.push(['trackEvent', 'UX research', 'Rage click', target]);
+window._paq.push(['trackEvent', 'UX Research', 'Rage click', target]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -107,5 +107,27 @@ limit: {{limit}},
         { id: 'limit', type: 'number', displayName: 'Number of clicks to trigger event', default: 3 },
       ],
     },
+    {
+      id: 'quickBack',
+      name: 'Quick Back',
+      description: `
+        A quick back is a click on a page that leads the user away from the current page to another web site, 
+        which the user does not find useful and returns to the original page or website under a certain threshold of time.
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/detectQuickBacks.js'), { encoding: 'utf-8' })}
+
+detectQuickBacks((target, unsubscribe) => {
+window._paq.push(['trackEvent', 'UX Research', 'Quick Back', target]);
+
+// unsubscribe(); // Uncomment this line when you want to finish after first trigger
+}, {
+  threshold: {{threshold}},
+});      
+      `,
+      arguments: [
+        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 6000 },
+      ],
+    }
   ]
 };

@@ -2,4 +2,4 @@
 
 This repository is to allow creating production ready scripts for Tag Manager
 
-You can find scripts in `dist/examples` directory. Each file in this directory contains ready to use code, but still you can make some optimalization by changing parameters values of each individual function.
+You can find scripts in `src` directory. They are optimized for production and available [here](https://piwikpro.github.io/solutions-templates/). Each template can be adjusted to meet your needs.
