@@ -9,7 +9,7 @@
 const generator = require('../templates');
 
 module.exports = {
-  title: 'Solution Templates',
+  title: 'Solutions Templates',
   tagline: 'A library of detection helpers that can be used in Tag Managers to improve tracking abilities of Analytics software.',
   url: 'https://piwikpro.github.io',
   baseUrl: '/solutions-templates/',
