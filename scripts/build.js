@@ -6,7 +6,7 @@ const path = require('path');
 
 try {
   execSync('yarn webpack');
-  execSync('yarn workspace solution-templates run build');
+  execSync('yarn workspace solutions-templates run build');
 } catch (err) {
   if (err.stdout) {
     console.log(err.stdout.toString());
