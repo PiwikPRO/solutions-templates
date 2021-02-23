@@ -23,7 +23,7 @@ module.exports = {
       disableSwitch: true,
     },
     navbar: {
-      title: 'Solution Templates',
+      title: 'Solutions Templates',
       logo: {
         alt: 'Piwik PRO logo',
         src: 'https://piwik.pro/wp-content/assets/img/pp-logo_dark.svgz?ver=1610458769',
