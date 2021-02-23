@@ -17,7 +17,7 @@ module.exports = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'https://piwik.pro/wp-content/assets/img/favicon.png?ver=1608560712',
   organizationName: 'Piwik PRO', // Usually your GitHub org/user name.
-  projectName: 'solution-templates', // Usually your repo name.
+  projectName: 'solutions-templates', // Usually your repo name.
   themeConfig: {
     colorMode: {
       disableSwitch: true,
