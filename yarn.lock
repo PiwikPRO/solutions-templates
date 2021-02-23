@@ -15787,9 +15787,9 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"solution-templates@workspace:docs":
+"solutions-templates@workspace:docs":
   version: 0.0.0-use.local
-  resolution: "solution-templates@workspace:docs"
+  resolution: "solutions-templates@workspace:docs"
   dependencies:
     "@docusaurus/core": 2.0.0-alpha.70
     "@docusaurus/preset-classic": 2.0.0-alpha.70
