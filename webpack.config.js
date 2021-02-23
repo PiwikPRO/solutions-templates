@@ -3,16 +3,16 @@ const path = require('path');
 const fs = require('fs');
 
 const ROOT = path.resolve( __dirname, 'src' );
-const DESTINATION = path.resolve( __dirname, 'tmp' );
+const DESTINATION = path.resolve( __dirname, 'build' );
 
 const entry = fs.readdirSync(path.join(__dirname, 'src'))
   .filter(filename => filename.includes('.'))
   .map(filename => filename.split('.'))
   .reduce((acc, next) => {
-    acc[next[0]] = `./src/${next.join('.')}`
+    acc[next[0]] = `./src/${next.join('.')}`;
 
-    return acc
-  }, {})
+    return acc;
+  }, {});
 
 module.exports = {
   mode: 'production',
@@ -20,6 +20,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     library: '[name]',
+    libraryExport: 'default',
     path: DESTINATION
   },
   module: {

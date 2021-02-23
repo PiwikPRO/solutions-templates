@@ -2,8 +2,12 @@
   "name": "@piwikpro/solution-templates",
   "license": "MIT",
   "author": "Piwik PRO",
+  "workspaces": [
+    "docs"
+  ],
   "repository": "https://github.com/PiwikPRO/solutions-templates",
   "scripts": {
+    "start": "yarn run build && yarn workspace solutions-templates run start",
     "lint": "eslint src/**/*.js",
     "test": "jest",
     "build": "node ./scripts/build.js"

@@ -1,0 +1,61 @@
+/**
+ * Copyright (c) Piwik PRO, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @format
+ */
+
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #006BD6;
+  --ifm-color-primary-dark: #0254C0;
+  --ifm-color-primary-darker: #0048a7;
+  --ifm-color-primary-darkest: #014092;
+  --ifm-color-primary-light: #016fdd;
+  --ifm-color-primary-lighter: #0373e2;
+  --ifm-color-primary-lightest: #0276eb;
+  --ifm-code-font-size: 95%;
+  --ifm-hero-text-color-base: #13171A;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.navbar__logo {
+  height: 20px;
+}
+
+.hero--primary {
+  --ifm-hero-text-color: var(--ifm-hero-text-color-base);
+  --ifm-hero-background-color: #fff;
+}
+
+.footer--dark {
+  --ifm-footer-background-color: #000;
+}
+
+.prism-code {
+  height: 100%;
+}
+
+.prism-code > *:first-child {
+  height: 100%;
+}

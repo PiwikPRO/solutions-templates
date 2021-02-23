@@ -1,0 +1,157 @@
+/**
+ * Copyright (c) Piwik PRO, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @format
+ */
+
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 966px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureImage {
+  height: 200px;
+  width: 200px;
+}
+
+.feature {
+  margin-bottom: 24px;
+}
+
+.featureAction {
+  display: flex;
+  justify-content: center;
+}
+
+.featureDescription {
+  height: 70px;
+  overflow: hidden;
+}
+
+.generator {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+}
+
+.generator :global(.prism-code) > div {
+  padding-top: 48px;
+}
+
+.snippetWrapper > *:last-child {
+  width: 100%;
+}
+
+.generatorSelect {
+  composes: select from './select.module.css';
+
+  margin-bottom: 20px;
+  min-width: 350px;
+}
+
+.generatorRow {
+  justify-content: center;
+}
+
+.generatorForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.generatorFormLabel {
+  font-weight: bold;
+}
+
+.input {
+  padding: .5em .6em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 3px #ddd;
+  box-shadow: inset 0 1px 3px #ddd;
+  border-radius: 4px;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.annotatedLayout {
+  display: grid;
+  grid-template: "label body" 1fr / 2fr 1fr;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.annotatedLayoutLabel {
+  grid-area: label;
+}
+
+.annotatedLayoutBody {
+  grid-area: body;
+}
+
+.generateButton {
+  
+}
+
+.cardHeading {
+  font-size: 14px;
+  text-align: center;
+}
+
+.snippetWrapper {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.customizeButton {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  z-index: 100;
+  appearance: none;
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  cursor: pointer;
+  padding: 0.4rem 0.5rem;
+  border-radius: 5px;
+}

@@ -1,4 +1,4 @@
-import getSelectorFromTarget from './getSelectorFromTarget'
+import getSelectorFromTarget from './getSelectorFromTarget';
 
 /**
  * Detects dead clicks
@@ -8,16 +8,6 @@ import getSelectorFromTarget from './getSelectorFromTarget'
  * He expects a text string to be a link, but it isn’t. Or he clicks on a button, 
  * but to no avail. In such situations, the visitor will end up clicking twice, quickly.
  * Looking for dead clicks will help you find these main points of frustration and improve visitors` experience as soon as possible.
- * 
- * @runtime
- * detectDeadClicks(function (target, unsubscribe) {
- *    window._paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
- *
- *    // unsubscribe(); // Uncomment this line when you want to finish after first trigger
- *  }, {
- *    interval: 1000, // Number of milliseconds to reset counter
- *    limit: 2, // Number of clicks to trigger function above
- *  });
  */
 export default (subscribe, { interval, limit }) => {
   let clickCounts = {};
@@ -28,9 +18,9 @@ export default (subscribe, { interval, limit }) => {
   }, interval);
 
   const listener = (event) => {
-    const selector = getSelectorFromTarget(event.target)
+    const selector = getSelectorFromTarget(event.target);
 
-    clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1
+    clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1;
 
     if (clickCounts[selector] === limit) {
       subscribe(selector, () => {
@@ -42,4 +32,4 @@ export default (subscribe, { interval, limit }) => {
 
   // Listen on all clicks
   document.addEventListener('click', listener);
-}
+};

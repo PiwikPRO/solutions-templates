@@ -1,4 +1,4 @@
-import getSelectorFromTarget from './getSelectorFromTarget'
+import getSelectorFromTarget from './getSelectorFromTarget';
 
 /**
  * Detect rage clicks
@@ -7,16 +7,6 @@ import getSelectorFromTarget from './getSelectorFromTarget'
  * They are triggered when a visitor clicks an element on your website multiple times, rapidly. 
  * In most cases, rage clicks signal that your website didn’t react the way your visitor expected,
  * so you may want to take a closer look at it.
- * 
- * @runtime
- * detectRageClicks((target, unsubscribe) => {
- *   window._paq.push(['trackEvent', 'UX Research', 'Rage click', target]);
- *
- *   // unsubscribe(); // Uncomment this line when you want to finish after first trigger
- * }, {
- *   interval: 750, // Number of milliseconds to reset counter
- *   limit: 3, // Number of clicks to trigger function above
- * });
  */
 export default (subscribe, { interval, limit }) => {
   let count = 1;
@@ -34,9 +24,9 @@ export default (subscribe, { interval, limit }) => {
       });
     }
 
-    count++
+    count++;
   };
 
   // Listen on all clicks
   document.addEventListener('click', listener);
-}
+};

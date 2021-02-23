@@ -1,4 +1,4 @@
-import getSelectorFromTarget from './getSelectorFromTarget'
+import getSelectorFromTarget from './getSelectorFromTarget';
 
 /**
  * Detects error clicks
@@ -8,23 +8,16 @@ import getSelectorFromTarget from './getSelectorFromTarget'
  * Just one click is enough to spot an error.
  * Often the visitor doesn’t notice that something is broken, but for you,
  * it’s a signal that a particular JavaScript element is not working.
- * 
- * @runtime
- * detectErrorClicks(function (target, error, unsubscribe) {
- *   window._paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
- *
- *   // unsubscribe(); // Uncomment this line when you want to finish after first trigger
- * });
  */
 export default (subscribe) => {
   let error;
 
   window.onerror = (msg) => {
     error = msg;
-  }
+  };
 
   const listener = (event) => {
-    const selector = getSelectorFromTarget(event.target)
+    const selector = getSelectorFromTarget(event.target);
 
     setTimeout(() => {
       if (error) {
@@ -39,4 +32,4 @@ export default (subscribe) => {
 
   // Listen on all clicks
   document.addEventListener('click', listener);
-}
+};

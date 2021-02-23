@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-unused-vars': 0,
     'no-undef': 0,
+    'semi': [2, 'always']
   },
   globals: {
     _paq: true,
