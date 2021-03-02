@@ -1,4 +1,7 @@
-const getPath = (steps) => {
+/**
+ * Get HTML+CSS path for given element
+ */
+function getPath(steps) {
   let tag, stringSteps = [];
   for (let i = 0, element = steps[i]; element; element = element.parentNode, i++) {
     if (element === document || element === window) break;
@@ -35,23 +38,25 @@ const getPath = (steps) => {
   return stringSteps.reverse().join('>');
 }
 
-export default (e) => {
-  let path = [];
+function getTargetPath(e) {
+  let targets = [];
+  let finalPath = null;
 
   // handling missing method in IE11 / Edge
   if (!e.composedPath) {
-    const target = e.target;
+    let target = e.target;
 
     while (target.parentNode !== null) {
-      path.push(e.target);
+      targets.push(target);
       target = target.parentNode;
     }
-    path.push(document);
+    targets.push(window.document);
 
-    path = getPath(path);
+    finalPath = getPath(targets);
+  } else {
+    finalPath = getPath(e.composedPath());
   }
 
-  path = getPath(e.composedPath());
-
-  return path;
+  return finalPath;
 }
+window.getTargetPath = getTargetPath;
