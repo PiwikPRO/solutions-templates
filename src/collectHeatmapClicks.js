@@ -46,7 +46,7 @@ export default (subscribe) => {
     }
 
     return stringSteps.reverse().join('>');
-  }
+  };
 
   const listener = function(e) {
     let targets = [];
@@ -68,8 +68,8 @@ export default (subscribe) => {
     }
 
     subscribe(finalPath);
-  }
+  };
 
   // Listen on all clicks
   document.addEventListener('click', listener);
-}
+};
