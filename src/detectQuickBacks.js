@@ -16,10 +16,10 @@ export default (subscribe, { threshold }) => {
     clearPersistentState(STATE_KEY);
   }
 
-  const listener = (event) => {
-    const selector = getSelectorFromTarget(event.target);
+  const listener = (e) => {
+    const selector = getSelectorFromTarget(e.target);
 
-    if (isUrlFromExternalSite(event.target.href)) {
+    if (e.target.href && isUrlFromExternalSite(e.target.href)) {
       setPersistentState(STATE_KEY, { url, selector, time: now });
     }
   };

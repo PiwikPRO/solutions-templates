@@ -93,7 +93,7 @@ threshold: {{threshold}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectRageClicks.js'), { encoding: 'utf-8' })}
 
-detectRageClicks((target, unsubscribe) => {
+detectRageClicks(function (target, unsubscribe) {
 window._paq.push(['trackEvent', 'UX Research', 'Rage click', target]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
@@ -117,7 +117,7 @@ limit: {{limit}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectQuickBacks.js'), { encoding: 'utf-8' })}
 
-detectQuickBacks((target, unsubscribe) => {
+detectQuickBacks(function (target, unsubscribe) {
 window._paq.push(['trackEvent', 'UX Research', 'Quick Back', target]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
@@ -126,7 +126,28 @@ window._paq.push(['trackEvent', 'UX Research', 'Quick Back', target]);
 });      
       `,
       arguments: [
-        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 6000 },
+        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 12000 },
+      ],
+    },
+    {
+      id: 'excessiveScroll',
+      name: 'Excessive Scroll',
+      description: `
+        Excessive scrolling detects when a user scrolls through site content at a higher rate than expected for standard content consumption.
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
+
+detectExcessiveScroll(function (lastKnownPosition, unsubscribe) {
+window._paq.push(['trackEvent', 'UX Research', 'ExcessiveScroll', lastKnownPosition]);
+
+unsubscribe(); // Uncomment this line when you want to finish after first trigger
+}, {
+  threshold: {{threshold}},
+});      
+      `,
+      arguments: [
+        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 6 },
       ],
     }
   ]
