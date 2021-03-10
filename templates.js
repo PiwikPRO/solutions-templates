@@ -139,15 +139,15 @@ window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
 ${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
 
 detectExcessiveScroll(function (lastKnownPosition, unsubscribe) {
-window._paq.push(['trackEvent', 'UX Research', 'ExcessiveScroll', lastKnownPosition]);
+window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
 
-unsubscribe(); // Uncomment this line when you want to finish after first trigger
+// unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
   threshold: {{threshold}},
 });      
       `,
       arguments: [
-        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 6 },
+        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 3 },
       ],
     }
   ]
