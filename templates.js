@@ -117,8 +117,8 @@ limit: {{limit}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectQuickBacks.js'), { encoding: 'utf-8' })}
 
-detectQuickBacks(function (target, unsubscribe) {
-window._paq.push(['trackEvent', 'UX Research', 'Quick Back', target]);
+detectQuickBacks(function (url, unsubscribe) {
+window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
