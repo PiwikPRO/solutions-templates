@@ -149,6 +149,22 @@ window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosi
       arguments: [
         { id: 'threshold', type: 'number', displayName: 'Threshold', default: 3 },
       ],
-    }
+    },
+    {
+      id: 'heatmapClicks',
+      name: 'Heatmap clicks collector',
+      description: `
+      Exposed function allow to collect clicks data for Site Inspector's heatmap/clickmap feature.
+      Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site Inspector. 
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encoding: 'utf-8' })}
+
+collectHeatmapClicks(function (targetPath) {
+   window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
+});
+      `,
+      arguments: []
+    },
   ]
 };
