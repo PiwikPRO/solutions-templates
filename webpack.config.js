@@ -21,8 +21,9 @@ module.exports = {
     filename: '[name].js',
     library: '[name]',
     libraryExport: 'default',
-    path: DESTINATION
+    path: DESTINATION,
   },
+  target: 'es5',
   module: {
     rules: [
       {

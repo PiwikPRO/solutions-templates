@@ -93,7 +93,7 @@ threshold: {{threshold}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectRageClicks.js'), { encoding: 'utf-8' })}
 
-detectRageClicks((target, unsubscribe) => {
+detectRageClicks(function (target, unsubscribe) {
 window._paq.push(['trackEvent', 'UX Research', 'Rage click', target]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
@@ -117,8 +117,8 @@ limit: {{limit}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectQuickBacks.js'), { encoding: 'utf-8' })}
 
-detectQuickBacks((target, unsubscribe) => {
-window._paq.push(['trackEvent', 'UX Research', 'Quick Back', target]);
+detectQuickBacks(function (url, unsubscribe) {
+window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -126,8 +126,45 @@ window._paq.push(['trackEvent', 'UX Research', 'Quick Back', target]);
 });      
       `,
       arguments: [
-        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 6000 },
+        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 12000 },
       ],
-    }
+    },
+    {
+      id: 'excessiveScroll',
+      name: 'Excessive Scroll',
+      description: `
+        Excessive scrolling detects when a user scrolls through site content at a higher rate than expected for standard content consumption.
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
+
+detectExcessiveScroll(function (lastKnownPosition, unsubscribe) {
+window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
+
+// unsubscribe(); // Uncomment this line when you want to finish after first trigger
+}, {
+  threshold: {{threshold}},
+});      
+      `,
+      arguments: [
+        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 3 },
+      ],
+    },
+    {
+      id: 'heatmapClicks',
+      name: 'Heatmap clicks collector',
+      description: `
+      Exposed function allow to collect clicks data for Site Inspector's heatmap/clickmap feature.
+      Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site Inspector. 
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encoding: 'utf-8' })}
+
+collectHeatmapClicks(function (targetPath) {
+   window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
+});
+      `,
+      arguments: []
+    },
   ]
 };
