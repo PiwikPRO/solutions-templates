@@ -1,4 +1,4 @@
-export default (subscribe) => {
+export default (subscribe, { interval = 100 }) => {
   const PPAS_SITE_INSPECTOR_IFRAME_ID = 'ppas_site_inspector';
   const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
 
@@ -16,7 +16,7 @@ export default (subscribe) => {
     }
   };
 
-  const getPath = function(steps) {
+  const getRawStringPath = function(steps) {
     let tag, stringSteps = [];
     for (let i = 0, element = steps[i]; element; element = element.parentNode, i++) {
       if (element === document || element === window) break;
@@ -55,15 +55,15 @@ export default (subscribe) => {
 
   const isSiteInspectorMounted = function() {
     return !!document.getElementById(PPAS_SITE_INSPECTOR_IFRAME_ID);
-  }
+  };
 
-  const listener = function(e) {
+  const getFinalPath = function(e) {
     let targets = [];
     let finalPath = '';
 
     // don't collect data when in inspect mode
     if (isSiteInspectorMounted()) {
-      document.removeEventListener('click', listener);
+      document.removeEventListener('click', eventListener);
       return;
     }
 
@@ -77,14 +77,36 @@ export default (subscribe) => {
       }
       targets.push(window.document);
 
-      finalPath = getPath(targets);
+      finalPath = getRawStringPath(targets);
     } else {
-      finalPath = getPath(e.composedPath());
+      finalPath = getRawStringPath(e.composedPath());
     }
 
-    subscribe(finalPath);
+    return finalPath;
+  };
+
+  const throttle = function(callback) {
+    let timer = null;
+
+    return function(arg) {
+      const finalPath = getFinalPath(arg);
+      if (timer === null) {
+        timer = setTimeout(() => {
+          callback(finalPath);
+          timer = null;
+        }, interval); 
+      }
+    };
+  };
+
+  const listener = function(path) {
+    if (path) {
+      subscribe(path);
+    }
   };
 
   injectSevenTagConfiguration();
-  document.addEventListener('click', listener);
+  const eventListener = throttle(listener);
+  // throttle to prevent click events spam
+  document.addEventListener('click', eventListener);
 };
