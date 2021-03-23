@@ -1,17 +1,22 @@
-/**
- * Collect heatmap clicks
- * 
- * Exposed function allow to collect clicks data for Site inspector's heatmap/clickmap feature.
- * Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector. 
- * 
- * @runtime
- * collectHeatmapClicks((targetPath) => {
- * window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
- * });
- */
+export default (subscribe, { interval = 100 }) => {
+  const PPAS_SITE_INSPECTOR_IFRAME_ID = 'ppas_site_inspector';
+  const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
 
-export default (subscribe) => {
-  const getPath = function(steps) {
+  // configuration gathered by extension on initialization
+  const injectSevenTagConfiguration = function() {
+    if (window.sevenTag) {
+      const config = window.sevenTag.configuration;
+      const element = document.createElement('script');
+
+      element.id = PPAS_SITE_INSPECTOR_TAG_CONFIG_ID;
+      element.setAttribute('data-appId', config.id);
+      element.setAttribute('data-host', config.host);
+
+      document.head.appendChild(element);
+    }
+  };
+
+  const getRawStringPath = function(steps) {
     let tag, stringSteps = [];
     for (let i = 0, element = steps[i]; element; element = element.parentNode, i++) {
       if (element === document || element === window) break;
@@ -38,7 +43,7 @@ export default (subscribe) => {
 
       // exclude SVGAnimatedString className objects
       if (typeof element.className === 'string' && element.className) {
-        const classes = element.className.replaceAll(' ', '.');
+        const classes = element.className.replace(/\s+/g, '.');
         tag += `.${classes}`;
       }
 
@@ -48,9 +53,19 @@ export default (subscribe) => {
     return stringSteps.reverse().join('>');
   };
 
-  const listener = function(e) {
+  const isSiteInspectorMounted = function() {
+    return !!document.getElementById(PPAS_SITE_INSPECTOR_IFRAME_ID);
+  };
+
+  const getFinalPath = function(e) {
     let targets = [];
     let finalPath = '';
+
+    // don't collect data when in inspect mode
+    if (isSiteInspectorMounted()) {
+      document.removeEventListener('click', eventListener);
+      return;
+    }
 
     // handling missing method in IE11 / Edge
     if (!e.composedPath) {
@@ -62,14 +77,36 @@ export default (subscribe) => {
       }
       targets.push(window.document);
 
-      finalPath = getPath(targets);
+      finalPath = getRawStringPath(targets);
     } else {
-      finalPath = getPath(e.composedPath());
+      finalPath = getRawStringPath(e.composedPath());
     }
 
-    subscribe(finalPath);
+    return finalPath;
   };
 
-  // Listen on all clicks
-  document.addEventListener('click', listener);
+  const throttle = function(callback) {
+    let timer = null;
+
+    return function(arg) {
+      const finalPath = getFinalPath(arg);
+      if (timer === null) {
+        timer = setTimeout(() => {
+          callback(finalPath);
+          timer = null;
+        }, interval); 
+      }
+    };
+  };
+
+  const listener = function(path) {
+    if (path) {
+      subscribe(path);
+    }
+  };
+
+  injectSevenTagConfiguration();
+  const eventListener = throttle(listener);
+  // throttle to prevent click events spam
+  document.addEventListener('click', eventListener);
 };
