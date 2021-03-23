@@ -1,17 +1,16 @@
+/**
+ * Collect heatmap clicks
+ * 
+ * Exposed function allow to collect clicks data for Site inspector's heatmap/clickmap feature.
+ * Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector. 
+ * 
+ * @runtime
+ * collectHeatmapClicks((targetPath) => {
+ * window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
+ * });
+ */
+
 export default (subscribe) => {
-  const injectSevenTagConfiguration = function() {
-    if (window.sevenTag) {
-      const config = window.sevenTag.configuration;
-      const element = document.createElement('script');
-
-      element.id = 'ppas-container-configuration';
-      element.setAttribute('data-appId', config.id);
-      element.setAttribute('data-host', config.host);
-
-      document.head.appendChild(element);
-    }
-  };
-
   const getPath = function(steps) {
     let tag, stringSteps = [];
     for (let i = 0, element = steps[i]; element; element = element.parentNode, i++) {
@@ -72,6 +71,5 @@ export default (subscribe) => {
   };
 
   // Listen on all clicks
-  injectSevenTagConfiguration();
   document.addEventListener('click', listener);
 };
