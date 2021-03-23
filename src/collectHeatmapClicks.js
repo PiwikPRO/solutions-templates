@@ -1,10 +1,14 @@
 export default (subscribe) => {
+  const PPAS_SITE_INSPECTOR_IFRAME_ID = 'ppas_site_inspector';
+  const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
+
+  // configuration gathered by extension on initialization
   const injectSevenTagConfiguration = function() {
     if (window.sevenTag) {
       const config = window.sevenTag.configuration;
       const element = document.createElement('script');
 
-      element.id = 'ppas-container-configuration';
+      element.id = PPAS_SITE_INSPECTOR_TAG_CONFIG_ID;
       element.setAttribute('data-appId', config.id);
       element.setAttribute('data-host', config.host);
 
@@ -39,7 +43,7 @@ export default (subscribe) => {
 
       // exclude SVGAnimatedString className objects
       if (typeof element.className === 'string' && element.className) {
-        const classes = element.className.replaceAll(' ', '.');
+        const classes = element.className.replace(/\s+/g, '.');
         tag += `.${classes}`;
       }
 
@@ -49,9 +53,19 @@ export default (subscribe) => {
     return stringSteps.reverse().join('>');
   };
 
+  const isSiteInspectorMounted = function() {
+    return !!document.getElementById(PPAS_SITE_INSPECTOR_IFRAME_ID);
+  }
+
   const listener = function(e) {
     let targets = [];
     let finalPath = '';
+
+    // don't collect data when in inspect mode
+    if (isSiteInspectorMounted()) {
+      document.removeEventListener('click', listener);
+      return;
+    }
 
     // handling missing method in IE11 / Edge
     if (!e.composedPath) {
@@ -71,7 +85,6 @@ export default (subscribe) => {
     subscribe(finalPath);
   };
 
-  // Listen on all clicks
   injectSevenTagConfiguration();
   document.addEventListener('click', listener);
 };
