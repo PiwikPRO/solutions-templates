@@ -88,11 +88,18 @@ export default (subscribe, { interval = 100 }) => {
   const throttle = function(callback) {
     let timer = null;
 
-    return function(arg) {
-      const finalPath = getFinalPath(arg);
+    return function(event) {
+      event.preventDefault();
+      const finalPath = getFinalPath(event);
       if (timer === null) {
         timer = setTimeout(() => {
           callback(finalPath);
+          // handle default behaviour - redirect with delay (to perform tracking request)
+          if (event.target.href) {
+            setTimeout(() => {
+              window.location = event.target.href;
+            }, 0);
+          }
           timer = null;
         }, interval); 
       }
