@@ -10,7 +10,7 @@ export default (subscribe, { interval = 100 }) => {
 
       element.id = PPAS_SITE_INSPECTOR_TAG_CONFIG_ID;
       element.setAttribute('data-appId', config.id);
-      element.setAttribute('data-host', config.host);
+      element.setAttribute('data-host', config.main_domain);
 
       document.head.appendChild(element);
     }
