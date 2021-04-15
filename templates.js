@@ -162,13 +162,9 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
 
 collectHeatmapClicks(function (targetPath) {
   window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
-}, {
-  interval: {{interval}},
-});
+}, {});
       `,
-      arguments: [
-        { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to prevent click events spam', default: 100 },
-      ],
+      arguments: [],
     },
   ]
 };
