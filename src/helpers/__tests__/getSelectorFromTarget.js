@@ -1,4 +1,4 @@
-import getSelectorFromTarget from '../getSelectorFromTarget';
+import getSelectorFromTarget from 'helpers/getSelectorFromTarget';
 
 describe('when call getSelectorFromTarget', () => {
   it('should create proper selector', () => {
