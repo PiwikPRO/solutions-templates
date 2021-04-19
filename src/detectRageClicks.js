@@ -1,4 +1,4 @@
-import getSelectorFromTarget from './getSelectorFromTarget';
+import getSelectorFromTarget from 'helpers/getSelectorFromTarget';
 
 /**
  * Detect rage clicks
@@ -18,10 +18,7 @@ export default (subscribe, { interval, limit }) => {
 
   const listener = (event) => {
     if (count === limit) {
-      subscribe(getSelectorFromTarget(event.target), () => {
-        clearInterval(countClear);
-        document.removeEventListener('click', listener);
-      });
+      subscribe(getSelectorFromTarget(event.target));
     }
 
     count++;
@@ -29,4 +26,9 @@ export default (subscribe, { interval, limit }) => {
 
   // Listen on all clicks
   document.addEventListener('click', listener);
+
+  return () => {
+    clearInterval(countClear);
+    document.removeEventListener('click', listener);
+  };
 };

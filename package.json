@@ -1,9 +1,11 @@
 {
-  "name": "@piwikpro/solution-templates",
+  "name": "root",
   "license": "MIT",
   "author": "Piwik PRO",
   "workspaces": [
-    "docs"
+    "docs",
+    "src",
+    "src/helpers"
   ],
   "repository": "https://github.com/PiwikPRO/solutions-templates",
   "scripts": {

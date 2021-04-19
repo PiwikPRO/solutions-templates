@@ -20,7 +20,7 @@ module.exports = {
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectDeadClicks.js'), { encoding: 'utf-8' })}
 
-detectDeadClicks(function (target, unsubscribe) {
+var unsubscribe = detectDeadClicks(function (target) {
 window._paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
 
 // unsubscribe();
@@ -47,7 +47,7 @@ limit: {{limit}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectErrorClicks.js'), { encoding: 'utf-8' })}
 
-detectErrorClicks(function (target, error, unsubscribe) {
+var unsubscribe = detectErrorClicks(function (target, error) {
 window._paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
@@ -67,7 +67,7 @@ window._paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectMouseShake.js'), { encoding: 'utf-8' })}
 
-detectMouseShake(function (unsubscribe) {
+var unsubscribe = detectMouseShake(function () {
 window._paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
@@ -93,7 +93,7 @@ threshold: {{threshold}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectRageClicks.js'), { encoding: 'utf-8' })}
 
-detectRageClicks(function (target, unsubscribe) {
+var unsubscribe = detectRageClicks(function (target) {
 window._paq.push(['trackEvent', 'UX Research', 'Rage click', target]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
@@ -117,7 +117,7 @@ limit: {{limit}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectQuickBacks.js'), { encoding: 'utf-8' })}
 
-detectQuickBacks(function (url, unsubscribe) {
+var unsubscribe = detectQuickBacks(function (url) {
 window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
@@ -138,7 +138,7 @@ window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
 
-detectExcessiveScroll(function (lastKnownPosition, unsubscribe) {
+var unsubscribe = detectExcessiveScroll(function (lastKnownPosition) {
 window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
