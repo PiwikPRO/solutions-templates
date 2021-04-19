@@ -148,7 +148,6 @@ window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosi
       `,
       arguments: [
         { id: 'threshold', type: 'number', displayName: 'Threshold', default: 3 },
-        { id: 'someOption', type: 'text', displayName: 'Some option', default: 'Hello', choices: ['World', 'Arek'] },
       ],
     },
     {
