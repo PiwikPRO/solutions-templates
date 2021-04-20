@@ -174,7 +174,9 @@ collectHeatmapClicks(function (targetPath) {
       id: 'formTimingTracking',
       name: 'Form timing tracking',
       description: `
-        The form tracking script you've been waiting for.
+        This script will track events of focus, blur and change on <input> and <select> fields of <form> elements.
+        Script will calculate the time spent on given field and submit value in seconds as Custom Event value (e.g. 2.345).
+        <form> element on your website will be automatically detected.
       `,
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
