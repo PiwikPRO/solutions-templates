@@ -170,5 +170,51 @@ collectHeatmapClicks(function (targetPath) {
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to prevent click events spam', default: 100 },
       ],
     },
+    {
+      id: 'formTimingTracking',
+      name: 'Form timing tracking',
+      description: `
+        The form tracking script you've been waiting for.
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
+
+formTimingTracking(function (fieldInteractionData) {
+  console.log(fieldInteractionData);
+  window._paq.push([
+                  'trackEvent',
+                  '{{eventCategoryPrefix}}'+fieldInteractionData.formName,
+                  fieldInteractionData.fieldName,
+                  fieldInteractionData.leaveType,
+                  fieldInteractionData.timeSpent/1000
+                  ])
+}, {
+  formNameAttribute: '{{formNameAttribute}}',
+  fieldNameAttribute: '{{fieldNameAttribute}}',
+});
+      `,
+      arguments: [
+        { id: 'eventCategoryPrefix',
+          type: 'text',
+          displayName: 'Event category prefix',
+          description: 'Prefix that will preceed form name in Custom Event Category of the event that you will track',
+          default: 'Form timing: '
+        },
+        { id: 'formNameAttribute',
+          type: 'text',
+          displayName: 'Form name attribute',
+          description: 'Attribute of the <form> element that will be used to identify the form',
+          default: 'id',
+          choices: ['id','name','label','placeholder']
+        },
+        { id: 'fieldNameAttribute',
+          type: 'text',
+          displayName: 'Input label attribute',
+          description: 'Name of HTML attribute of input that is used for naming the events',
+          default: 'name',
+          choices: ['id','name','label','placeholder']
+        },
+      ],
+    },
   ]
 };
