@@ -5,8 +5,6 @@
  */
 
  export default (subscribe, {formNameAttribute, fieldNameAttribute}) => {
-    console.log("inside function formNameAttribute",formNameAttribute);
-    console.log("inside function fieldNameAttribute",fieldNameAttribute);
     let field_timings = {};
     
     const ppas_track_form_field_entry = function (e){
