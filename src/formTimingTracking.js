@@ -6,7 +6,11 @@
 
  export default (subscribe, {formNameAttribute, fieldNameAttribute}) => {
     let fieldTimings = {};
-    
+
+    const getFieldLabel = (field) => field.getAttribute(fieldNameAttribute);
+
+    const getFormName = (field) => field.closest("form").getAttribute(formNameAttribute);
+
     const trackFormFieldEntry = (e) => {
         let fieldName = getFieldLabel(e.target);
         fieldTimings[fieldName] = new Date().getTime();
@@ -25,10 +29,6 @@
             delete fieldTimings[fieldName];
         }
     };
-    
-    const getFieldLabel = (field) => field.getAttribute(fieldNameAttribute);
-
-    const getFormName = (field) => field.closest("form").getAttribute(formNameAttribute);
 
     document.querySelectorAll('input,select,textarea').forEach((elem) => {
             elem.addEventListener('focus', trackFormFieldEntry);
