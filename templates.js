@@ -182,7 +182,6 @@ collectHeatmapClicks(function (targetPath) {
 ${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
 
 formTimingTracking(function (fieldInteractionData) {
-  console.log(fieldInteractionData);
   window._paq.push([
                   'trackEvent',
                   '{{eventCategoryPrefix}}'+fieldInteractionData.formName,
