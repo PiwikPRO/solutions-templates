@@ -5,43 +5,35 @@
  */
 
  export default (subscribe, {formNameAttribute, fieldNameAttribute}) => {
-    let field_timings = {};
+    let fieldTimings = {};
     
-    const ppas_track_form_field_entry = function (e){
-        let fieldName = get_field_label(e.target);
-        field_timings[fieldName] = new Date().getTime();
+    const trackFormFieldEntry = (e) => {
+        let fieldName = getFieldLabel(e.target);
+        fieldTimings[fieldName] = new Date().getTime();
     };
     
-    const ppas_track_form_field_leave = function(e){
+    const trackFormFieldLeave = (e) => {
         let leaveType = e.type;
-        let formName = get_form_name(e.target);
-        let fieldName = get_field_label(e.target);
+        let formName = getFormName(e.target);
+        let fieldName = getFieldLabel(e.target);
         // eslint-disable-next-line no-prototype-builtins
-        if (field_timings.hasOwnProperty(fieldName)) {
-            let timeSpent = new Date().getTime() - field_timings[fieldName];
-          if (timeSpent > 0 && timeSpent < 1800000) {
-            subscribe({formName, fieldName, leaveType, timeSpent});
-          }
-          delete field_timings[fieldName];
+        if (fieldTimings.hasOwnProperty(fieldName)) {
+            let timeSpent = new Date().getTime() - fieldTimings[fieldName];
+            if (timeSpent > 0 && timeSpent < 1800000) {
+                subscribe({ formName, fieldName, leaveType, timeSpent });
+            }
+            delete fieldTimings[fieldName];
         }
     };
     
-    const get_field_label = function(field) {
-        return field.getAttribute(fieldNameAttribute);
-    };
+    const getFieldLabel = (field) => field.getAttribute(fieldNameAttribute);
 
-    const get_form_name = (field) => field.closest("form").getAttribute(formNameAttribute);
+    const getFormName = (field) => field.closest("form").getAttribute(formNameAttribute);
 
-    document.querySelectorAll('input,select,textarea').forEach(function(elem){
-        elem.addEventListener('focus', function(e){
-        ppas_track_form_field_entry(e);
+    document.querySelectorAll('input,select,textarea').forEach((elem) => {
+            elem.addEventListener('focus', trackFormFieldEntry);
+            elem.addEventListener('change', trackFormFieldLeave);
+            elem.addEventListener('blur', trackFormFieldLeave);
         });
-        elem.addEventListener('change', function(e){
-        ppas_track_form_field_leave(e);
-        });
-        elem.addEventListener('blur', function(e){
-        ppas_track_form_field_leave(e);
-        });
-    });
 
 };
