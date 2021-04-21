@@ -5,15 +5,13 @@
  */
 
  export default (subscribe) => {
-    window.addEventListener("copy",function(e){
-        ppas_processCopyEvent(e);
-    });
     
-    const ppas_processCopyEvent = function(e){
+    const processCopyEvent = () => {
         let copiedItemText = getSelectedText();
         subscribe(copiedItemText);
     };
     
     const getSelectedText = () => window.getSelection()?.toString() ?? '';
-
+    
+    window.addEventListener("copy", processCopyEvent);
 };
