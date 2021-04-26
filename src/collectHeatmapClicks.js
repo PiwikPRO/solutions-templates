@@ -16,6 +16,22 @@ export default (subscribe, { interval = 100 }) => {
     }
   };
 
+  const findClosestHref = function(element) {
+    while (element.parentNode) {
+      const parent = element.parentNode;
+
+      if (parent.href) {
+        return parent;
+      }
+    }
+
+    return null;
+  };
+
+  const performOnScriptEnd = function(fnc) {
+    setTimeout(fnc, 0);
+  };
+
   const getRawStringPath = function(steps) {
     let tag, stringSteps = [];
     for (let i = 0, element = steps[i]; element; element = element.parentNode, i++) {
@@ -96,9 +112,13 @@ export default (subscribe, { interval = 100 }) => {
           callback(finalPath);
           // handle default behaviour - redirect with delay (to perform tracking request)
           if (event.target.href) {
-            setTimeout(() => {
+            performOnScriptEnd(() => {
               window.location = event.target.href;
-            }, 0);
+            });
+          } else {
+            performOnScriptEnd(() => {
+              window.location = findClosestHref(event.target);
+            });
           }
           timer = null;
         }, interval); 
