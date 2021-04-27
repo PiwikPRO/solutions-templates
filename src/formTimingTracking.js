@@ -5,7 +5,7 @@
  */
 
  export default (subscribe, {formNameAttribute, fieldNameAttribute}) => {
-    let fieldTimings = {};
+    let fieldsTimings = {};
 
     const getFieldName = (field) => field.getAttribute(fieldNameAttribute);
 
@@ -13,7 +13,7 @@
 
     const trackFormFieldEntry = (e) => {
         let fieldName = getFieldName(e.target);
-        fieldTimings[fieldName] = new Date().getTime();
+        fieldsTimings[fieldName] = new Date().getTime();
     };
     
     const trackFormFieldLeave = (e) => {
@@ -21,12 +21,12 @@
         let formName = getFormName(e.target);
         let fieldName = getFieldName(e.target);
         // eslint-disable-next-line no-prototype-builtins
-        if (fieldTimings.hasOwnProperty(fieldName)) {
-            let timeSpent = new Date().getTime() - fieldTimings[fieldName];
+        if (fieldsTimings.hasOwnProperty(fieldName)) {
+            let timeSpent = new Date().getTime() - fieldsTimings[fieldName];
             if (timeSpent > 0 && timeSpent < 1800000) {
                 subscribe({ formName, fieldName, leaveType, timeSpent });
             }
-            delete fieldTimings[fieldName];
+            delete fieldsTimings[fieldName];
         }
     };
 
