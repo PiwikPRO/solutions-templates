@@ -211,7 +211,7 @@ formTimingTracking(function (fieldInteractionData) {
         { id: 'fieldNameAttribute',
           type: 'text',
           displayName: 'Field name attribute',
-          description: 'Attribute of field element that will be used to identify to describe corresponding analytics event',
+          description: 'Attribute of the given field element that will be used to identify to describe corresponding analytics event',
           default: 'name',
           choices: ['id','name','label','placeholder']
         },
