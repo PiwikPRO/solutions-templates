@@ -30,7 +30,7 @@
         }
     };
 
-    document.querySelectorAll('input,select,textarea').forEach((elem) => {
+    document.querySelectorAll('input,select,textarea,datalist').forEach((elem) => {
             elem.addEventListener('focus', trackFormFieldEntry);
             elem.addEventListener('change', trackFormFieldLeave);
             elem.addEventListener('blur', trackFormFieldLeave);
