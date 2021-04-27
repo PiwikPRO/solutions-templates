@@ -174,7 +174,7 @@ collectHeatmapClicks(function (targetPath) {
       id: 'formTimingTracking',
       name: 'Form timing tracking',
       description: `
-        This script will track events of focus, blur and change on <input> and <select> fields of <form> elements.
+        This script will track events of focus, blur and change on <input>, <select>, <textarea> and <datalist> fields of <form> elements.
         Script will calculate the time spent on given field and submit value in seconds as Custom Event value (e.g. 2.345).
         <form> element on your website will be automatically detected.
       `,
@@ -210,8 +210,8 @@ formTimingTracking(function (fieldInteractionData) {
         },
         { id: 'fieldNameAttribute',
           type: 'text',
-          displayName: 'Input label attribute',
-          description: 'Name of HTML attribute of input that is used for naming the events',
+          displayName: 'Field name attribute',
+          description: 'Attribute of field element that will be used to identify to describe corresponding analytics event',
           default: 'name',
           choices: ['id','name','label','placeholder']
         },
