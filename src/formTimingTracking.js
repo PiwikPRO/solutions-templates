@@ -7,19 +7,19 @@
  export default (subscribe, {formNameAttribute, fieldNameAttribute}) => {
     let fieldTimings = {};
 
-    const getFieldLabel = (field) => field.getAttribute(fieldNameAttribute);
+    const getFieldName = (field) => field.getAttribute(fieldNameAttribute);
 
     const getFormName = (field) => field.closest("form").getAttribute(formNameAttribute);
 
     const trackFormFieldEntry = (e) => {
-        let fieldName = getFieldLabel(e.target);
+        let fieldName = getFieldName(e.target);
         fieldTimings[fieldName] = new Date().getTime();
     };
     
     const trackFormFieldLeave = (e) => {
         let leaveType = e.type;
         let formName = getFormName(e.target);
-        let fieldName = getFieldLabel(e.target);
+        let fieldName = getFieldName(e.target);
         // eslint-disable-next-line no-prototype-builtins
         if (fieldTimings.hasOwnProperty(fieldName)) {
             let timeSpent = new Date().getTime() - fieldTimings[fieldName];
