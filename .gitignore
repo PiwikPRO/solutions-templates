@@ -12,4 +12,5 @@ node_modules
 tmp
 build
 
-.DS_store
+#Mac resources
+.DS_Store

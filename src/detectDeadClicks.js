@@ -1,4 +1,4 @@
-import getSelectorFromTarget from './getSelectorFromTarget';
+import getSelectorFromTarget from 'helpers/getSelectorFromTarget';
 
 /**
  * Detects dead clicks
@@ -23,13 +23,15 @@ export default (subscribe, { interval, limit }) => {
     clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1;
 
     if (clickCounts[selector] === limit) {
-      subscribe(selector, () => {
-        clearInterval(countClear);
-        document.removeEventListener('click', listener);
-      });
+      subscribe(selector);
     }
   };
 
   // Listen on all clicks
   document.addEventListener('click', listener);
+
+  return () => {
+    clearInterval(countClear);
+    document.removeEventListener('click', listener);
+  };
 };

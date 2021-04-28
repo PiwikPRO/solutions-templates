@@ -18,9 +18,7 @@ export default (subscribe, { threshold }) => {
         }
 
         if (directionChangeCount > threshold) {
-          subscribe(lastKnownScrollPosition, () => {
-            document.removeEventListener('scroll', listener);
-          });
+          subscribe(lastKnownScrollPosition);
         }
 
         ticking = false;
@@ -31,4 +29,8 @@ export default (subscribe, { threshold }) => {
   };
   
   document.addEventListener('scroll', listener);
+
+  return () => {
+    document.removeEventListener('scroll', listener);
+  };
 };

@@ -2426,23 +2426,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@piwikpro/solution-templates@workspace:.":
+"@piwikpro/solution-templates@workspace:src":
   version: 0.0.0-use.local
-  resolution: "@piwikpro/solution-templates@workspace:."
-  dependencies:
-    "@types/jest": ^26.0.15
-    "@typescript-eslint/eslint-plugin": ^4.5.0
-    "@typescript-eslint/parser": ^4.5.0
-    eslint: ^7.11.0
-    jest: ^26.6.3
-    jsdoc: ^3.6.6
-    mustache: ^4.0.1
-    terser-loader: ^1.0.1
-    ts-jest: ^26.4.4
-    ts-loader: ^8.0.11
-    typescript: ^4.0.3
-    webpack: ^5.4.0
-    webpack-cli: ^4.2.0
+  resolution: "@piwikpro/solution-templates@workspace:src"
   languageName: unknown
   linkType: soft
 
@@ -8630,6 +8616,12 @@ fsevents@~2.3.1:
   checksum: 212122003c20c8c17ac0c83a419b4c8e835411ff6ab9195d053ea6e4a0597cc005b5b8eabcbd57b0b0c0fe676f0049e09315845fff4e051198845491cbba260e
   languageName: node
   linkType: hard
+
+"helpers@workspace:src/helpers":
+  version: 0.0.0-use.local
+  resolution: "helpers@workspace:src/helpers"
+  languageName: unknown
+  linkType: soft
 
 "hex-color-regex@npm:^1.1.0":
   version: 1.1.0
@@ -15218,6 +15210,26 @@ fsevents@~2.3.1:
   checksum: e0370fbe779b1f15d74c3e7dffc0ce40b57b845fc7e431fab8a571958d5fd9c91eb0038a252604600e20786d117badea0cc4cf8816b8a6be6b9166b565ad6797
   languageName: node
   linkType: hard
+
+"root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "root@workspace:."
+  dependencies:
+    "@types/jest": ^26.0.15
+    "@typescript-eslint/eslint-plugin": ^4.5.0
+    "@typescript-eslint/parser": ^4.5.0
+    eslint: ^7.11.0
+    jest: ^26.6.3
+    jsdoc: ^3.6.6
+    mustache: ^4.0.1
+    terser-loader: ^1.0.1
+    ts-jest: ^26.4.4
+    ts-loader: ^8.0.11
+    typescript: ^4.0.3
+    webpack: ^5.4.0
+    webpack-cli: ^4.2.0
+  languageName: unknown
+  linkType: soft
 
 "rsvp@npm:^4.8.4":
   version: 4.8.5

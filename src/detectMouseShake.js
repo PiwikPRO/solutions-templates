@@ -46,10 +46,7 @@ export default (subscribe, { interval, threshold }) => {
     const acceleration = (nextVelocity - velocity) / interval;
 
     if (directionChangeCount && acceleration > threshold) {
-      subscribe(() => {
-        clearInterval(intervalClear);
-        document.removeEventListener('mousemove', listener);
-      });
+      subscribe();
     }
 
     distance = 0;
@@ -59,4 +56,9 @@ export default (subscribe, { interval, threshold }) => {
 
   // Listen on all clicks
   document.addEventListener('mousemove', listener);
+
+  return () => {
+    clearInterval(intervalClear);
+    document.removeEventListener('mousemove', listener);
+  };
 };

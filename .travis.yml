@@ -22,7 +22,7 @@ jobs:
         provider: pages
         local_dir: docs/build
         skip_cleanup: true
-        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        github_token: $PP_GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
         keep_history: true
         on:
           branch: master

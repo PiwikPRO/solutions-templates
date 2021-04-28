@@ -14,7 +14,7 @@ import CodeBlock from '@theme/CodeBlock';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
-function FormField({ value, type, onChange, name, id }) {
+function FormField({ value, type, onChange, name, id, ...options }) {
   switch (type) {
     case 'boolean':
       return (
@@ -25,6 +25,27 @@ function FormField({ value, type, onChange, name, id }) {
               value: !value,
             }
           })} checked={value} />
+        </>
+      )
+    case 'text':
+      return (
+        <>
+          <input 
+            id={id}
+            className={styles.input}
+            name={name}
+            type="text"
+            onChange={onChange}
+            value={value}
+            {...(options.choices ? { list: `${id}-choices` } : {})}
+          />
+          {options.choices && (
+            <datalist id={`${id}-choices`}>
+              {options.choices.map(choice => (
+                <option key={choice} value={choice} />
+              ))}
+            </datalist>
+          )}
         </>
       )
     case 'number':
@@ -47,19 +68,25 @@ function SnippetForm({ args, values, onChange }) {
     })
   }
 
+
+
   return (
     <div className={styles.generatorForm}>
-      {args.map(arg => (
-        <div className={styles.annotatedLayout}>
-          <div className={styles.annotatedLayoutLabel}>
-            <h3>{arg.displayName}</h3>
-            <div>{arg.description}</div>
+      {args.map(arg => {
+        const { id, type, displayName, description, ...additionalProps } = arg;
+
+        return (
+          <div className={styles.annotatedLayout}>
+            <div className={styles.annotatedLayoutLabel}>
+              <h3>{arg.displayName}</h3>
+              <div>{arg.description}</div>
+            </div>
+            <div className={styles.annotatedLayoutBody}>
+              <FormField id={arg.id} name={arg.id} type={arg.type} value={values[arg.id]} onChange={handleChange} {...additionalProps}  />
+            </div>
           </div>
-          <div className={styles.annotatedLayoutBody}>
-            <FormField id={arg.id} name={arg.id} type={arg.type} value={values[arg.id]} onChange={handleChange} />
-          </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

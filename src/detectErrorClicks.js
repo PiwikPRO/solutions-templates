@@ -1,4 +1,4 @@
-import getSelectorFromTarget from './getSelectorFromTarget';
+import getSelectorFromTarget from 'helpers/getSelectorFromTarget';
 
 /**
  * Detects error clicks
@@ -21,9 +21,7 @@ export default (subscribe) => {
 
     setTimeout(() => {
       if (error) {
-        subscribe(selector, error, () => {
-          document.removeEventListener('click', listener);
-        });
+        subscribe(selector, error);
       }
 
       error = undefined;
@@ -32,4 +30,8 @@ export default (subscribe) => {
 
   // Listen on all clicks
   document.addEventListener('click', listener);
+
+  return () => {
+    document.removeEventListener('click', listener);
+  };
 };
