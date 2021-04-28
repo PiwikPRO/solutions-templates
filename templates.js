@@ -223,7 +223,7 @@ formTimingTracking(function (fieldInteractionData) {
 ${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
 
 trackCopiedText(function (copiedItemText) {
-_paq.push(["trackEvent","User interaction","Copying text",copiedItemText]);
+window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]);
 }, {});
     `,
     arguments: [],
