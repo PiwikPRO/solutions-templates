@@ -162,13 +162,9 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
 
 collectHeatmapClicks(function (targetPath) {
   window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
-}, {
-  interval: {{interval}},
-});
+}, {});
       `,
-      arguments: [
-        { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to prevent click events spam', default: 100 },
-      ],
+      arguments: [],
     },
     {
       id: 'formTimingTracking',
@@ -217,5 +213,20 @@ formTimingTracking(function (fieldInteractionData) {
         },
       ],
     },
+  {
+    id: 'trackCopiedText',
+    name: 'Track copied text',
+    description: `
+    This template allows you to track pieces of text that are copied to clipboard by your website users.
+    `,
+    template: `
+${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
+
+trackCopiedText(function (copiedItemText) {
+window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]);
+}, {});
+    `,
+    arguments: [],
+  },
   ]
 };
