@@ -16,18 +16,6 @@ export default (subscribe, { interval = 100 }) => {
     }
   };
 
-  const findClosestHref = function(element) {
-    while (element.parentNode) {
-      const parent = element.parentNode;
-
-      if (parent.href) {
-        return parent;
-      }
-    }
-
-    return null;
-  };
-
   const performOnScriptEnd = function(fnc) {
     setTimeout(fnc, 0);
   };
@@ -101,25 +89,22 @@ export default (subscribe, { interval = 100 }) => {
     return finalPath;
   };
 
+   // throttle to prevent click events spam
   const throttle = function(callback) {
     let timer = null;
 
     return function(event) {
       event.preventDefault();
+
       const finalPath = getFinalPath(event);
       if (timer === null) {
         timer = setTimeout(() => {
           callback(finalPath);
-          // handle default behaviour - redirect with delay (to perform tracking request)
-          if (event.target.href) {
-            performOnScriptEnd(() => {
-              window.location = event.target.href;
-            });
-          } else {
-            performOnScriptEnd(() => {
-              window.location = findClosestHref(event.target);
-            });
-          }
+
+          // resume default behaviour (after perform tracking request)
+          performOnScriptEnd(() => {
+            event.target.click();
+          });
           timer = null;
         }, interval); 
       }
@@ -133,7 +118,13 @@ export default (subscribe, { interval = 100 }) => {
   };
 
   injectSevenTagConfiguration();
-  const eventListener = throttle(listener);
-  // throttle to prevent click events spam
+
+  const isEventReal = (event, callback) => {
+    if(event.screenX && event.screenX !== 0 && event.screenY && event.screenY !== 0) {
+      callback(event);
+    }
+  };
+
+  const eventListener = event => isEventReal(event, throttle(listener));
   document.addEventListener('click', eventListener);
 };
