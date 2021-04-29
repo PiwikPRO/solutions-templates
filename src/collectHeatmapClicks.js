@@ -1,4 +1,4 @@
-export default (subscribe, { interval = 100 }) => {
+export default (subscribe, { interval = 100, blacklistedClasses = [] }) => {
   const PPAS_SITE_INSPECTOR_IFRAME_ID = 'ppas_site_inspector';
   const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
 
@@ -18,6 +18,15 @@ export default (subscribe, { interval = 100 }) => {
 
   const performOnScriptEnd = function(fnc) {
     setTimeout(fnc, 0);
+  };
+
+  const filterClasses = (classes) => {
+    let filteredClasses = classes;
+    blacklistedClasses.forEach(rule => {
+      filteredClasses = filteredClasses.replaceAll(rule, ' ');
+    });
+
+    return filteredClasses;
   };
 
   const getRawStringPath = function(steps) {
@@ -47,7 +56,11 @@ export default (subscribe, { interval = 100 }) => {
 
       // exclude SVGAnimatedString className objects
       if (typeof element.className === 'string' && element.className) {
-        const classes = element.className.replace(/\s+/g, '.');
+        let classes = element.className;
+        if (blacklistedClasses.length) {
+          classes = filterClasses(classes);
+        }
+        classes = classes.replace(/\s+/g, '.');
         tag += `.${classes}`;
       }
 
@@ -119,8 +132,9 @@ export default (subscribe, { interval = 100 }) => {
 
   injectSevenTagConfiguration();
 
+  // prevent event loop after resume event click
   const isEventReal = (event, callback) => {
-    if(event.screenX && event.screenX !== 0 && event.screenY && event.screenY !== 0) {
+    if (event.screenX && event.screenX !== 0 && event.screenY && event.screenY !== 0) {
       callback(event);
     }
   };
