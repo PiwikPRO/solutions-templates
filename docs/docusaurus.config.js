@@ -6,6 +6,7 @@
  *
  * @format
  */
+const path = require('path');
 const generator = require('../templates');
 
 module.exports = {
@@ -43,6 +44,10 @@ module.exports = {
       // Please do not remove the credits, help to publicize Docusaurus :)
       copyright: `Copyright © ${new Date().getFullYear()} Piwik PRO, Inc. Built with Docusaurus.`,
     },
+    piwikProAnalytics: {
+      appId: 'd2febe1a-02de-4b15-bc7a-88ef411d177a',
+      instanceAddress: 'marketing.containers.piwik.pro',
+    },
   },
   presets: [
     [
@@ -60,4 +65,5 @@ module.exports = {
       },
     ],
   ],
+  plugins: [path.resolve(__dirname, 'src/plugins/piwikProAnalytics')],
 };

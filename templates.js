@@ -162,13 +162,71 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
 
 collectHeatmapClicks(function (targetPath) {
   window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
+}, {});
+      `,
+      arguments: [],
+    },
+    {
+      id: 'formTimingTracking',
+      name: 'Form timing tracking',
+      description: `
+        This script will track events of focus, blur and change on <input>, <select>, <textarea> and <datalist> fields of <form> elements.
+        Script will calculate the time spent on given field and submit value in seconds as Custom Event value (e.g. 2.345).
+        <form> element on your website will be automatically detected.
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
+
+formTimingTracking(function (fieldInteractionData) {
+  window._paq.push([
+                  'trackEvent',
+                  '{{eventCategoryPrefix}}'+fieldInteractionData.formName,
+                  fieldInteractionData.fieldName,
+                  fieldInteractionData.leaveType,
+                  fieldInteractionData.timeSpent/1000
+                  ])
 }, {
-  interval: {{interval}},
+  formNameAttribute: '{{formNameAttribute}}',
+  fieldNameAttribute: '{{fieldNameAttribute}}',
 });
       `,
       arguments: [
-        { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to prevent click events spam', default: 100 },
+        { id: 'eventCategoryPrefix',
+          type: 'text',
+          displayName: 'Event category prefix',
+          description: 'Prefix that will preceed form name in Custom Event Category of the event that you will track',
+          default: 'Form timing: '
+        },
+        { id: 'formNameAttribute',
+          type: 'text',
+          displayName: 'Form name attribute',
+          description: 'Attribute of the <form> element that will be used to identify the form',
+          default: 'id',
+          choices: ['id','name','label','placeholder']
+        },
+        { id: 'fieldNameAttribute',
+          type: 'text',
+          displayName: 'Field name attribute',
+          description: 'Attribute of field element that will be used to describe corresponding analytics event',
+          default: 'name',
+          choices: ['id','name','label','placeholder']
+        },
       ],
     },
+  {
+    id: 'trackCopiedText',
+    name: 'Track copied text',
+    description: `
+    This template allows you to track pieces of text that are copied to clipboard by your website users.
+    `,
+    template: `
+${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
+
+trackCopiedText(function (copiedItemText) {
+window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]);
+}, {});
+    `,
+    arguments: [],
+  },
   ]
 };
