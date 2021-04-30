@@ -169,7 +169,7 @@ collectHeatmapClicks(function (targetPath) {
       `,
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to prevent click events spam', default: 100 },
-        { id: 'blacklistedClasses', type: 'text', displayName: 'Blacklisted classes', description: 'Array of strings of CSS classnames which will be filtered from final path', default: '[]' },
+        { id: 'blacklistedClasses', type: 'text', displayName: 'Blacklisted classes', description: 'Array of regexps (eg. /class-name/ for strict string search) of CSS classnames which will be filtered from final path', default: '[]' },
       ],
     },
     {

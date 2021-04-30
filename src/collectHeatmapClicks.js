@@ -23,7 +23,7 @@ export default (subscribe, { interval = 100, blacklistedClasses = [] }) => {
   const filterClasses = (classes) => {
     let filteredClasses = classes;
     blacklistedClasses.forEach(rule => {
-      filteredClasses = filteredClasses.replaceAll(rule, ' ').trim();
+      filteredClasses = filteredClasses.replace(new RegExp(rule, 'g'), ' ').trim();
     });
 
     return filteredClasses;
