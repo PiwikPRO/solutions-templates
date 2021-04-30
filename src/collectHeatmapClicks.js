@@ -1,4 +1,4 @@
-export default (subscribe, { interval = 100 }) => {
+export default (subscribe, { interval = 100, blacklistedClasses = [] }) => {
   const PPAS_SITE_INSPECTOR_IFRAME_ID = 'ppas_site_inspector';
   const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
 
@@ -14,6 +14,19 @@ export default (subscribe, { interval = 100 }) => {
 
       document.head.appendChild(element);
     }
+  };
+
+  const performOnScriptEnd = function(fnc) {
+    setTimeout(fnc, 0);
+  };
+
+  const filterClasses = (classes) => {
+    let filteredClasses = classes;
+    blacklistedClasses.forEach(rule => {
+      filteredClasses = filteredClasses.replace(new RegExp(rule, 'g'), ' ').trim();
+    });
+
+    return filteredClasses;
   };
 
   const getRawStringPath = function(steps) {
@@ -43,7 +56,11 @@ export default (subscribe, { interval = 100 }) => {
 
       // exclude SVGAnimatedString className objects
       if (typeof element.className === 'string' && element.className) {
-        const classes = element.className.replace(/\s+/g, '.');
+        let classes = element.className;
+        if (blacklistedClasses.length) {
+          classes = filterClasses(classes);
+        }
+        classes = classes.replace(/\s+/g, '.');
         tag += `.${classes}`;
       }
 
@@ -85,21 +102,22 @@ export default (subscribe, { interval = 100 }) => {
     return finalPath;
   };
 
+   // throttle to prevent click events spam
   const throttle = function(callback) {
     let timer = null;
 
     return function(event) {
       event.preventDefault();
+
       const finalPath = getFinalPath(event);
       if (timer === null) {
         timer = setTimeout(() => {
           callback(finalPath);
-          // handle default behaviour - redirect with delay (to perform tracking request)
-          if (event.target.href) {
-            setTimeout(() => {
-              window.location = event.target.href;
-            }, 0);
-          }
+
+          // resume default behaviour (after perform tracking request)
+          performOnScriptEnd(() => {
+            event.target.click();
+          });
           timer = null;
         }, interval); 
       }
@@ -113,7 +131,14 @@ export default (subscribe, { interval = 100 }) => {
   };
 
   injectSevenTagConfiguration();
-  const eventListener = throttle(listener);
-  // throttle to prevent click events spam
+
+  // prevent event loop after resume event click
+  const isEventReal = (event, callback) => {
+    if (event.screenX && event.screenX !== 0 && event.screenY && event.screenY !== 0) {
+      callback(event);
+    }
+  };
+
+  const eventListener = event => isEventReal(event, throttle(listener));
   document.addEventListener('click', eventListener);
 };
