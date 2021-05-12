@@ -1,9 +1,7 @@
-export default (subscribe, { interval = 100, blacklistedClasses = [] }) => {
-  const PPAS_SITE_INSPECTOR_IFRAME_ID = 'ppas_site_inspector';
-  const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
-
-  // configuration gathered by extension on initialization
-  const injectSevenTagConfiguration = function() {
+export default () => {
+  const injectConfigForSiteInspector = () => {
+    const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
+    // configuration gathered by extension on initialization
     if (window.sevenTag) {
       const config = window.sevenTag.configuration;
       const element = document.createElement('script');
@@ -15,78 +13,62 @@ export default (subscribe, { interval = 100, blacklistedClasses = [] }) => {
       document.head.appendChild(element);
     }
   };
+  const getElementPath = (event, { blacklistedClasses = [] } = {}) => {
+    const filterClasses = (classes) => {
+      let filteredClasses = classes;
+      blacklistedClasses.forEach(rule => {
+        filteredClasses = filteredClasses.replace(new RegExp(rule, 'g'), ' ').trim();
+      });
 
-  const performOnScriptEnd = function(fnc) {
-    setTimeout(fnc, 0);
-  };
+      return filteredClasses;
+    };
 
-  const filterClasses = (classes) => {
-    let filteredClasses = classes;
-    blacklistedClasses.forEach(rule => {
-      filteredClasses = filteredClasses.replace(new RegExp(rule, 'g'), ' ').trim();
-    });
+    const getRawStringPath = function(steps) {
+      let tag, stringSteps = [];
+      for (let i = 0, element = steps[i]; element; element = element.parentNode, i++) {
+        if (element === document || element === window) break;
 
-    return filteredClasses;
-  };
+        tag = element.tagName.toLowerCase();
 
-  const getRawStringPath = function(steps) {
-    let tag, stringSteps = [];
-    for (let i = 0, element = steps[i]; element; element = element.parentNode, i++) {
-      if (element === document || element === window) break;
+        if (tag === 'html') break;
 
-      tag = element.tagName.toLowerCase();
+        // cut path when id exists
+        if (element.id) {
+          tag = `#${element.id}`;
+          stringSteps.push(tag);
+          break;
+        }
 
-      if (tag === 'html') break;
+        // if parent has multiple same tags so we should defined which child it is 
+        if (Array.prototype.slice.call(element.parentNode.children).filter(child => child.tagName.toLowerCase() === tag).length > 1) {
+          const allSiblings = Array.prototype.slice.call(element.parentNode.children);
+          const index = allSiblings.indexOf(element) + 1;
+          if (index > 0) {
+              tag += `:nth-child(${index})`;
+          }
+        }
 
-      // cut path when id exists
-      if (element.id) {
-        tag = `#${element.id}`;
+        // exclude SVGAnimatedString className objects
+        if (typeof element.className === 'string' && element.className) {
+          let classes = element.className;
+          if (blacklistedClasses.length) {
+            classes = filterClasses(classes);
+          }
+          classes = classes.replace(/\s+/g, '.');
+          tag += `.${classes}`;
+        }
+
         stringSteps.push(tag);
-        break;
       }
 
-      // if parent has multiple same tags so we should defined which child it is 
-      if (Array.prototype.slice.call(element.parentNode.children).filter(child => child.tagName.toLowerCase() === tag).length > 1) {
-        const allSiblings = Array.prototype.slice.call(element.parentNode.children);
-        const index = allSiblings.indexOf(element) + 1;
-        if (index > 0) {
-            tag += `:nth-child(${index})`;
-        }
-      }
-
-      // exclude SVGAnimatedString className objects
-      if (typeof element.className === 'string' && element.className) {
-        let classes = element.className;
-        if (blacklistedClasses.length) {
-          classes = filterClasses(classes);
-        }
-        classes = classes.replace(/\s+/g, '.');
-        tag += `.${classes}`;
-      }
-
-      stringSteps.push(tag);
-    }
-
-    return stringSteps.reverse().join('>');
-  };
-
-  const isSiteInspectorMounted = function() {
-    return !!document.getElementById(PPAS_SITE_INSPECTOR_IFRAME_ID);
-  };
-
-  const getFinalPath = function(e) {
+      return stringSteps.reverse().join('>');
+    };
     let targets = [];
     let finalPath = '';
 
-    // don't collect data when in inspect mode
-    if (isSiteInspectorMounted()) {
-      document.removeEventListener('click', eventListener);
-      return;
-    }
-
     // handling missing method in IE11 / Edge
-    if (!e.composedPath) {
-      let target = e.target;
+    if (!event.composedPath) {
+      let target = event.target;
 
       while (target.parentNode !== null) {
         targets.push(target);
@@ -96,49 +78,14 @@ export default (subscribe, { interval = 100, blacklistedClasses = [] }) => {
 
       finalPath = getRawStringPath(targets);
     } else {
-      finalPath = getRawStringPath(e.composedPath());
+      finalPath = getRawStringPath(event.composedPath());
     }
 
     return finalPath;
   };
 
-   // throttle to prevent click events spam
-  const throttle = function(callback) {
-    let timer = null;
-
-    return function(event) {
-      event.preventDefault();
-
-      const finalPath = getFinalPath(event);
-      if (timer === null) {
-        timer = setTimeout(() => {
-          callback(finalPath);
-
-          // resume default behaviour (after perform tracking request)
-          performOnScriptEnd(() => {
-            event.target.click();
-          });
-          timer = null;
-        }, interval); 
-      }
-    };
+  return {
+    injectConfigForSiteInspector,
+    getElementPath,
   };
-
-  const listener = function(path) {
-    if (path) {
-      subscribe(path);
-    }
-  };
-
-  injectSevenTagConfiguration();
-
-  // prevent event loop after resume event click
-  const isEventReal = (event, callback) => {
-    if (event.screenX && event.screenX !== 0 && event.screenY && event.screenY !== 0) {
-      callback(event);
-    }
-  };
-
-  const eventListener = event => isEventReal(event, throttle(listener));
-  document.addEventListener('click', eventListener);
 };
