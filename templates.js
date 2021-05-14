@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('fs');
 const path = require('path');
@@ -154,21 +155,28 @@ window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosi
       id: 'heatmapClicks',
       name: 'Heatmap clicks collector',
       description: `
-      Exposed function allow to collect clicks data for Site inspector's heatmap/clickmap feature.
-      Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector. 
+      First exposed function (getElementPath) allow to collect clicks data for Site inspector's heatmap/clickmap feature.
+      Second exposed function (injectConfigForSiteInspector) gets configuration from Tag manager container and exposes it for Site inspector.
+      Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector.
       `,
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encoding: 'utf-8' })}
+  var heatmapCollector = collectHeatmapClicks();
 
-collectHeatmapClicks(function (targetPath) {
-  window._paq.push(['trackEvent', 'Heatmap events', 'Click', targetPath]);
-}, {
-  interval: {{interval}},
-  blacklistedClasses: {{blacklistedClasses}},
-});
+  heatmapCollector.injectConfigForSiteInspector();
+
+  document.addEventListener('click', function(e) {
+    window._paq.push([
+      'trackEvent',
+      'Heatmap events',
+      heatmapCollector.getElementPath(
+        e,
+        { blacklistedClasses: {{blacklistedClasses}} },
+      ),
+    ]);
+  });
       `,
       arguments: [
-        { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to prevent click events spam', default: 100 },
         { id: 'blacklistedClasses', type: 'text', displayName: 'Blacklisted classes', description: 'Array of regexps (eg. /class-name/ for strict string search) of CSS classnames which will be filtered from final path', default: '[]' },
       ],
     },
