@@ -169,6 +169,7 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
     window._paq.push([
       'trackEvent',
       'Heatmap events',
+      'Click',
       heatmapCollector.getElementPath(
         e,
         { blacklistedClasses: {{blacklistedClasses}} },
