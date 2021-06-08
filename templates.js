@@ -243,5 +243,28 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
     `,
     arguments: [],
   },
+  {
+    id: 'videoTrackingHTML5',
+    name: 'Video tracking for HTML5 videos',
+    description: `
+    This template allows you to track videos watched on your website
+    `,
+    template: `
+${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
+videoTrackingHTML5(function (trackingAccuracy,trackThresholds,thresholdsToTrack) {}, {
+  trackingAccuracy: '{{trackingAccuracy}}',
+  trackThresholds: '{{trackThresholds}}',
+  thresholdsToTrack: '{{thresholdsToTrack}}',
+});
+    `,
+    arguments: [
+      { id: 'trackingAccuracy', type: 'number', displayName: 'Tracking accuracy', recommended: 0, description: 'Accuracy for tracking seconds value - decimal places of progress timestamp in seconds', default: 0 },
+      { id: 'trackThresholds', type: 'boolean', displayName: 'Track thresholds', recommended: true, description: 'Track percentage thresholds apart from interactions with timestamps', default: true },
+      { id: 'thresholdsToTrack', type: 'text', displayName: 'Progress thresholds', recommended: 'Yes', description: 'Choose whether you want to track events of the same type occurring at the same time, or not.', choices: [['25%','50%','75%']] , default: ['25%','50%','75%']},
+      { id: 'trackTimestampsAsPercentage', type: 'boolean', displayName: 'Track timestamps as percentage', recommended: true, description: 'Instead of tracking seconds from beginning of the video as event numeric value, numeric value placeholder will be used to store expression of percentage at which event took place.', default: false },
+      { id: 'additionallyTrackTimestampAsDimension', type: 'boolean', displayName: 'Additionally track timestamp as custom dimension', description: 'Choose whether you want to track events of the same type occurring at the same time, or not.',  default: false},
+      { id: 'dimensionIdForTimestamps', type: 'number', displayName: 'Tracking accuracy', recommended: 0, description: 'Accuracy for tracking seconds value - decimal places of progress timestamp in seconds', default: 0 },
+    ],
+  },
   ]
 };
