@@ -277,8 +277,8 @@ videoTrackingHTML5(function (trackingAccuracy,trackThresholds,thresholdsToTrack)
         displayName: 'Progress thresholds',
         recommended: 'Yes',
         description: 'Choose whether you want to track events of the same type occurring at the same time, or not.',
-        choices: [['25%','50%','75%']],
-        default: ['25%','50%','75%']
+        choices: [['25','50','75']],
+        default: ['25','50','75']
       },
       { id: 'trackTimestampsAsPercentage',
         type: 'boolean',

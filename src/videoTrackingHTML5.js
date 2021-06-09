@@ -16,6 +16,8 @@
 
     const videoTrackingTitleAttribute = "data-video-title";
     //const thresholdsToTrack = [25, 50, 75];
+    const percentageThresholds = thresholdsToTrack.split(",").map(x=>+x);
+    console.log("percentageThresholds",percentageThresholds);
     let trackedThresholds = {};
     let mostRecentVideoTimestamp;
 
@@ -73,39 +75,32 @@
         }
     };
 
-    const detectThresholdByCurrentTime = (currentTime, totalTime) => {
-        var currentPercent = (currentTime / totalTime) * 100,
-          currentEventIndex = 0;
-        for (var i = 0; i <= thresholdsToTrack.length; i++) {
-          if (currentPercent > thresholdsToTrack[currentEventIndex]) {
-            currentEventIndex = i;
-          }
-        }
-        return thresholdsToTrack[currentEventIndex == 0 ? 0 : currentEventIndex - 1];
-      };
-
     const processTimeUpdateMediaEvent = (e) => {
-        //console.log("timeUpdate event",e)
         var currentPlayTime = e.target.currentTime;
+        var videoDuration = e.target.duration;
         var videoTitle = getVideoName(e.target,videoTrackingTitleAttribute);
-        //.duration!
-        if (Math.floor(e.target.currentPlayTime) != Math.floor(currentPlayTime) ) {
-            console.log(videoTitle,currentPlayTime);
-        }
         e.target.currentPlayTime = currentPlayTime;
         //percentage method
-        var threshold = detectThresholdByCurrentTime(currentPlayTime, e.target.duration);
+
         if (typeof trackedThresholds[videoTitle] == "undefined") {
             trackedThresholds[videoTitle] = [];
+            console.log("thresholds not defined");
+        }
+
+        var currentVideoPlayPercent = (currentPlayTime / videoDuration) * 100;
+        
+        for (var i=0; i <= percentageThresholds.length; i++){
+            let testedThreshold = percentageThresholds[i];
+            if (currentVideoPlayPercent > testedThreshold && !trackedThresholds[videoTitle].includes(testedThreshold)){
+                var eventData = {
+                    eventType: "Progress - " + testedThreshold + "%",
+                    videoTitle: videoTitle,
+                    eventTimestamp: currentPlayTime
+                };
+                trackEvent(eventData);
+                console.log("currentVideoPlayPercent > percentageThresholds",testedThreshold);
+                trackedThresholds[videoTitle].push(testedThreshold);
             }
-        if (!trackedThresholds[videoTitle].includes(threshold)) {
-            var eventData = {
-            eventType: "Progress - " + threshold + "%",
-            videoTitle: videoTitle,
-            eventTimestamp: currentPlayTime
-            };
-            trackEvent(eventData);
-            trackedThresholds[videoTitle].push(threshold);
         }
     };
 
@@ -143,11 +138,16 @@
             } else if (e.target.hasPlayed == false && e.target.hasPaused == false) {
                 eventData.eventType = "Seeked before playback";
                 trackEvent(eventData);
+            } else if (e.target.hasPlayed == true && e.target.hasPaused == false && e.target.hasReplayed == false && e.target.hasEnded == true) {
+                eventData.eventType = "Seeked after finished watching";
+                trackEvent(eventData);
+                //workaround for the fact that after resume type of "Play", "seeking during playback" is automatically triggered
             } else if (e.target.hasPlayed == true && e.target.hasPaused == false && e.target.hasReplayed == false) {
                 eventData.eventType = "Seeked during playback";
                 trackEvent(eventData);
                 //workaround for the fact that after resume type of "Play", "seeking during playback" is automatically triggered
-            } else if (e.target.hasReplayed == true){
+            } 
+             else if (e.target.hasReplayed == true){
                 e.target.hasReplayed = false;
             }
         }
