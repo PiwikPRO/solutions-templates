@@ -251,18 +251,36 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
     `,
     template: `
 ${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
-videoTrackingHTML5(function (trackingAccuracy,trackThresholds,thresholdsToTrack) {}, {
+videoTrackingHTML5(function () {}, {
+  eventCategoryLabel: '{{eventCategoryLabel}}',
+  videoTitleAttribute: '{{videoTitleAttribute}}',
   trackingAccuracy: '{{trackingAccuracy}}',
   trackThresholds: '{{trackThresholds}}',
   thresholdsToTrack: '{{thresholdsToTrack}}',
+  additionallyTrackTimestampAsDimension: '{{additionallyTrackTimestampAsDimension}}',
+  dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}'
 });
     `,
     arguments: [
+      { id: 'eventCategoryLabel',
+        type: 'text',
+        displayName: 'Event category label',
+        recommended: "Video",
+        description: 'Name of category under which custom events will be tracked, so you can filter them to create video-specific reports',
+        default: "Video"
+      },
+      { id: 'videoTitleAttribute',
+        type: 'text',
+        displayName: 'Video title attribute',
+        recommended: "data-video-title",
+        description: 'Name of video HTML element data-attribute that will be used as video title. If not available - fails over to file name',
+        default: "data-video-title"
+      },
       { id: 'trackingAccuracy',
         type: 'number',
         displayName: 'Tracking accuracy',
         recommended: 0,
-        description: 'Accuracy for tracking seconds value - decimal places of progress timestamp in seconds',
+        description: 'Accuracy for tracking seconds value - decimal places of progress timestamp in seconds - must be between 0 and 3',
         default: 0
       },
       { id: 'trackThresholds',
@@ -280,13 +298,6 @@ videoTrackingHTML5(function (trackingAccuracy,trackThresholds,thresholdsToTrack)
         choices: [['25','50','75']],
         default: ['25','50','75']
       },
-      { id: 'trackTimestampsAsPercentage',
-        type: 'boolean',
-        displayName: 'Track timestamps as percentage',
-        recommended: true,
-        description: 'Instead of tracking seconds from beginning of the video as event numeric value, numeric value placeholder will be used to store expression of percentage at which event took place.',
-        default: false
-      },
       { id: 'additionallyTrackTimestampAsDimension',
         type: 'boolean',
         displayName: 'Additionally track timestamp as custom dimension',
@@ -295,9 +306,9 @@ videoTrackingHTML5(function (trackingAccuracy,trackThresholds,thresholdsToTrack)
       },
       { id: 'dimensionIdForTimestamps',
         type: 'number',
-        displayName: 'Tracking accuracy',
+        displayName: 'Custom Dimension tracking ID to store timestamps',
         recommended: 0,
-        description: 'Accuracy for tracking seconds value - decimal places of progress timestamp in seconds',
+        description: 'ID of Custom Dimension into which you want to track second timestamps (no matter other settings)',
         default: 0
       },
     ],

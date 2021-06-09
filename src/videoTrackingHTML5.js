@@ -4,36 +4,46 @@
  * This script analyses the interactions with <video> elements.
  */
 
- export default (subscribe, {trackingAccuracy, trackThresholds, thresholdsToTrack}) => {
+ export default (subscribe, {eventCategoryLabel,
+                            videoTitleAttribute,
+                            trackingAccuracy,
+                            trackThresholds,
+                            thresholdsToTrack,
+                            additionallyTrackTimestampAsDimension,
+                            dimensionIdForTimestamps
+    }) => {
     
-    const printTrackingAccuracy = (trackingAccuracy) => console.log(trackingAccuracy);
-    const printTrackThresholds = (trackThresholds) => console.log(trackThresholds);
-    const printThresholds = (thresholdsToTrack) => console.log(thresholdsToTrack.split(","));
-    printTrackingAccuracy(trackingAccuracy);
-    printTrackThresholds(trackThresholds);
-    printThresholds(thresholdsToTrack);
-    //subscribe({ thresholdsToTrack });
-
-    const videoTrackingTitleAttribute = "data-video-title";
-    //const thresholdsToTrack = [25, 50, 75];
     const percentageThresholds = thresholdsToTrack.split(",").map(x=>+x);
     console.log("percentageThresholds",percentageThresholds);
     let trackedThresholds = {};
     let mostRecentVideoTimestamp;
 
-    const getVideoName = (video,videoTrackingTitleAttribute) => {
-        var videoName = video.getAttribute(videoTrackingTitleAttribute);
-        if (videoName == null){
+    const getVideoName = (video) => {
+        var videoName = video.getAttribute(videoTitleAttribute);
+        if (video.hasAttribute("src")){
             videoName = video.getAttribute("src").split("/").slice(-1).pop();
+        }
+        else {
+            videoName = video.querySelector("source").getAttribute("src").split("/").slice(-1).pop();
         }
         return videoName;
     };
 
     const trackEvent = (eventData) => {
         if (eventData.eventTimestamp != mostRecentVideoTimestamp){
-            var eventTimestampToTrack = eventData.eventTimestamp.toFixed(3);
+            if (trackingAccuracy < 0 || trackingAccuracy > 3){
+                trackingAccuracy = 0;
+            }
+            eventData.eventTimestamp = eventData.eventTimestamp.toFixed(trackingAccuracy);
+            eventData.eventCategoryLabel = eventCategoryLabel;
             console.log("diag",eventData.eventType);
-            window._paq.push(['trackEvent',"Video", eventData.eventType, eventData.videoTitle, eventTimestampToTrack]);
+            window._paq.push([
+                'trackEvent',
+                eventData.eventCategoryLabel,
+                eventData.eventType,
+                eventData.videoTitle,
+                eventData.eventTimestamp
+            ]);
             mostRecentVideoTimestamp = eventData.eventTimestamp;
         }
     };
@@ -41,11 +51,10 @@
     const processPlayMediaEvent = (e) => {
         console.log("play event",e);
         var currentPlayTime = e.target.currentTime;
-        var videoTitle = getVideoName(e.target,videoTrackingTitleAttribute);
+        var videoTitle = getVideoName(e.target);
         e.target.currentPlayTime = e.target.currentTime;
         var isUserSeeking = e.target.seeking;
-        e.target.hasPaused = false;
-        if (isUserSeeking == false && e.target.hasPlayed == true) {
+        if (isUserSeeking == false && e.target.hasPlayed == true && e.target.hasPaused == true) {
             let eventData = {
                 eventType: "Resume",
                 videoTitle: videoTitle,
@@ -78,28 +87,28 @@
     const processTimeUpdateMediaEvent = (e) => {
         var currentPlayTime = e.target.currentTime;
         var videoDuration = e.target.duration;
-        var videoTitle = getVideoName(e.target,videoTrackingTitleAttribute);
+        var videoTitle = getVideoName(e.target);
         e.target.currentPlayTime = currentPlayTime;
         //percentage method
+        if (trackThresholds){
+            if (typeof trackedThresholds[videoTitle] == "undefined") {
+                trackedThresholds[videoTitle] = [];
+            }
 
-        if (typeof trackedThresholds[videoTitle] == "undefined") {
-            trackedThresholds[videoTitle] = [];
-            console.log("thresholds not defined");
-        }
-
-        var currentVideoPlayPercent = (currentPlayTime / videoDuration) * 100;
-        
-        for (var i=0; i <= percentageThresholds.length; i++){
-            let testedThreshold = percentageThresholds[i];
-            if (currentVideoPlayPercent > testedThreshold && !trackedThresholds[videoTitle].includes(testedThreshold)){
-                var eventData = {
-                    eventType: "Progress - " + testedThreshold + "%",
-                    videoTitle: videoTitle,
-                    eventTimestamp: currentPlayTime
-                };
-                trackEvent(eventData);
-                console.log("currentVideoPlayPercent > percentageThresholds",testedThreshold);
-                trackedThresholds[videoTitle].push(testedThreshold);
+            var currentVideoPlayPercent = (currentPlayTime / videoDuration) * 100;
+            
+            for (var i=0; i <= percentageThresholds.length; i++){
+                let testedThreshold = percentageThresholds[i];
+                if (currentVideoPlayPercent > testedThreshold && !trackedThresholds[videoTitle].includes(testedThreshold)){
+                    var eventData = {
+                        eventType: "Progress - " + testedThreshold + "%",
+                        videoTitle: videoTitle,
+                        eventTimestamp: currentPlayTime
+                    };
+                    trackEvent(eventData);
+                    console.log("currentVideoPlayPercent > percentageThresholds",testedThreshold);
+                    trackedThresholds[videoTitle].push(testedThreshold);
+                }
             }
         }
     };
@@ -108,7 +117,7 @@
         console.log("pause event",e);
         e.target.hasPaused = true;
         var currentPlayTime = e.target.currentTime;
-        var videoTitle = getVideoName(e.target,videoTrackingTitleAttribute);
+        var videoTitle = getVideoName(e.target);
         var isUserSeeking = e.target.seeking;
         if (e.target.currentTime < e.target.duration && isUserSeeking == false) {
             var eventData = {
@@ -128,7 +137,7 @@
         console.log("seeked event",e);
         var isUserSeeking = e.target.seeking;
         var eventData = {
-            videoTitle: getVideoName(e.target,videoTrackingTitleAttribute),
+            videoTitle: getVideoName(e.target),
             eventTimestamp: e.target.currentTime
         };
         if (e.target.currentTime < e.target.duration && isUserSeeking == false) {
@@ -145,7 +154,6 @@
             } else if (e.target.hasPlayed == true && e.target.hasPaused == false && e.target.hasReplayed == false) {
                 eventData.eventType = "Seeked during playback";
                 trackEvent(eventData);
-                //workaround for the fact that after resume type of "Play", "seeking during playback" is automatically triggered
             } 
              else if (e.target.hasReplayed == true){
                 e.target.hasReplayed = false;
@@ -159,7 +167,7 @@
         e.target.hasEnded = true;
         var eventData = {
             eventType: "Watched",
-            videoTitle: getVideoName(e.target,videoTrackingTitleAttribute),
+            videoTitle: getVideoName(e.target),
             eventTimestamp: e.target.currentTime
         };
         trackEvent(eventData);
@@ -172,7 +180,7 @@
             // @ts-ignore
             if (mediaElement.ended == false && mediaElement.paused == false && mediaElement.hasPlayed == true){
                 var currentPlayTime = mediaElement.currentTime;
-                var videoTitle = getVideoName(mediaElement,videoTrackingTitleAttribute);
+                var videoTitle = getVideoName(mediaElement);
                 var eventData = {
                     eventType: "Tab closed during video play",
                     videoTitle: videoTitle,
@@ -203,7 +211,7 @@
     
         var eventData = {
             eventType: eventTypeToTrack,
-            videoTitle: getVideoName(e.target,videoTrackingTitleAttribute),
+            videoTitle: getVideoName(e.target),
             eventTimestamp: e.target.currentTime,
             currentVolume: e.target.volume
         };
