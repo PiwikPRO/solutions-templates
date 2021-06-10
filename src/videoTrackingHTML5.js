@@ -50,10 +50,10 @@
             if (trackTimestampAsDimension || trackVolumeAsDimension){
                 let dimensionsObject = {};
                 if (trackTimestampAsDimension){
-                    dimensionsObject["dimension"+dimensionIdForTimestamps.toString()] = eventData.eventTimestamp;
+                    dimensionsObject["dimension"+dimensionIdForTimestamps] = eventData.eventTimestamp;
                 }
                 if (trackVolumeAsDimension){
-                    dimensionsObject["dimension"+dimensionIdForVolume.toString()] = encodeURIComponent((eventData.currentVolume*100).toFixed(0)+"%");
+                    dimensionsObject["dimension"+dimensionIdForVolume] = encodeURIComponent((eventData.currentVolume*100).toFixed(0)+"%");
                 }
                 eventArray.push(dimensionsObject);
             }
