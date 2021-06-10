@@ -9,14 +9,16 @@
                             trackingAccuracy,
                             trackThresholds,
                             thresholdsToTrack,
-                            additionallyTrackTimestampAsDimension,
-                            dimensionIdForTimestamps
+                            trackTimestampAsDimension,
+                            dimensionIdForTimestamps,
+                            trackVolumeAsDimension,
+                            dimensionIdForVolume
     }) => {
     
     const percentageThresholds = thresholdsToTrack.split(",").map(x=>+x);
-    console.log("percentageThresholds",percentageThresholds);
     let trackedThresholds = {};
-    let mostRecentVideoTimestamp;
+    let lastTrackedVolume = 100;
+    //let mostRecentVideoTimestamp = -1;
 
     const getVideoName = (video) => {
         var videoName = video.getAttribute(videoTitleAttribute);
@@ -32,73 +34,76 @@
     };
 
     const trackEvent = (eventData) => {
-        if (eventData.eventTimestamp != mostRecentVideoTimestamp){
+        //if (eventData.eventTimestamp != mostRecentVideoTimestamp){
             if (trackingAccuracy < 0 || trackingAccuracy > 3){
                 trackingAccuracy = 0;
             }
             eventData.eventTimestampFixed = eventData.eventTimestamp.toFixed(trackingAccuracy);
             eventData.eventCategoryLabel = eventCategoryLabel;
-            console.log("diag",eventData.eventType);
             let eventArray = [
                 'trackEvent',
                 eventData.eventCategoryLabel,
                 eventData.eventType,
                 eventData.videoTitle,
-                eventData.eventTimestampFixed];
-            if (additionallyTrackTimestampAsDimension){
-                let dimensionsObject = {
-                    ["dimension"+dimensionIdForTimestamps.toString()]: eventData.eventTimestamp
-                };
+                eventData.eventTimestampFixed
+            ];
+            if (trackTimestampAsDimension || trackVolumeAsDimension){
+                let dimensionsObject = {};
+                if (trackTimestampAsDimension){
+                    dimensionsObject["dimension"+dimensionIdForTimestamps.toString()] = eventData.eventTimestamp;
+                }
+                if (trackVolumeAsDimension){
+                    dimensionsObject["dimension"+dimensionIdForVolume.toString()] = encodeURIComponent((eventData.currentVolume*100).toFixed(0)+"%");
+                }
                 eventArray.push(dimensionsObject);
             }
             window._paq.push(eventArray);
-            mostRecentVideoTimestamp = eventData.eventTimestamp;
-        }
+            //mostRecentVideoTimestamp = eventData.eventTimestamp;
+        //}
     };
 
     const processPlayMediaEvent = (e) => {
-        console.log("play event",e);
+        console.log("rawevent "+e.type,e);
+        console.log('e.target.hasPlayed',e.target.hasPlayed);
+        console.log('e.target.hasPaused',e.target.hasPaused);
+        console.log('e.target.hasEnded',e.target.hasEnded);
+        console.log('e.target.hasMuted',e.target.hasMuted);
+        console.log('e.target.seeking',e.target.seeking);
         var currentPlayTime = e.target.currentTime;
         var videoTitle = getVideoName(e.target);
         e.target.currentPlayTime = e.target.currentTime;
         var isUserSeeking = e.target.seeking;
+        let eventData = {
+            videoTitle: videoTitle,
+            eventTimestamp: currentPlayTime,
+            currentVolume: e.target.volume
+        };
         if (isUserSeeking == false && e.target.hasPlayed == true && e.target.hasPaused == true) {
-            let eventData = {
-                eventType: "Resume",
-                videoTitle: videoTitle,
-                eventTimestamp: currentPlayTime
-            };
+            eventData.eventType = "Resume";
             trackEvent(eventData);
         }
         else if (e.target.hasEnded == true) {
             e.target.hasReplayed = true;
-            let eventData = {
-                eventType: "Replay after watching",
-                videoTitle: videoTitle,
-                eventTimestamp: currentPlayTime
-            };
+            eventData.eventType = "Replay after watching";
             trackEvent(eventData);
             e.target.hasEnded = false;
         }
-        else if (e.target.paused == false && e.target.hasPlayed == false){
-            let eventData = {
-                eventType: "Play",
-                videoTitle: videoTitle,
-                eventTimestamp: currentPlayTime
-            };
+        else if (e.target.hasPaused == false && e.target.hasPlayed == false){
+            eventData.eventType = "Play";
             trackEvent(eventData);
-          console.log(videoTitle,"play at ", currentPlayTime);
-          e.target.hasPlayed = true;
+            console.log(videoTitle,"play at ", currentPlayTime);
+            e.target.hasPlayed = true;
         }
     };
 
     const processTimeUpdateMediaEvent = (e) => {
+        console.log("rawevent "+e.type,e);
         var currentPlayTime = e.target.currentTime;
         var videoDuration = e.target.duration;
         var videoTitle = getVideoName(e.target);
         e.target.currentPlayTime = currentPlayTime;
         //percentage method
-        if (trackThresholds){
+        if (trackThresholds && e.target.hasPlayed){
             if (typeof trackedThresholds[videoTitle] == "undefined") {
                 trackedThresholds[videoTitle] = [];
             }
@@ -111,7 +116,8 @@
                     var eventData = {
                         eventType: "Progress - " + testedThreshold + "%",
                         videoTitle: videoTitle,
-                        eventTimestamp: currentPlayTime
+                        eventTimestamp: currentPlayTime,
+                        currentVolume: e.target.volume
                     };
                     trackEvent(eventData);
                     console.log("currentVideoPlayPercent > percentageThresholds",testedThreshold);
@@ -122,7 +128,7 @@
     };
 
     const processPauseMediaEvent = (e) => {
-        console.log("pause event",e);
+        console.log("rawevent "+e.type,e);
         e.target.hasPaused = true;
         var currentPlayTime = e.target.currentTime;
         var videoTitle = getVideoName(e.target);
@@ -131,7 +137,8 @@
             var eventData = {
                 eventType: "Pause",
                 videoTitle: videoTitle,
-                eventTimestamp: currentPlayTime
+                eventTimestamp: currentPlayTime,
+                currentVolume: e.target.volume
             };
             trackEvent(eventData);
             console.log(videoTitle,e.type,isUserSeeking,currentPlayTime);
@@ -142,11 +149,12 @@
     };
 
     const processSeekedMediaEvent = (e) => {
-        console.log("seeked event",e);
+        console.log("rawevent "+e.type,e);
         var isUserSeeking = e.target.seeking;
         var eventData = {
             videoTitle: getVideoName(e.target),
-            eventTimestamp: e.target.currentTime
+            eventTimestamp: e.target.currentTime,
+            currentVolume: e.target.volume
         };
         if (e.target.currentTime < e.target.duration && isUserSeeking == false) {
             if (e.target.hasPaused == true){
@@ -170,13 +178,14 @@
     };
 
     const processEndedMediaEvent = (e) => {
-        console.log("ended event",e);
+        console.log("rawevent "+e.type,e);
         e.target.hasPaused = false;
         e.target.hasEnded = true;
         var eventData = {
             eventType: "Watched",
             videoTitle: getVideoName(e.target),
-            eventTimestamp: e.target.currentTime
+            eventTimestamp: e.target.currentTime,
+            currentVolume: e.target.volume
         };
         trackEvent(eventData);
     };
@@ -205,16 +214,27 @@
         console.log("muted",e.target.muted);
         console.log("volume",e.target.volume);
         let eventTypeToTrack;
+        let currentVolume = parseInt((e.target.volume*100).toFixed(0));
         if (e.target.muted == true){
             eventTypeToTrack = "Muted";
             e.target.hasMuted = true;
+            lastTrackedVolume = 0;
         }
         else if (e.target.hasMuted == true){
             eventTypeToTrack = "Unmuted";
             e.target.hasMuted = false;
+            lastTrackedVolume = currentVolume;
         }
         else if (e.target.muted == false && e.target.hasMuted == false){
-            eventTypeToTrack = "Volume change";
+            if (lastTrackedVolume > currentVolume){
+                eventTypeToTrack = "Volume down";
+                lastTrackedVolume = currentVolume;
+            }
+            else {
+                eventTypeToTrack = "Volume up";
+                lastTrackedVolume = currentVolume;
+            }
+            //eventTypeToTrack = "Volume change";
         }
     
         var eventData = {
@@ -223,7 +243,6 @@
             eventTimestamp: e.target.currentTime,
             currentVolume: e.target.volume
         };
-        console.log(eventData);
         trackEvent(eventData);
     };
 
@@ -231,6 +250,7 @@
         mediaElement.hasPlayed = false;
         mediaElement.hasPaused = false;
         mediaElement.hasReplayed = false;
+        mediaElement.hasEnded = false;
         mediaElement.hasMuted = false;
         mediaElement.addEventListener("play", processPlayMediaEvent);
         mediaElement.addEventListener("timeupdate", processTimeUpdateMediaEvent);

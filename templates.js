@@ -257,8 +257,10 @@ videoTrackingHTML5(function () {}, {
   trackingAccuracy: '{{trackingAccuracy}}',
   trackThresholds: {{trackThresholds}},
   thresholdsToTrack: '{{thresholdsToTrack}}',
-  additionallyTrackTimestampAsDimension: {{additionallyTrackTimestampAsDimension}},
-  dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}'
+  trackTimestampAsDimension: {{trackTimestampAsDimension}},
+  dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}',
+  trackVolumeAsDimension: {{trackVolumeAsDimension}},
+  dimensionIdForVolume: '{{dimensionIdForVolume}}'
 });
     `,
     arguments: [
@@ -294,20 +296,32 @@ videoTrackingHTML5(function () {}, {
         type: 'text',
         displayName: 'Progress thresholds',
         recommended: 'Yes',
-        description: 'Choose whether you want to track events of the same type occurring at the same time, or not.',
+        description: 'On top of other events you can track users reaching specific percentage thresholds of video time',
         choices: [['25','50','75']],
         default: ['25','50','75']
       },
-      { id: 'additionallyTrackTimestampAsDimension',
+      { id: 'trackTimestampAsDimension',
         type: 'boolean',
         displayName: 'Additionally track timestamp as Custom Dimension',
-        description: 'Choose whether you want to track events of the same type occurring at the same time, or not.',
+        description: 'For use in raw data integrated into data lakes, warehouses, or BI tools, you can use full timestamp',
         default: false
       },
       { id: 'dimensionIdForTimestamps',
         type: 'number',
         displayName: 'Custom Dimension tracking ID to store timestamps',
         description: 'ID of Custom Dimension into which you want to track second timestamps (no matter other settings)',
+        default: 1
+      },
+      { id: 'trackVolumeAsDimension',
+        type: 'boolean',
+        displayName: 'Additionally track volume percentage as Custom Dimension',
+        description: '',
+        default: false
+      },
+      { id: 'dimensionIdForVolume',
+        type: 'number',
+        displayName: 'Custom Dimension tracking ID to store timestamps',
+        description: 'ID of Custom Dimension into which you want to track volume of',
         default: 1
       },
     ],
