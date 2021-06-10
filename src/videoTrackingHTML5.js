@@ -18,7 +18,6 @@
     const percentageThresholds = thresholdsToTrack.split(",").map(x=>+x);
     let trackedThresholds = {};
     let lastTrackedVolume = 100;
-    //let mostRecentVideoTimestamp = -1;
 
     const getVideoName = (video) => {
         var videoName = video.getAttribute(videoTitleAttribute);
@@ -34,7 +33,6 @@
     };
 
     const trackEvent = (eventData) => {
-        //if (eventData.eventTimestamp != mostRecentVideoTimestamp){
             if (trackingAccuracy < 0 || trackingAccuracy > 3){
                 trackingAccuracy = 0;
             }
@@ -58,8 +56,6 @@
                 eventArray.push(dimensionsObject);
             }
             window._paq.push(eventArray);
-            //mostRecentVideoTimestamp = eventData.eventTimestamp;
-        //}
     };
 
     const processPlayMediaEvent = (e) => {
@@ -218,7 +214,6 @@
                 eventTypeToTrack = "Volume up";
                 lastTrackedVolume = currentVolume;
             }
-            //eventTypeToTrack = "Volume change";
         }
     
         var eventData = {
