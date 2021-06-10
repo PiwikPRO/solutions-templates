@@ -20,11 +20,13 @@
 
     const getVideoName = (video) => {
         var videoName = video.getAttribute(videoTitleAttribute);
-        if (video.hasAttribute("src")){
-            videoName = video.getAttribute("src").split("/").slice(-1).pop();
-        }
-        else {
-            videoName = video.querySelector("source").getAttribute("src").split("/").slice(-1).pop();
+        if (videoName == null) {
+            if (video.hasAttribute("src")){
+                videoName = video.getAttribute("src").split("/").slice(-1).pop();
+            }
+            else {
+                videoName = video.querySelector("source").getAttribute("src").split("/").slice(-1).pop();
+            }
         }
         return videoName;
     };
@@ -34,16 +36,22 @@
             if (trackingAccuracy < 0 || trackingAccuracy > 3){
                 trackingAccuracy = 0;
             }
-            eventData.eventTimestamp = eventData.eventTimestamp.toFixed(trackingAccuracy);
+            eventData.eventTimestampFixed = eventData.eventTimestamp.toFixed(trackingAccuracy);
             eventData.eventCategoryLabel = eventCategoryLabel;
             console.log("diag",eventData.eventType);
-            window._paq.push([
+            let eventArray = [
                 'trackEvent',
                 eventData.eventCategoryLabel,
                 eventData.eventType,
                 eventData.videoTitle,
-                eventData.eventTimestamp
-            ]);
+                eventData.eventTimestampFixed];
+            if (additionallyTrackTimestampAsDimension){
+                let dimensionsObject = {
+                    ["dimension"+dimensionIdForTimestamps.toString()]: eventData.eventTimestamp
+                };
+                eventArray.push(dimensionsObject);
+            }
+            window._paq.push(eventArray);
             mostRecentVideoTimestamp = eventData.eventTimestamp;
         }
     };
@@ -173,7 +181,7 @@
         trackEvent(eventData);
     };
 
-    const handleTabCloseDuringVideoPlay = (e) => {
+    const handleTabUnloadDuringVideoPlay = (e) => {
         mediaElements = document.querySelectorAll("video");
         mediaElements.forEach((mediaElement) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -182,7 +190,7 @@
                 var currentPlayTime = mediaElement.currentTime;
                 var videoTitle = getVideoName(mediaElement);
                 var eventData = {
-                    eventType: "Tab closed during video play",
+                    eventType: "Tab unloaded during video play",
                     videoTitle: videoTitle,
                     eventTimestamp: currentPlayTime
                 };
@@ -223,6 +231,7 @@
         mediaElement.hasPlayed = false;
         mediaElement.hasPaused = false;
         mediaElement.hasReplayed = false;
+        mediaElement.hasMuted = false;
         mediaElement.addEventListener("play", processPlayMediaEvent);
         mediaElement.addEventListener("timeupdate", processTimeUpdateMediaEvent);
         mediaElement.addEventListener("pause", processPauseMediaEvent);
@@ -234,6 +243,6 @@
     let mediaElements = document.querySelectorAll("video");
     
     mediaElements.forEach((mediaElement) => addMediaTrackingListeners(mediaElement));
-    window.addEventListener("beforeunload", handleTabCloseDuringVideoPlay);
+    window.addEventListener("beforeunload", handleTabUnloadDuringVideoPlay);
 
 };

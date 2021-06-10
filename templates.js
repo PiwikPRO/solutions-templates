@@ -255,9 +255,9 @@ videoTrackingHTML5(function () {}, {
   eventCategoryLabel: '{{eventCategoryLabel}}',
   videoTitleAttribute: '{{videoTitleAttribute}}',
   trackingAccuracy: '{{trackingAccuracy}}',
-  trackThresholds: '{{trackThresholds}}',
+  trackThresholds: {{trackThresholds}},
   thresholdsToTrack: '{{thresholdsToTrack}}',
-  additionallyTrackTimestampAsDimension: '{{additionallyTrackTimestampAsDimension}}',
+  additionallyTrackTimestampAsDimension: {{additionallyTrackTimestampAsDimension}},
   dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}'
 });
     `,
@@ -285,9 +285,9 @@ videoTrackingHTML5(function () {}, {
       },
       { id: 'trackThresholds',
         type: 'boolean',
-        displayName: 'Track thresholds',
+        displayName: 'Track progress percentage thresholds',
         recommended: true,
-        description: 'Track percentage thresholds apart from interactions with timestamps',
+        description: 'Track percentage thresholds apart from interactions timestamps',
         default: true
       },
       { id: 'thresholdsToTrack',
@@ -300,16 +300,15 @@ videoTrackingHTML5(function () {}, {
       },
       { id: 'additionallyTrackTimestampAsDimension',
         type: 'boolean',
-        displayName: 'Additionally track timestamp as custom dimension',
+        displayName: 'Additionally track timestamp as Custom Dimension',
         description: 'Choose whether you want to track events of the same type occurring at the same time, or not.',
         default: false
       },
       { id: 'dimensionIdForTimestamps',
         type: 'number',
         displayName: 'Custom Dimension tracking ID to store timestamps',
-        recommended: 0,
         description: 'ID of Custom Dimension into which you want to track second timestamps (no matter other settings)',
-        default: 0
+        default: 1
       },
     ],
   },
