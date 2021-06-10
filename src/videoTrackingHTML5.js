@@ -63,12 +63,6 @@
     };
 
     const processPlayMediaEvent = (e) => {
-        console.log("rawevent "+e.type,e);
-        console.log('e.target.hasPlayed',e.target.hasPlayed);
-        console.log('e.target.hasPaused',e.target.hasPaused);
-        console.log('e.target.hasEnded',e.target.hasEnded);
-        console.log('e.target.hasMuted',e.target.hasMuted);
-        console.log('e.target.seeking',e.target.seeking);
         var currentPlayTime = e.target.currentTime;
         var videoTitle = getVideoName(e.target);
         e.target.currentPlayTime = e.target.currentTime;
@@ -91,13 +85,11 @@
         else if (e.target.hasPaused == false && e.target.hasPlayed == false){
             eventData.eventType = "Play";
             trackEvent(eventData);
-            console.log(videoTitle,"play at ", currentPlayTime);
             e.target.hasPlayed = true;
         }
     };
 
     const processTimeUpdateMediaEvent = (e) => {
-        console.log("rawevent "+e.type,e);
         var currentPlayTime = e.target.currentTime;
         var videoDuration = e.target.duration;
         var videoTitle = getVideoName(e.target);
@@ -120,7 +112,6 @@
                         currentVolume: e.target.volume
                     };
                     trackEvent(eventData);
-                    console.log("currentVideoPlayPercent > percentageThresholds",testedThreshold);
                     trackedThresholds[videoTitle].push(testedThreshold);
                 }
             }
@@ -128,7 +119,6 @@
     };
 
     const processPauseMediaEvent = (e) => {
-        console.log("rawevent "+e.type,e);
         e.target.hasPaused = true;
         var currentPlayTime = e.target.currentTime;
         var videoTitle = getVideoName(e.target);
@@ -141,7 +131,6 @@
                 currentVolume: e.target.volume
             };
             trackEvent(eventData);
-            console.log(videoTitle,e.type,isUserSeeking,currentPlayTime);
             e.target.hasPaused = true;
         } else {
            e.target.hasPaused = false;
@@ -149,7 +138,6 @@
     };
 
     const processSeekedMediaEvent = (e) => {
-        console.log("rawevent "+e.type,e);
         var isUserSeeking = e.target.seeking;
         var eventData = {
             videoTitle: getVideoName(e.target),
@@ -178,7 +166,6 @@
     };
 
     const processEndedMediaEvent = (e) => {
-        console.log("rawevent "+e.type,e);
         e.target.hasPaused = false;
         e.target.hasEnded = true;
         var eventData = {
@@ -210,9 +197,6 @@
     };
 
     const processVolumeChangeMediaEvent = (e) => {
-        console.log(e);
-        console.log("muted",e.target.muted);
-        console.log("volume",e.target.volume);
         let eventTypeToTrack;
         let currentVolume = parseInt((e.target.volume*100).toFixed(0));
         if (e.target.muted == true){
