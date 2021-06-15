@@ -4,7 +4,7 @@
  * This script analyses the interactions with <video> elements.
  */
 //4Patryk: I'm not sure whether to put "subscribe" here at all?
- export default ({eventCategoryLabel,
+ export default (subscribe,{eventCategoryLabel,
     videoTitleAttribute,
     trackingAccuracy,
     trackThresholds,
