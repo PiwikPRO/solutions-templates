@@ -59,23 +59,23 @@
 
     const processPlayMediaEvent = (e) => {
         let videoTitle = getVideoName(e.target);
-        const {currentTime, volume, seeking, hasPaused, hasPlayed} = e.target;
+        const {currentTime, volume, seeking, hasPaused, hasPlayed, hasEnded} = e.target;
         let eventData = {
             videoTitle: videoTitle,
             eventTimestamp: currentTime,
             currentVolume: volume
         };
-        if (seeking === false && hasPlayed === true && hasPaused === true) {
+        if (!seeking && hasPlayed && hasPaused == true) {
             eventData.eventType = "Resume";
             trackEvent(eventData);
             e.target.hasReplayed = true;
             e.target.hasEnded = false;
         }
-        else if (e.target.hasEnded === true) {
+        else if (hasEnded === true) {
             eventData.eventType = "Replay after watching";
             trackEvent(eventData);
         }
-        else if (e.target.hasPaused === false && e.target.hasPlayed === false){
+        else if (hasPaused && hasPlayed == false){
             eventData.eventType = "Play";
             trackEvent(eventData);
             e.target.hasPlayed = true;
@@ -83,11 +83,11 @@
     };
 
     const processTimeUpdateMediaEvent = (e) => {
-        const {currentTime, duration} = e.target;
+        const {currentTime, duration, hasPlayed} = e.target;
 
         let videoTitle = getVideoName(e.target);
         //percentage method
-        if (trackThresholds && e.target.hasPlayed){
+        if (trackThresholds && hasPlayed){
             if (typeof trackedThresholds[videoTitle] === "undefined") {
                 trackedThresholds[videoTitle] = [];
             }
@@ -190,18 +190,19 @@
 
     const processVolumeChangeMediaEvent = (e) => {
         let eventTypeToTrack;
-        let currentVolume = parseInt((e.target.volume*100).toFixed(0));
-        if (e.target.muted === true){
+        const {currentTime, volume, muted, hasMuted} = e.target;
+        let currentVolume = parseInt((volume*100).toFixed(0));
+        if (muted === true){
             eventTypeToTrack = "Muted";
             e.target.hasMuted = true;
             lastTrackedVolume = 0;
         }
-        else if (e.target.hasMuted === true){
+        else if (hasMuted === true){
             eventTypeToTrack = "Unmuted";
             e.target.hasMuted = false;
             lastTrackedVolume = currentVolume;
         }
-        else if (e.target.muted === false && e.target.hasMuted === false){
+        else if (muted && hasMuted == false){
             if (lastTrackedVolume > currentVolume){
                 eventTypeToTrack = "Volume down";
                 lastTrackedVolume = currentVolume;
@@ -215,8 +216,8 @@
         let eventData = {
             eventType: eventTypeToTrack,
             videoTitle: getVideoName(e.target),
-            eventTimestamp: e.target.currentTime,
-            currentVolume: e.target.volume
+            eventTimestamp: currentTime,
+            currentVolume: volume
         };
         trackEvent(eventData);
     };
