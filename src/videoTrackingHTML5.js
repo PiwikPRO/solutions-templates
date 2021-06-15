@@ -3,7 +3,6 @@
  * 
  * This script analyses the interactions with <video> elements.
  */
-//4Patryk: I'm not sure whether to put "subscribe" here at all?
  export default (subscribe,{eventCategoryLabel,
     videoTitleAttribute,
     trackingAccuracy,
@@ -173,7 +172,6 @@
     const handleTabUnloadDuringVideoPlay = (e) => {
         mediaElements = document.querySelectorAll("video");
         mediaElements.forEach((mediaElement) => {
-            //4Patryk: I didn't have better idea for getting around eslint, it has issue with me checking for my own hasPlayed property on an object (it's added at the beginning of code execution)
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const {ended, paused, hasPlayed, currentTime} = mediaElement;
