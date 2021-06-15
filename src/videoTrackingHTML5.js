@@ -59,24 +59,22 @@
     };
 
     const processPlayMediaEvent = (e) => {
-        let currentPlayTime = e.target.currentTime;
         let videoTitle = getVideoName(e.target);
-        e.target.currentPlayTime = e.target.currentTime;
-        let isUserSeeking = e.target.seeking;
+        const {currentTime, volume, seeking, hasPaused, hasPlayed} = e.target;
         let eventData = {
             videoTitle: videoTitle,
-            eventTimestamp: currentPlayTime,
-            currentVolume: e.target.volume
+            eventTimestamp: currentTime,
+            currentVolume: volume
         };
-        if (isUserSeeking === false && e.target.hasPlayed === true && e.target.hasPaused === true) {
+        if (seeking === false && hasPlayed === true && hasPaused === true) {
             eventData.eventType = "Resume";
             trackEvent(eventData);
+            e.target.hasReplayed = true;
+            e.target.hasEnded = false;
         }
         else if (e.target.hasEnded === true) {
-            e.target.hasReplayed = true;
             eventData.eventType = "Replay after watching";
             trackEvent(eventData);
-            e.target.hasEnded = false;
         }
         else if (e.target.hasPaused === false && e.target.hasPlayed === false){
             eventData.eventType = "Play";
@@ -86,17 +84,16 @@
     };
 
     const processTimeUpdateMediaEvent = (e) => {
-        let currentPlayTime = e.target.currentTime;
-        let videoDuration = e.target.duration;
+        const {currentTime, duration} = e.target;
+
         let videoTitle = getVideoName(e.target);
-        e.target.currentPlayTime = currentPlayTime;
         //percentage method
         if (trackThresholds && e.target.hasPlayed){
             if (typeof trackedThresholds[videoTitle] === "undefined") {
                 trackedThresholds[videoTitle] = [];
             }
 
-            let currentVideoPlayPercent = (currentPlayTime / videoDuration) * 100;
+            let currentVideoPlayPercent = (currentTime / duration) * 100;
             
             for (let i=0; i <= percentageThresholds.length; i++){
                 let testedThreshold = percentageThresholds[i];
@@ -104,7 +101,7 @@
                     let eventData = {
                         eventType: "Progress - " + testedThreshold + "%",
                         videoTitle: videoTitle,
-                        eventTimestamp: currentPlayTime,
+                        eventTimestamp: currentTime,
                         currentVolume: e.target.volume
                     };
                     trackEvent(eventData);
@@ -116,15 +113,14 @@
 
     const processPauseMediaEvent = (e) => {
         e.target.hasPaused = true;
-        let currentPlayTime = e.target.currentTime;
+        const {currentTime, duration, volume, seeking} = e.target;
         let videoTitle = getVideoName(e.target);
-        let isUserSeeking = e.target.seeking;
-        if (e.target.currentTime < e.target.duration && isUserSeeking === false) {
+        if (currentTime < duration && seeking === false) {
             let eventData = {
                 eventType: "Pause",
                 videoTitle: videoTitle,
-                eventTimestamp: currentPlayTime,
-                currentVolume: e.target.volume
+                eventTimestamp: currentTime,
+                currentVolume: volume
             };
             trackEvent(eventData);
             e.target.hasPaused = true;
@@ -134,41 +130,42 @@
     };
 
     const processSeekedMediaEvent = (e) => {
-        let isUserSeeking = e.target.seeking;
+        const {currentTime, duration, volume, seeking, hasPaused, hasPlayed, hasReplayed, hasEnded} = e.target;
         let eventData = {
             videoTitle: getVideoName(e.target),
-            eventTimestamp: e.target.currentTime,
-            currentVolume: e.target.volume
+            eventTimestamp: currentTime,
+            currentVolume: volume
         };
-        if (e.target.currentTime < e.target.duration && isUserSeeking === false) {
-            if (e.target.hasPaused === true){
+        if (currentTime < duration && seeking === false) {
+            if (hasPaused === true){
                 eventData.eventType = "Seeked when paused";
                 trackEvent(eventData);
-            } else if (e.target.hasPlayed === false && e.target.hasPaused === false) {
+            } else if (hasPlayed === false && hasPaused === false) {
                 eventData.eventType = "Seeked before playback";
                 trackEvent(eventData);
-            } else if (e.target.hasPlayed === true && e.target.hasPaused === false && e.target.hasReplayed === false && e.target.hasEnded === true) {
+            } else if (hasPlayed === true && hasPaused === false && hasReplayed === false && hasEnded === true) {
                 eventData.eventType = "Seeked after finished watching";
                 trackEvent(eventData);
                 //workaround for the fact that after resume type of "Play", "seeking during playback" is automatically triggered
-            } else if (e.target.hasPlayed === true && e.target.hasPaused === false && e.target.hasReplayed === false) {
+            } else if (hasPlayed === true && hasPaused === false && hasReplayed === false) {
                 eventData.eventType = "Seeked during playback";
                 trackEvent(eventData);
             } 
-             else if (e.target.hasReplayed === true){
+             else if (hasReplayed === true){
                 e.target.hasReplayed = false;
             }
         }
     };
 
     const processEndedMediaEvent = (e) => {
+        const {currentTime, volume} = e.target;
         e.target.hasPaused = false;
         e.target.hasEnded = true;
         let eventData = {
             eventType: "Watched",
             videoTitle: getVideoName(e.target),
-            eventTimestamp: e.target.currentTime,
-            currentVolume: e.target.volume
+            eventTimestamp: currentTime,
+            currentVolume: volume
         };
         trackEvent(eventData);
     };
@@ -179,13 +176,13 @@
             //4Patryk: I didn't have better idea for getting around eslint, it has issue with me checking for my own hasPlayed property on an object (it's added at the beginning of code execution)
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            if (mediaElement.ended === false && mediaElement.paused === false && mediaElement.hasPlayed === true){
-                let currentPlayTime = mediaElement.currentTime;
+            const {ended, paused, hasPlayed, currentTime} = mediaElement;
+            if (ended === false && paused === false && hasPlayed === true){
                 let videoTitle = getVideoName(mediaElement);
                 let eventData = {
                     eventType: "Tab unloaded during video play",
                     videoTitle: videoTitle,
-                    eventTimestamp: currentPlayTime
+                    eventTimestamp: currentTime
                 };
                 trackEvent(eventData);
             }
