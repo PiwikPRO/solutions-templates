@@ -65,7 +65,12 @@
             eventTimestamp: currentTime,
             currentVolume: volume
         };
-        if (!seeking && hasPlayed && hasPaused == true) {
+        if (hasPaused == false && hasPlayed == false){
+            eventData.eventType = "Play";
+            trackEvent(eventData);
+            e.target.hasPlayed = true;
+        }
+        else if (!seeking && hasPlayed && hasPaused == true) {
             eventData.eventType = "Resume";
             trackEvent(eventData);
             e.target.hasReplayed = true;
@@ -74,11 +79,6 @@
         else if (hasEnded === true) {
             eventData.eventType = "Replay after watching";
             trackEvent(eventData);
-        }
-        else if (hasPaused && hasPlayed == false){
-            eventData.eventType = "Play";
-            trackEvent(eventData);
-            e.target.hasPlayed = true;
         }
     };
 
