@@ -202,7 +202,7 @@
             e.target.hasMuted = false;
             lastTrackedVolume = currentVolume;
         }
-        else if (muted && hasMuted === false){
+        else if (!muted && hasMuted === false){
             if (lastTrackedVolume > currentVolume){
                 eventTypeToTrack = "Volume down";
                 lastTrackedVolume = currentVolume;
