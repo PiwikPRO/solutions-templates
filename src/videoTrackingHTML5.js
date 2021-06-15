@@ -20,7 +20,7 @@
 
     const getVideoName = (video) => {
         let videoName = video.getAttribute(videoTitleAttribute);
-        if (videoName == null) {
+        if (videoName === null) {
             if (video.hasAttribute("src")){
                 videoName = video.getAttribute("src").split("/").slice(-1).pop();
             }
@@ -65,12 +65,12 @@
             eventTimestamp: currentTime,
             currentVolume: volume
         };
-        if (hasPaused == false && hasPlayed == false){
+        if (!hasPaused && hasPlayed === false){
             eventData.eventType = "Play";
             trackEvent(eventData);
             e.target.hasPlayed = true;
         }
-        else if (!seeking && hasPlayed && hasPaused == true) {
+        else if (!seeking && hasPlayed && hasPaused === true) {
             eventData.eventType = "Resume";
             trackEvent(eventData);
             e.target.hasReplayed = true;
@@ -202,7 +202,7 @@
             e.target.hasMuted = false;
             lastTrackedVolume = currentVolume;
         }
-        else if (muted && hasMuted == false){
+        else if (muted && hasMuted === false){
             if (lastTrackedVolume > currentVolume){
                 eventTypeToTrack = "Volume down";
                 lastTrackedVolume = currentVolume;
