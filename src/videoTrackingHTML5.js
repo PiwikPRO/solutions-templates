@@ -65,20 +65,21 @@
             eventTimestamp: currentTime,
             currentVolume: volume
         };
-        if (!hasPaused && hasPlayed === false){
+        if (!hasPaused && !hasPlayed){
             eventData.eventType = "Play";
             trackEvent(eventData);
             e.target.hasPlayed = true;
         }
-        else if (!seeking && hasPlayed && hasPaused === true) {
+        else if (!seeking && hasPlayed && hasPaused) {
             eventData.eventType = "Resume";
             trackEvent(eventData);
             e.target.hasReplayed = true;
             e.target.hasEnded = false;
         }
-        else if (hasEnded === true) {
+        else if (hasEnded) {
             eventData.eventType = "Replay after watching";
             trackEvent(eventData);
+            e.target.hasEnded = false;
         }
     };
 
@@ -114,7 +115,7 @@
         e.target.hasPaused = true;
         const {currentTime, duration, volume, seeking} = e.target;
         let videoTitle = getVideoName(e.target);
-        if (currentTime < duration && seeking === false) {
+        if (currentTime < duration && !seeking) {
             let eventData = {
                 eventType: "Pause",
                 videoTitle: videoTitle,
@@ -135,22 +136,22 @@
             eventTimestamp: currentTime,
             currentVolume: volume
         };
-        if (currentTime < duration && seeking === false) {
-            if (hasPaused === true){
+        if (currentTime < duration && !seeking) {
+            if (hasPaused){
                 eventData.eventType = "Seeked when paused";
                 trackEvent(eventData);
-            } else if (hasPlayed === false && hasPaused === false) {
+            } else if (!hasPlayed && !hasPaused) {
                 eventData.eventType = "Seeked before playback";
                 trackEvent(eventData);
-            } else if (hasPlayed === true && hasPaused === false && hasReplayed === false && hasEnded === true) {
+            } else if (hasPlayed && !hasPaused && !hasReplayed && hasEnded) {
                 eventData.eventType = "Seeked after finished watching";
                 trackEvent(eventData);
                 //workaround for the fact that after resume type of "Play", "seeking during playback" is automatically triggered
-            } else if (hasPlayed === true && hasPaused === false && hasReplayed === false) {
+            } else if (hasPlayed && !hasPaused && !hasReplayed) {
                 eventData.eventType = "Seeked during playback";
                 trackEvent(eventData);
             } 
-             else if (hasReplayed === true){
+             else if (hasReplayed){
                 e.target.hasReplayed = false;
             }
         }
@@ -175,7 +176,7 @@
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const {ended, paused, hasPlayed, currentTime} = mediaElement;
-            if (ended === false && paused === false && hasPlayed === true){
+            if (!ended && !paused && hasPlayed){
                 let videoTitle = getVideoName(mediaElement);
                 let eventData = {
                     eventType: "Tab unloaded during video play",
@@ -192,17 +193,17 @@
         let eventTypeToTrack;
         const {currentTime, volume, muted, hasMuted} = e.target;
         let currentVolume = parseInt((volume*100).toFixed(0));
-        if (muted === true){
+        if (muted){
             eventTypeToTrack = "Muted";
             e.target.hasMuted = true;
             lastTrackedVolume = 0;
         }
-        else if (hasMuted === true){
+        else if (hasMuted){
             eventTypeToTrack = "Unmuted";
             e.target.hasMuted = false;
             lastTrackedVolume = currentVolume;
         }
-        else if (!muted && hasMuted === false){
+        else if (!muted && !hasMuted){
             if (lastTrackedVolume > currentVolume){
                 eventTypeToTrack = "Volume down";
                 lastTrackedVolume = currentVolume;
