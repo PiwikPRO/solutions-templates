@@ -243,5 +243,88 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
     `,
     arguments: [],
   },
+  {
+    id: 'videoTrackingHTML5',
+    name: 'Video tracking for HTML5 videos',
+    description: `
+    This template allows you to track videos watched on your website
+    `,
+    template: `
+${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
+videoTrackingHTML5({
+  eventCategoryLabel: '{{eventCategoryLabel}}',
+  videoTitleAttribute: '{{videoTitleAttribute}}',
+  trackingAccuracy: '{{trackingAccuracy}}',
+  trackThresholds: {{trackThresholds}},
+  thresholdsToTrack: '{{thresholdsToTrack}}',
+  trackTimestampAsDimension: {{trackTimestampAsDimension}},
+  dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}',
+  trackVolumeAsDimension: {{trackVolumeAsDimension}},
+  dimensionIdForVolume: '{{dimensionIdForVolume}}'
+});
+    `,
+    arguments: [
+      { id: 'eventCategoryLabel',
+        type: 'text',
+        displayName: 'Event category label',
+        recommended: "Video",
+        description: 'Name of category under which custom events will be tracked, so you can filter them to create video-specific reports',
+        default: "Video"
+      },
+      { id: 'videoTitleAttribute',
+        type: 'text',
+        displayName: 'Video title attribute',
+        recommended: "data-video-title",
+        description: 'Name of video HTML element data-attribute that will be used as video title. If not available - fails over to file name',
+        default: "data-video-title"
+      },
+      { id: 'trackingAccuracy',
+        type: 'number',
+        displayName: 'Tracking accuracy',
+        recommended: 0,
+        description: 'Accuracy for tracking seconds value - decimal places of progress timestamp in seconds - must be between 0 and 3',
+        default: 0
+      },
+      { id: 'trackThresholds',
+        type: 'boolean',
+        displayName: 'Track progress percentage thresholds',
+        recommended: true,
+        description: 'Track percentage thresholds apart from interactions timestamps',
+        default: true
+      },
+      { id: 'thresholdsToTrack',
+        type: 'text',
+        displayName: 'Progress thresholds',
+        recommended: 'Yes',
+        description: 'On top of other events you can track users reaching specific percentage thresholds of video time',
+        choices: [['25','50','75']],
+        default: ['25','50','75']
+      },
+      { id: 'trackTimestampAsDimension',
+        type: 'boolean',
+        displayName: 'Additionally track timestamp as Custom Dimension',
+        description: 'For use in raw data integrated into data lakes, warehouses, or BI tools, you can use full timestamp',
+        default: false
+      },
+      { id: 'dimensionIdForTimestamps',
+        type: 'number',
+        displayName: 'Custom Dimension tracking ID to store timestamps',
+        description: 'ID of Custom Dimension into which you want to track second timestamps (no matter other settings)',
+        default: 1
+      },
+      { id: 'trackVolumeAsDimension',
+        type: 'boolean',
+        displayName: 'Additionally track volume percentage as Custom Dimension',
+        description: '',
+        default: false
+      },
+      { id: 'dimensionIdForVolume',
+        type: 'number',
+        displayName: 'Custom Dimension tracking ID to store timestamps',
+        description: 'ID of Custom Dimension into which you want to track volume of',
+        default: 1
+      },
+    ],
+  },
   ]
 };
