@@ -3,7 +3,7 @@
  * 
  * This script analyses the interactions with <video> elements.
  */
- export default (subscribe,{eventCategoryLabel,
+ export default ({eventCategoryLabel,
     videoTitleAttribute,
     trackingAccuracy,
     trackThresholds,
