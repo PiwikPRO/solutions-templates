@@ -252,6 +252,7 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
     template: `
 ${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
 videoTrackingHTML5({
+  videoElementSelector: '{{videoElementSelector}}',
   eventCategoryLabel: '{{eventCategoryLabel}}',
   videoTitleAttribute: '{{videoTitleAttribute}}',
   trackingAccuracy: '{{trackingAccuracy}}',
@@ -264,6 +265,13 @@ videoTrackingHTML5({
 });
     `,
     arguments: [
+      { id: 'videoElementSelector',
+        type: 'text',
+        displayName: 'Video elements CSS selector',
+        recommended: "video",
+        description: "Selector that is used to find videos on the page. You can use specific selector if you don't want some videos to be tracked - e.g. background videos.",
+        default: "video"
+      },
       { id: 'eventCategoryLabel',
         type: 'text',
         displayName: 'Event category label',
