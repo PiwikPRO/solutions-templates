@@ -267,7 +267,7 @@ videoTrackingHTML5({
     arguments: [
       { id: 'videoElementSelector',
         type: 'text',
-        displayName: 'Video elements CSS selector',
+        displayName: 'Video element CSS selector',
         recommended: "video",
         description: "Selector that is used to find videos on the page. You can use specific selector if you don't want some videos to be tracked - e.g. background videos.",
         default: "video"
