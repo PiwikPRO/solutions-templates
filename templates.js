@@ -311,7 +311,7 @@ videoTrackingHTML5({
       { id: 'trackTimestampAsDimension',
         type: 'boolean',
         displayName: 'Additionally track timestamp as Custom Dimension',
-        description: 'For use in raw data integrated into data lakes, warehouses, or BI tools, you can use full timestamp',
+        description: 'If marked, you\'ll additionally track full timestamps with 5 decimal places. They will be stored as custom dimensions.',
         default: false
       },
       { id: 'dimensionIdForTimestamps',
