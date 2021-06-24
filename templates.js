@@ -297,14 +297,14 @@ videoTrackingHTML5({
         type: 'boolean',
         displayName: 'Track progress percentage thresholds',
         recommended: true,
-        description: 'Track percentage thresholds apart from interactions timestamps',
+        description: 'If marked, you’ll track percentage thresholds along with interaction timestamps',
         default: true
       },
       { id: 'thresholdsToTrack',
         type: 'text',
         displayName: 'Progress thresholds',
         recommended: 'Yes',
-        description: 'On top of other events you can track users reaching specific percentage thresholds of video time',
+        description: 'Percentage thresholds that track how far a visitor viewed a video',
         choices: [['25','50','75']],
         default: ['25','50','75']
       },
