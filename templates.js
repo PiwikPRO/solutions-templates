@@ -310,14 +310,14 @@ videoTrackingHTML5({
       },
       { id: 'trackTimestampAsDimension',
         type: 'boolean',
-        displayName: 'Additionally track timestamp as Custom Dimension',
+        displayName: 'AdditionaAdditionally track the timestamp as a custom dimension',
         description: 'If marked, you\'ll additionally track full timestamps with 5 decimal places. They will be stored as custom dimensions.',
         default: false
       },
       { id: 'dimensionIdForTimestamps',
         type: 'number',
-        displayName: 'Custom Dimension tracking ID to store timestamps',
-        description: 'ID of Custom Dimension into which you want to track second timestamps (no matter other settings)',
+        displayName: 'Custom dimension ID for storing timestamps',
+        description: 'Set the dimension ID if you track timestamps as a custom dimension',
         default: 1
       },
       { id: 'trackVolumeAsDimension',
