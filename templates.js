@@ -310,7 +310,7 @@ videoTrackingHTML5({
       },
       { id: 'trackTimestampAsDimension',
         type: 'boolean',
-        displayName: 'AdditionaAdditionally track the timestamp as a custom dimension',
+        displayName: 'Additionally track the timestamp as a custom dimension',
         description: 'If marked, you\'ll additionally track full timestamps with 5 decimal places. They will be stored as custom dimensions.',
         default: false
       },
@@ -323,7 +323,7 @@ videoTrackingHTML5({
       { id: 'trackVolumeAsDimension',
         type: 'boolean',
         displayName: 'Additionally track volume level as a custom dimension',
-        description: 'If marked, you’ll track the volume level as a percentage. It will be stored as a custom dimension',
+        description: 'If marked, you’ll track the volume level as a percentage. It will be stored as a custom dimension.',
         default: false
       },
       { id: 'dimensionIdForVolume',
