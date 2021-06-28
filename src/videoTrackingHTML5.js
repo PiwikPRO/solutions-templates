@@ -4,6 +4,7 @@
  * This script analyses the interactions with <video> elements.
  */
  export default ({eventCategoryLabel,
+    videoElementSelector,
     videoTitleAttribute,
     trackingAccuracy,
     trackThresholds,
@@ -237,7 +238,7 @@
         mediaElement.addEventListener("volumechange", processVolumeChangeMediaEvent);
     }
     
-    let mediaElements = document.querySelectorAll("video");
+    let mediaElements = document.querySelectorAll(videoElementSelector);
     
     mediaElements.forEach((mediaElement) => addMediaTrackingListeners(mediaElement));
     window.addEventListener("beforeunload", handleTabUnloadDuringVideoPlay);
