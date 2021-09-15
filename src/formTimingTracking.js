@@ -10,6 +10,13 @@
     const getFieldName = (field) => field.getAttribute(fieldNameAttribute);
 
     const getFormName = (field) => field.closest("form").getAttribute(formNameAttribute);
+  
+    const trackFormSubmit = (e) => {
+        let formName = getFormName(e.target);
+        let fieldName = "Click";
+        let leaveType = "Submit";
+        subscribe({ formName, fieldName, leaveType });  
+    };
 
     const trackFormFieldEntry = (e) => {
         let fieldName = getFieldName(e.target);
@@ -30,10 +37,45 @@
         }
     };
 
-    document.querySelectorAll('input,select,textarea,datalist').forEach((elem) => {
+    const waitForElement = function(selector){
+            return new Promise(resolve => {
+                if (document.querySelector(selector)) {
+                    return resolve(document.querySelector(selector));
+                }
+
+                const observer = new MutationObserver(mutations => {
+                    if (document.querySelector(selector)) {
+                        resolve(document.querySelector(selector));
+                        observer.disconnect();
+                    }
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            });
+        };   
+    
+    const addNewListeners = function(e){
+        document.querySelectorAll('form').forEach((el) => {
+            el.addEventListener('submit', trackFormSubmit);
+        }); 
+  
+      	document.querySelectorAll('input,select,textarea,datalist').forEach((elem) => {
             elem.addEventListener('focus', trackFormFieldEntry);
             elem.addEventListener('change', trackFormFieldLeave);
             elem.addEventListener('blur', trackFormFieldLeave);
         });
+    }; 
+
+    if(document.forms.length){ 
+      addNewListeners();
+    }
+    else{
+        waitForElement('form').then(elm => {
+				addNewListeners();
+          }); 
+    }
 
 };
