@@ -14,8 +14,8 @@
     const trackFormSubmit = (e) => {
         let formName = getFormName(e.target);
         let fieldName = "Click";
-        let leaveType = "Submit";
-        subscribe({ formName, fieldName, leaveType });  
+        let interactionType = "Submit";
+        subscribe({ formName, fieldName, interactionType });  
     };
 
     const trackFormFieldEntry = (e) => {
@@ -24,14 +24,14 @@
     };
     
     const trackFormFieldLeave = (e) => {
-        let leaveType = e.type;
+        let interactionType = e.type;
         let formName = getFormName(e.target);
         let fieldName = getFieldName(e.target);
         // eslint-disable-next-line no-prototype-builtins
         if (fieldsTimings.hasOwnProperty(fieldName)) {
             let timeSpent = new Date().getTime() - fieldsTimings[fieldName];
             if (timeSpent > 0 && timeSpent < 1800000) {
-                subscribe({ formName, fieldName, leaveType, timeSpent });
+                subscribe({ formName, fieldName, interactionType, timeSpent });
             }
             delete fieldsTimings[fieldName];
         }
