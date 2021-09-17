@@ -56,18 +56,17 @@
                 });
             });
         };   
-    
-    const addNewListeners = function(e){
+
+    const addNewListeners = function() {
         document.querySelectorAll('form').forEach((el) => {
             el.addEventListener('submit', trackFormSubmit);
-        }); 
-  
-      	document.querySelectorAll('input,select,textarea,datalist').forEach((elem) => {
+        });
+        document.querySelectorAll('input,select,textarea,datalist').forEach((elem) => {
             elem.addEventListener('focus', trackFormFieldEntry);
             elem.addEventListener('change', trackFormFieldLeave);
             elem.addEventListener('blur', trackFormFieldLeave);
         });
-    }; 
+    };        
 
     if(document.forms.length){ 
       addNewListeners();
