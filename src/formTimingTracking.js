@@ -43,7 +43,7 @@
                     return resolve(document.querySelector(selector));
                 }
 
-                const observer = new MutationObserver(mutations => {
+                const observer = new MutationObserver(function(){
                     if (document.querySelector(selector)) {
                         resolve(document.querySelector(selector));
                         observer.disconnect();
@@ -72,7 +72,7 @@
       addNewListeners();
     }
     else{
-        waitForElement('form').then(elm => {
+        waitForElement('form').then(function(){
 				addNewListeners();
           }); 
     }
