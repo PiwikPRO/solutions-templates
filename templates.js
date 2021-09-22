@@ -187,7 +187,7 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
       description: `
         This script will track events of focus, blur and change on <input>, <select>, <textarea> and <datalist> fields of <form> elements.
         Script will calculate the time spent on given field and submit value in seconds as Custom Event value (e.g. 2.345).
-        <form> element on your website will be automatically detected.
+        <form> element on your website will be automatically detected. It will also track the submission of the form.
       `,
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
@@ -197,8 +197,8 @@ formTimingTracking(function (fieldInteractionData) {
                   'trackEvent',
                   '{{eventCategoryPrefix}}'+fieldInteractionData.formName,
                   fieldInteractionData.fieldName,
-                  fieldInteractionData.leaveType,
-                  fieldInteractionData.timeSpent/1000
+                  fieldInteractionData.interactionType,
+                  fieldInteractionData.timeSpent/1000 || 0
                   ])
 }, {
   formNameAttribute: '{{formNameAttribute}}',
