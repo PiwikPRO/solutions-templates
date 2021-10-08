@@ -3,7 +3,7 @@
  * 
  * This script analyses the interactions with <video> elements.
  */
- export default ({eventCategoryLabel,
+ export default (subscribe,{eventCategoryLabel,
     videoElementSelector,
     videoTitleAttribute,
     trackingAccuracy,
@@ -55,7 +55,7 @@
                 }
                 eventArray.push(dimensionsObject);
             }
-            window._paq.push(eventArray);
+            subscribe(eventArray);
     };
 
     const processPlayMediaEvent = (e) => {
