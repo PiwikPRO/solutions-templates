@@ -1,6 +1,7 @@
 interface Window {
   _paq: Array<string[]>
   sevenTag: any
+  heatmapEvent: Event
 }
 
 interface Replacement {

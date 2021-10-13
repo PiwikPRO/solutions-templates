@@ -1,4 +1,5 @@
 export default () => {
+  const heatmapEventName = 'heatmapProxyEvent';
   const injectConfigForSiteInspector = () => {
     const PPAS_SITE_INSPECTOR_TAG_CONFIG_ID = 'ppas_container_configuration';
     // configuration gathered by extension on initialization
@@ -13,6 +14,13 @@ export default () => {
       document.head.appendChild(element);
     }
   };
+  const exposeHeatmapProxyEvent = () => {
+    const heatmapEvent = document.createEvent('HTMLEvents');
+    heatmapEvent.initEvent(heatmapEventName, false, true);
+
+    window.heatmapEvent = heatmapEvent;
+  };
+
   const getElementPath = (event, { blacklistedClasses = [] } = {}) => {
     const filterClasses = (classes) => {
       let filteredClasses = classes;
@@ -86,6 +94,8 @@ export default () => {
 
   return {
     injectConfigForSiteInspector,
+    exposeHeatmapProxyEvent,
+    heatmapEventName,
     getElementPath,
   };
 };

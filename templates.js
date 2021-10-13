@@ -164,8 +164,9 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
   var heatmapCollector = collectHeatmapClicks();
 
   heatmapCollector.injectConfigForSiteInspector();
+  heatmapCollector.exposeHeatmapProxyEvent();
 
-  document.addEventListener('click', function(e) {
+  document.addEventListener(heatmapCollector.heatmapEventName, function(e) {
     window._paq.push([
       'trackEvent',
       'Heatmap events',
