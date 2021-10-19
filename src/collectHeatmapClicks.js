@@ -50,7 +50,7 @@ export default () => {
 
         // exclude SVGAnimatedString className objects
         if (typeof element.className === 'string' && element.className) {
-          let classes = element.className;
+          let classes = element.className.trim();
           if (blacklistedClasses.length) {
             classes = filterClasses(classes);
           }
