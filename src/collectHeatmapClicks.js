@@ -16,7 +16,7 @@ export default () => {
   };
   const exposeHeatmapProxyEvent = () => {
     const heatmapEvent = document.createEvent('HTMLEvents');
-    heatmapEvent.initEvent(heatmapEventName, false, true);
+    heatmapEvent.initEvent(heatmapEventName, true, true);
 
     window.heatmapEvent = heatmapEvent;
   };
