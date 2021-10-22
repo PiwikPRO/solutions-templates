@@ -224,6 +224,27 @@
         trackEvent(eventData);
     };
 
+    const waitForElement = function(selector){
+        return new Promise(resolve => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
+            }
+
+            const observer = new MutationObserver(function(){
+                if (document.querySelector(selector)) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    };   
+
+
     function addMediaTrackingListeners(mediaElement){
         mediaElement.hasPlayed = false;
         mediaElement.hasPaused = false;
@@ -237,10 +258,20 @@
         mediaElement.addEventListener("ended", processEndedMediaEvent);
         mediaElement.addEventListener("volumechange", processVolumeChangeMediaEvent);
     }
+
+    function addListenersForEachItem(mediaElements){
+        mediaElements.forEach((mediaElement) => addMediaTrackingListeners(mediaElement));
+        window.addEventListener("beforeunload", handleTabUnloadDuringVideoPlay);
+    }
     
     let mediaElements = document.querySelectorAll(videoElementSelector);
-    
-    mediaElements.forEach((mediaElement) => addMediaTrackingListeners(mediaElement));
-    window.addEventListener("beforeunload", handleTabUnloadDuringVideoPlay);
+    if (mediaElements[0] != null && mediaElements[0] != undefined) {
+        addListenersForEachItem(mediaElements);
+    } else {
+        waitForElement(videoElementSelector).then(function(){
+            mediaElements = document.querySelectorAll(videoElementSelector);
+            addListenersForEachItem(mediaElements);
+      }); 
+    }
 
 };
