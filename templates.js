@@ -247,7 +247,7 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
     id: 'videoTrackingHTML5',
     name: 'Video tracking for HTML5 videos',
     description: `
-    This template allows you to track videos watched on your website
+    This template allows you to track videos watched on your website.
     `,
     template: `
 ${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
