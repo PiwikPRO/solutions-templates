@@ -23,7 +23,7 @@ export default (subscribe, { interval, limit }) => {
     clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1;
 
     if (clickCounts[selector] === limit) {
-      subscribe(selector);
+      subscribe(selector)
     }
   };
 
