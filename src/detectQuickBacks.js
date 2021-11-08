@@ -17,9 +17,9 @@ export default (subscribe, { threshold = 12000 }) => {
 
   if (hasQuickBack) {
     const currentStateIndex = state.map(entry => entry.value).lastIndexOf(url);
-    const data = { target: state[currentStateIndex - 1].value };
+    const target = state[currentStateIndex - 1].value;
 
-    subscribe(data);
+    subscribe(target);
   }
 
   document.addEventListener('click', listener);
