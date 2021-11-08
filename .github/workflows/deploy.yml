@@ -3,7 +3,6 @@ on:
     workflows: ["CI"]
     types:
       - completed
-    branches: [feature/PPCDEV-14327-replace-travis-ci-with-github-actions]
 
 jobs:
   deploy:
