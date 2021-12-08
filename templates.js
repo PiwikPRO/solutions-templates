@@ -232,12 +232,19 @@ formTimingTracking(function (fieldInteractionData) {
     template: `
 ${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
 
-trackCopiedText(function (copiedItemText) {
-  var eventData = ["trackEvent","User interaction","Copying text",copiedItemText]
+trackCopiedText(function (eventData) {
     window._paq.push(eventData);
-}, {});
+}, {
+  iframeTracking: {{iframeTracking}},
+});
     `,
-    arguments: [      
+    arguments: [
+      { id: 'iframeTracking',
+      type: 'boolean',
+      displayName: 'Send messages from iframes',
+      description: 'If checked, you won’t send the _paq.push but instead you will send a message',
+      default: false
+      },      
    ],
   },
   {
