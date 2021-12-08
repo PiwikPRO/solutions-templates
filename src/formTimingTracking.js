@@ -4,7 +4,7 @@
  * This script analyses the interactions with <form> fields.
  */
 
- export default (subscribe, {formNameAttribute, fieldNameAttribute}) => {
+ export default (subscribe, {formNameAttribute, fieldNameAttribute, eventCategoryPrefix, iframeTracking}) => {
     let fieldsTimings = {};
 
     const getFieldName = (field) => field.getAttribute(fieldNameAttribute);
@@ -15,7 +15,13 @@
         let formName = getFormName(e.target);
         let fieldName = "Click";
         let interactionType = "Submit";
-        subscribe({ formName, fieldName, interactionType });  
+        var eventData = ['trackEvent', eventCategoryPrefix+formName, fieldName, interactionType, 0];
+        if(iframeTracking){
+            window.parent.postMessage(eventData, "*");
+        }
+        else{
+            subscribe(eventData); 
+        } 
     };
 
     const trackFormFieldEntry = (e) => {
@@ -31,7 +37,14 @@
         if (fieldsTimings.hasOwnProperty(fieldName)) {
             let timeSpent = new Date().getTime() - fieldsTimings[fieldName];
             if (timeSpent > 0 && timeSpent < 1800000) {
-                subscribe({ formName, fieldName, interactionType, timeSpent });
+                var eventData = ['trackEvent', eventCategoryPrefix+formName, fieldName, interactionType, timeSpent/1000 || 0 ];
+                if(iframeTracking){
+                    window.parent.postMessage(eventData, "*");
+                }
+                else{
+                    subscribe(eventData);
+                }
+
             }
             delete fieldsTimings[fieldName];
         }

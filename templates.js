@@ -192,12 +192,13 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
 
-formTimingTracking(function (fieldInteractionData) {
-  var eventData = ['trackEvent', '{{eventCategoryPrefix}}'+fieldInteractionData.formName, fieldInteractionData.fieldName, fieldInteractionData.interactionType, fieldInteractionData.timeSpent/1000 || 0 ]
+formTimingTracking(function (eventData) {
     window._paq.push(eventData)
 }, {
   formNameAttribute: '{{formNameAttribute}}',
   fieldNameAttribute: '{{fieldNameAttribute}}',
+  eventCategoryPrefix: '{{eventCategoryPrefix}}',
+  iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
@@ -221,6 +222,12 @@ formTimingTracking(function (fieldInteractionData) {
           default: 'name',
           choices: ['id','name','label','placeholder']
         },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message',
+        default: false
+        },    
       ],
     },
   {
