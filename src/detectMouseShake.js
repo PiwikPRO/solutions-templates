@@ -16,7 +16,7 @@
  *   threshold: 0.01, // Acceleration of mouse movement threshold
  * });
  */
-export default (subscribe, { interval, threshold }) => {
+export default (subscribe, { interval, threshold, iframeTracking }) => {
   let velocity;
   let direction;
   let directionChangeCount = 0;
@@ -46,7 +46,13 @@ export default (subscribe, { interval, threshold }) => {
     const acceleration = (nextVelocity - velocity) / interval;
 
     if (directionChangeCount && acceleration > threshold) {
-      subscribe();
+      var eventData = ['trackEvent', 'UX Research', 'Mouse shake'];
+      if(iframeTracking){
+        window.parent.postMessage(eventData, "*");      
+      }
+      else{
+        subscribe();
+      }
     }
 
     distance = 0;

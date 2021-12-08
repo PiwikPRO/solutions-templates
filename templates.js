@@ -75,11 +75,18 @@ window._paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
 }, {
 interval: {{interval}},
 threshold: {{threshold}},
+iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to reset counter', default: 350 },
         { id: 'threshold', type: 'number', displayName: 'Acceleration of mouse movement threshold', default: 0.01 },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message',
+        default: false
+        }, 
       ],
     },
     {
@@ -94,18 +101,25 @@ threshold: {{threshold}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectRageClicks.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectRageClicks(function (target) {
-window._paq.push(['trackEvent', 'UX Research', 'Rage click', target]);
+var unsubscribe = detectRageClicks(function (eventData) {
+window._paq.push(eventData);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
 interval: {{interval}},
 limit: {{limit}},
+iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to reset counter', default: 750 },
         { id: 'limit', type: 'number', displayName: 'Number of clicks to trigger event', default: 3 },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message',
+        default: false
+        }, 
       ],
     },
     {

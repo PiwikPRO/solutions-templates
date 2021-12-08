@@ -8,7 +8,7 @@ import getSelectorFromTarget from 'helpers/getSelectorFromTarget';
  * In most cases, rage clicks signal that your website didn’t react the way your visitor expected,
  * so you may want to take a closer look at it.
  */
-export default (subscribe, { interval, limit }) => {
+export default (subscribe, { interval, limit, iframeTracking }) => {
   let count = 1;
 
   // Clear state when reach time limit
@@ -18,7 +18,14 @@ export default (subscribe, { interval, limit }) => {
 
   const listener = (event) => {
     if (count === limit) {
-      subscribe(getSelectorFromTarget(event.target));
+      var eventData = ['trackEvent', 'UX Research', 'Rage click', getSelectorFromTarget(event.target)];
+      if(iframeTracking)
+      {
+        window.parent.postMessage(eventData, "*");
+      }
+      else{
+        subscribe(eventData);
+      }
     }
 
     count++;
