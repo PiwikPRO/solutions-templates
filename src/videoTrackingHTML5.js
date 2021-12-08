@@ -12,7 +12,9 @@
     trackTimestampAsDimension,
     dimensionIdForTimestamps,
     trackVolumeAsDimension,
-    dimensionIdForVolume
+    dimensionIdForVolume,
+    iframeTracking
+
 }) => {
     
     const percentageThresholds = thresholdsToTrack.split(",").map(x=>+x);
@@ -55,7 +57,14 @@
                 }
                 eventArray.push(dimensionsObject);
             }
-            subscribe(eventArray);
+
+            if(iframeTracking)
+            {
+                window.parent.postMessage(eventArray, "*");
+            }
+            else{
+                subscribe(eventArray);
+            }
     };
 
     const processPlayMediaEvent = (e) => {

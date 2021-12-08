@@ -193,13 +193,8 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
 ${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
 
 formTimingTracking(function (fieldInteractionData) {
-  window._paq.push([
-                  'trackEvent',
-                  '{{eventCategoryPrefix}}'+fieldInteractionData.formName,
-                  fieldInteractionData.fieldName,
-                  fieldInteractionData.interactionType,
-                  fieldInteractionData.timeSpent/1000 || 0
-                  ])
+  var eventData = ['trackEvent', '{{eventCategoryPrefix}}'+fieldInteractionData.formName, fieldInteractionData.fieldName, fieldInteractionData.interactionType, fieldInteractionData.timeSpent/1000 || 0 ]
+    window._paq.push(eventData)
 }, {
   formNameAttribute: '{{formNameAttribute}}',
   fieldNameAttribute: '{{fieldNameAttribute}}',
@@ -238,10 +233,12 @@ formTimingTracking(function (fieldInteractionData) {
 ${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
 
 trackCopiedText(function (copiedItemText) {
-window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]);
+  var eventData = ["trackEvent","User interaction","Copying text",copiedItemText]
+    window._paq.push(eventData);
 }, {});
     `,
-    arguments: [],
+    arguments: [      
+   ],
   },
   {
     id: 'videoTrackingHTML5',
@@ -253,7 +250,7 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
 ${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
 
 videoTrackingHTML5(function(eventData) {
-  window._paq.push(eventData);
+    window._paq.push(eventData);
 }, {
   videoElementSelector: '{{videoElementSelector}}',
   eventCategoryLabel: '{{eventCategoryLabel}}',
@@ -264,7 +261,8 @@ videoTrackingHTML5(function(eventData) {
   trackTimestampAsDimension: {{trackTimestampAsDimension}},
   dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}',
   trackVolumeAsDimension: {{trackVolumeAsDimension}},
-  dimensionIdForVolume: '{{dimensionIdForVolume}}'
+  dimensionIdForVolume: '{{dimensionIdForVolume}}',
+  iframeTracking: {{iframeTracking}},
 });
     `,
     arguments: [
@@ -334,6 +332,12 @@ videoTrackingHTML5(function(eventData) {
         displayName: 'Custom dimension ID for storing volume level',
         description: 'If you track volume level as a custom dimension, create a custom dimension under Analytics > Settings > Custom dimensions and enter the dimension ID here.',
         default: 1
+      },
+      { id: 'iframeTracking',
+      type: 'boolean',
+      displayName: 'Send messages from iframes',
+      description: 'If checked, you won’t send the _paq.push but instead you will send a message',
+      default: false
       },
     ],
   },
