@@ -21,18 +21,25 @@ module.exports = {
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectDeadClicks.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectDeadClicks(function (target) {
-window._paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
+var unsubscribe = detectDeadClicks(function (eventData) {
+window._paq.push(eventData);
 
 // unsubscribe();
 }, {
 interval: {{interval}},
 limit: {{limit}},
+iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to reset counter', default: 1000 },
         { id: 'limit', type: 'number', displayName: 'Number of clicks needed to trigger subscription', default: 2 },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message',
+        default: false
+        },
       ],
     },
     {

@@ -9,7 +9,7 @@ import getSelectorFromTarget from 'helpers/getSelectorFromTarget';
  * but to no avail. In such situations, the visitor will end up clicking twice, quickly.
  * Looking for dead clicks will help you find these main points of frustration and improve visitors` experience as soon as possible.
  */
-export default (subscribe, { interval, limit }) => {
+export default (subscribe, { interval, limit, iframeTracking }) => {
   let clickCounts = {};
 
   // Clear state when reach time limit
@@ -23,7 +23,13 @@ export default (subscribe, { interval, limit }) => {
     clickCounts[selector] = clickCounts[selector] ? clickCounts[selector] + 1 : 1;
 
     if (clickCounts[selector] === limit) {
-      subscribe(selector);
+      var eventData = ['trackEvent', 'UX Research', 'Dead Click', selector];
+      if(iframeTracking){
+        window.parent.postMessage(eventData, "*"); 
+      }
+      else{
+        subscribe(eventData);
+      }
     }
   };
 
