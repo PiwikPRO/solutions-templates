@@ -48,13 +48,21 @@ limit: {{limit}},
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/detectErrorClicks.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectErrorClicks(function (target, error) {
-window._paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
+var unsubscribe = detectErrorClicks(function (eventData) {
+window._paq.push(eventData);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
+}, {
+iframeTracking: {{iframeTracking}},
 });
       `,
-      arguments: []
+      arguments: [        
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message',
+        default: false
+        }, ]
     },
     {
       id: 'mouseShake',
