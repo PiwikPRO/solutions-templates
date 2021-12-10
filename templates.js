@@ -251,7 +251,10 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
     `,
     template: `
 ${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
-videoTrackingHTML5({
+
+videoTrackingHTML5(function(eventData) {
+  window._paq.push(eventData);
+}, {
   videoElementSelector: '{{videoElementSelector}}',
   eventCategoryLabel: '{{eventCategoryLabel}}',
   videoTitleAttribute: '{{videoTitleAttribute}}',
