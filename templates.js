@@ -384,5 +384,22 @@ videoTrackingHTML5(function(eventData) {
       },
     ],
   },
+  {
+    id: 'iframeTrackingHandler',
+    name: 'Iframe Tracking Handler',
+    description: `
+      This is an iframe tracking handler.
+      Add one of the templates with iframe tracking turned on to the website
+      that will be shown as an iframe and use this handler to catch the messages
+      sent from the iframe on the parent website and turn them into events.
+    `,
+    template: `
+window.addEventListener('message', function(event){ 
+	_paq.push(event.data);
+}, false);  
+    `,
+    arguments: [        
+   ]
+  },
   ]
 };
