@@ -265,7 +265,7 @@
     }
     
     let mediaElements = document.querySelectorAll(videoElementSelector);
-    if (mediaElements[0] != null && mediaElements[0] != undefined) {
+    if (mediaElements.length) {
         addListenersForEachItem(mediaElements);
     } else {
         waitForElement(videoElementSelector).then(function(){
