@@ -23,7 +23,7 @@ export default (subscribe, { iframeTracking }) => {
       if (error) {
         var eventData = ['trackEvent', 'UX Research', 'Error Click', selector];
         if(iframeTracking){
-          window.parent.postMessage(eventData, "*"); 
+          window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*"); 
         }
         else{
           subscribe(eventData);

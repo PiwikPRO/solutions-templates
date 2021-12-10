@@ -17,7 +17,7 @@
         let interactionType = "Submit";
         var eventData = ['trackEvent', eventCategoryPrefix+formName, fieldName, interactionType, 0];
         if(iframeTracking){
-            window.parent.postMessage(eventData, "*");
+            window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");
         }
         else{
             subscribe(eventData); 
@@ -39,7 +39,7 @@
             if (timeSpent > 0 && timeSpent < 1800000) {
                 var eventData = ['trackEvent', eventCategoryPrefix+formName, fieldName, interactionType, timeSpent/1000 || 0 ];
                 if(iframeTracking){
-                    window.parent.postMessage(eventData, "*");
+                    window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");
                 }
                 else{
                     subscribe(eventData);

@@ -60,7 +60,7 @@
 
             if(iframeTracking)
             {
-                window.parent.postMessage(eventArray, "*");
+                window.parent.postMessage({type: "PiwikPRO", payload: eventArray}, "*");
             }
             else{
                 subscribe(eventArray);

@@ -48,7 +48,7 @@ export default (subscribe, { interval, threshold, iframeTracking }) => {
     if (directionChangeCount && acceleration > threshold) {
       var eventData = ['trackEvent', 'UX Research', 'Mouse shake'];
       if(iframeTracking){
-        window.parent.postMessage(eventData, "*");      
+        window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");      
       }
       else{
         subscribe();

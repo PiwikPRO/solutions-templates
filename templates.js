@@ -394,9 +394,12 @@ videoTrackingHTML5(function(eventData) {
       sent from the iframe on the parent website and turn them into events.
     `,
     template: `
-window.addEventListener('message', function(event){ 
-	_paq.push(event.data);
-}, false);  
+    window.addEventListener('message', function(event){ 
+      if(event.data.type === "PiwikPRO")
+      {
+       _paq.push(event.data.payload); 
+      }
+     }, false);  
     `,
     arguments: [        
    ]

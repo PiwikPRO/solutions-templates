@@ -25,7 +25,7 @@ export default (subscribe, { interval, limit, iframeTracking }) => {
     if (clickCounts[selector] === limit) {
       var eventData = ['trackEvent', 'UX Research', 'Dead Click', selector];
       if(iframeTracking){
-        window.parent.postMessage(eventData, "*"); 
+        window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*"); 
       }
       else{
         subscribe(eventData);

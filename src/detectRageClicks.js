@@ -21,7 +21,7 @@ export default (subscribe, { interval, limit, iframeTracking }) => {
       var eventData = ['trackEvent', 'UX Research', 'Rage click', getSelectorFromTarget(event.target)];
       if(iframeTracking)
       {
-        window.parent.postMessage(eventData, "*");
+        window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");
       }
       else{
         subscribe(eventData);
