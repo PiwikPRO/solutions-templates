@@ -154,6 +154,7 @@ window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosi
     {
       id: 'heatmapClicks',
       name: 'Heatmap clicks collector',
+      beforeDescriptionNote: '<b>IMPORTANT: If your PPAS version is higher than 16.8.0 you should migrate to integrated, backward compatible solution which is <a target="_blank" href="https://help.piwik.pro/support/tag-manager/heatmap-clickmap-tag/">Heatmap & clickmap tag</a></b>',
       description: `
       First exposed function (getElementPath) allow to collect clicks data for Site inspector's heatmap/clickmap feature.
       Second exposed function (injectConfigForSiteInspector) gets configuration from Tag manager container and exposes it for Site inspector.

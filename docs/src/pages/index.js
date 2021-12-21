@@ -111,6 +111,7 @@ function SnippetGenerator({ template }) {
   return (
     <div className={styles.generator}>
       <h2 className={styles.cardHeading}>{template.name}</h2>
+      {template.beforeDescriptionNote && <p className={styles.cardDescription} dangerouslySetInnerHTML={{__html: template.beforeDescriptionNote}} />}
       <p className={styles.cardDescription}>{template.description}</p>
       {customize && <SnippetForm args={template.arguments} values={values} onChange={updateValues} />}
       <div className={styles.snippetWrapper}>
