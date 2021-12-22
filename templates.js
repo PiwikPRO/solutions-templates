@@ -247,6 +247,7 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
   {
     id: 'videoTrackingHTML5',
     name: 'Video tracking for HTML5 videos',
+    beforeDescriptionNote: '<b>IMPORTANT: If your PPAS version is higher than 16.5.0 consider using <a target="_blank" href="https://help.piwik.pro/support/tag-manager/html5-video-tracking-tag/">HTML5 video tracking tag</a></b>',
     description: `
     This template allows you to track videos watched on your website
     `,
