@@ -154,6 +154,7 @@ window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosi
     {
       id: 'heatmapClicks',
       name: 'Heatmap clicks collector',
+      beforeDescriptionNote: '<b>IMPORTANT: If your PPAS version is higher than 16.8.0 you should migrate to integrated, backward compatible solution which is <a target="_blank" href="https://help.piwik.pro/support/tag-manager/heatmap-clickmap-tag/">Heatmap & clickmap tag</a></b>',
       description: `
       First exposed function (getElementPath) allow to collect clicks data for Site inspector's heatmap/clickmap feature.
       Second exposed function (injectConfigForSiteInspector) gets configuration from Tag manager container and exposes it for Site inspector.
@@ -246,6 +247,7 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
   {
     id: 'videoTrackingHTML5',
     name: 'Video tracking for HTML5 videos',
+    beforeDescriptionNote: '<b>IMPORTANT: If your PPAS version is higher than 16.5.0 consider using <a target="_blank" href="https://help.piwik.pro/support/tag-manager/html5-video-tracking-tag/">HTML5 video tracking tag</a></b>',
     description: `
     This template allows you to track videos watched on your website
     `,
