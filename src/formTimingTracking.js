@@ -4,7 +4,7 @@
  * This script analyses the interactions with <form> fields.
  */
 
- export default (subscribe, {formNameAttribute, fieldNameAttribute, eventCategoryPrefix, iframeTracking}) => {
+ export default (subscribe, {formNameAttribute, fieldNameAttribute, eventCategoryPrefix}) => {
     let fieldsTimings = {};
 
     const getFieldName = (field) => field.getAttribute(fieldNameAttribute);
@@ -16,12 +16,7 @@
         let fieldName = "Click";
         let interactionType = "Submit";
         var eventData = ['trackEvent', eventCategoryPrefix+formName, fieldName, interactionType, 0];
-        if(iframeTracking){
-            window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");
-        }
-        else{
-            subscribe(eventData); 
-        } 
+        subscribe(eventData); 
     };
 
     const trackFormFieldEntry = (e) => {
@@ -38,13 +33,7 @@
             let timeSpent = new Date().getTime() - fieldsTimings[fieldName];
             if (timeSpent > 0 && timeSpent < 1800000) {
                 var eventData = ['trackEvent', eventCategoryPrefix+formName, fieldName, interactionType, timeSpent/1000 || 0 ];
-                if(iframeTracking){
-                    window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");
-                }
-                else{
-                    subscribe(eventData);
-                }
-
+                subscribe(eventData);
             }
             delete fieldsTimings[fieldName];
         }

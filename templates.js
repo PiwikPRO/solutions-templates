@@ -219,15 +219,21 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
         <form> element on your website will be automatically detected. It will also track the submission of the form.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}    
 ${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
 
 formTimingTracking(function (eventData) {
-    window._paq.push(eventData)
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 }, {
   formNameAttribute: '{{formNameAttribute}}',
   fieldNameAttribute: '{{fieldNameAttribute}}',
   eventCategoryPrefix: '{{eventCategoryPrefix}}',
-  iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
