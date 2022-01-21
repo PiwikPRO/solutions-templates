@@ -97,7 +97,7 @@ function SnippetGenerator({ template }) {
 
     return acc
   }, {}))
-  const id = `${template.name.replaceAll(' ', '-').toLowerCase()}`;
+  const id = `${template.name.replace(/\s/g, '-').toLowerCase()}`;
 
 
   useEffect(() => {
