@@ -12,8 +12,7 @@
     trackTimestampAsDimension,
     dimensionIdForTimestamps,
     trackVolumeAsDimension,
-    dimensionIdForVolume,
-    iframeTracking
+    dimensionIdForVolume
 
 }) => {
     
@@ -57,14 +56,7 @@
                 }
                 eventArray.push(dimensionsObject);
             }
-
-            if(iframeTracking)
-            {
-                window.parent.postMessage({type: "PiwikPRO", payload: eventArray}, "*");
-            }
-            else{
-                subscribe(eventArray);
-            }
+            subscribe(eventArray);
     };
 
     const processPlayMediaEvent = (e) => {
@@ -274,7 +266,7 @@
     }
     
     let mediaElements = document.querySelectorAll(videoElementSelector);
-    if (mediaElements[0] != null && mediaElements[0] != undefined) {
+    if (mediaElements.length) {
         addListenersForEachItem(mediaElements);
     } else {
         waitForElement(videoElementSelector).then(function(){

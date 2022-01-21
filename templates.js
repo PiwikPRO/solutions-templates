@@ -296,10 +296,17 @@ trackCopiedText(function (eventData) {
     This template allows you to track videos watched on your website
     `,
     template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
 ${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
 
 videoTrackingHTML5(function(eventData) {
-    window._paq.push(eventData);
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 }, {
   videoElementSelector: '{{videoElementSelector}}',
   eventCategoryLabel: '{{eventCategoryLabel}}',
@@ -311,7 +318,6 @@ videoTrackingHTML5(function(eventData) {
   dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}',
   trackVolumeAsDimension: {{trackVolumeAsDimension}},
   dimensionIdForVolume: '{{dimensionIdForVolume}}',
-  iframeTracking: {{iframeTracking}},
 });
     `,
     arguments: [
