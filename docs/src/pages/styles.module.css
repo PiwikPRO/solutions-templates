@@ -127,13 +127,30 @@
   grid-area: body;
 }
 
-.generateButton {
-  
-}
-
 .cardHeading {
   font-size: 14px;
   text-align: center;
+}
+
+.cardHeadingWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cardHeadingWrapper a {
+  margin-right: 4px;
+}
+
+.cardHeadingWrapper h2 {
+  margin-bottom: 0px;
+}
+
+.cardHeadingWrapper .anchor {
+  display: block;
+  position: relative;
+  top: -100px;
+  visibility: hidden;
 }
 
 .snippetWrapper {

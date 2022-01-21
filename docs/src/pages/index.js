@@ -68,8 +68,6 @@ function SnippetForm({ args, values, onChange }) {
     })
   }
 
-
-
   return (
     <div className={styles.generatorForm}>
       {args.map(arg => {
@@ -99,6 +97,8 @@ function SnippetGenerator({ template }) {
 
     return acc
   }, {}))
+  const id = `${template.name.replaceAll(' ', '-').toLowerCase()}`;
+
 
   useEffect(() => {
     const tpl = values.iife ? `(function () {${template.template}})();` : template.template
@@ -110,7 +110,11 @@ function SnippetGenerator({ template }) {
 
   return (
     <div className={styles.generator}>
-      <h2 className={styles.cardHeading}>{template.name}</h2>
+      <div className={styles.cardHeadingWrapper}>
+        <div className={styles.anchor} id={id} />
+        <a href={`#${id}`}>#</a>
+        <h2 className={styles.cardHeading} id={template.name}>{template.name}</h2>
+      </div>
       {template.beforeDescriptionNote && <p className={styles.cardDescription} dangerouslySetInnerHTML={{__html: template.beforeDescriptionNote}} />}
       <p className={styles.cardDescription}>{template.description}</p>
       {customize && <SnippetForm args={template.arguments} values={values} onChange={updateValues} />}
@@ -125,6 +129,14 @@ function SnippetGenerator({ template }) {
 function Home() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
+
+  useEffect(() => {
+    setTimeout(() => {
+      const anchor = document.querySelector(document.location.hash);
+
+      anchor.scrollIntoView({ behavior: 'smooth' });
+    }, 0)
+  }, []);
 
   return (
     <Layout
