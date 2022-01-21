@@ -4,20 +4,12 @@
  * Adds event listener that monitors all copy events and sends text copied at the time as custom event.
  */
 
- export default (subscribe,{iframeTracking}) => {
+ export default (subscribe) => {
     
     const processCopyEvent = () => {
         let copiedItemText = getSelectedText();
         var eventData = ["trackEvent","User interaction","Copying text",copiedItemText];
-
-        if(iframeTracking)
-        {
-            window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");
-        }
-        else{
-            subscribe(eventData);   
-        }
-
+        subscribe(eventData);   
     };
     
     const getSelectedText = () => window.getSelection()?.toString() ?? '';

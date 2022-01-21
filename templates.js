@@ -19,16 +19,22 @@ module.exports = {
       Looking for dead clicks will help you find these main points of frustration and improve visitors\` experience as soon as possible.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}       
 ${fs.readFileSync(path.join(__dirname, 'build/detectDeadClicks.js'), { encoding: 'utf-8' })}
 
 var unsubscribe = detectDeadClicks(function (eventData) {
-window._paq.push(eventData);
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 
 // unsubscribe();
 }, {
 interval: {{interval}},
 limit: {{limit}},
-iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
@@ -53,14 +59,18 @@ iframeTracking: {{iframeTracking}},
         it’s a signal that a particular JavaScript element is not working.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}         
 ${fs.readFileSync(path.join(__dirname, 'build/detectErrorClicks.js'), { encoding: 'utf-8' })}
 
 var unsubscribe = detectErrorClicks(function (eventData) {
-window._paq.push(eventData);
-
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
-}, {
-iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [        
@@ -81,16 +91,22 @@ iframeTracking: {{iframeTracking}},
         Perhaps the site performance is slow or they are struggling to figure something out.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}          
 ${fs.readFileSync(path.join(__dirname, 'build/detectMouseShake.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectMouseShake(function () {
-window._paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
+var unsubscribe = detectMouseShake(function (eventData) {
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
 interval: {{interval}},
 threshold: {{threshold}},
-iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
@@ -114,16 +130,22 @@ iframeTracking: {{iframeTracking}},
         so you may want to take a closer look at it.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}         
 ${fs.readFileSync(path.join(__dirname, 'build/detectRageClicks.js'), { encoding: 'utf-8' })}
 
 var unsubscribe = detectRageClicks(function (eventData) {
-window._paq.push(eventData);
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
 interval: {{interval}},
 limit: {{limit}},
-iframeTracking: {{iframeTracking}},
 });
       `,
       arguments: [
@@ -145,10 +167,11 @@ iframeTracking: {{iframeTracking}},
         which the user does not find useful and returns to the original page or website under a certain threshold of time.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}       
 ${fs.readFileSync(path.join(__dirname, 'build/detectQuickBacks.js'), { encoding: 'utf-8' })}
 
 var unsubscribe = detectQuickBacks(function (url) {
-window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
+  pushToAnalytics(['trackEvent', 'UX Research', 'Quick Back', url]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -166,10 +189,11 @@ window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
         Excessive scrolling detects when a user scrolls through site content at a higher rate than expected for standard content consumption.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}           
 ${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
 
 var unsubscribe = detectExcessiveScroll(function (lastKnownPosition) {
-window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
+  pushToAnalytics(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -189,13 +213,14 @@ window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosi
       Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}          
 ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encoding: 'utf-8' })}
   var heatmapCollector = collectHeatmapClicks();
 
   heatmapCollector.injectConfigForSiteInspector();
 
   document.addEventListener('click', function(e) {
-    window._paq.push([
+    pushToAnalytics([
       'trackEvent',
       'Heatmap events',
       'Click',
@@ -272,12 +297,17 @@ formTimingTracking(function (eventData) {
     This template allows you to track pieces of text that are copied to clipboard by your website users.
     `,
     template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
 ${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
 
 trackCopiedText(function (eventData) {
-    window._paq.push(eventData);
-}, {
-  iframeTracking: {{iframeTracking}},
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 });
     `,
     arguments: [

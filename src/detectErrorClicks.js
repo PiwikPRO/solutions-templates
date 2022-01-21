@@ -9,7 +9,7 @@ import getSelectorFromTarget from 'helpers/getSelectorFromTarget';
  * Often the visitor doesn’t notice that something is broken, but for you,
  * it’s a signal that a particular JavaScript element is not working.
  */
-export default (subscribe, { iframeTracking }) => {
+export default (subscribe) => {
   let error;
 
   window.onerror = (msg) => {
@@ -22,12 +22,8 @@ export default (subscribe, { iframeTracking }) => {
     setTimeout(() => {
       if (error) {
         var eventData = ['trackEvent', 'UX Research', 'Error Click', selector];
-        if(iframeTracking){
-          window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*"); 
-        }
-        else{
-          subscribe(eventData);
-        }
+        subscribe(eventData);
+        
       }
 
       error = undefined;

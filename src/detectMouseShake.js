@@ -16,7 +16,7 @@
  *   threshold: 0.01, // Acceleration of mouse movement threshold
  * });
  */
-export default (subscribe, { interval, threshold, iframeTracking }) => {
+export default (subscribe, { interval, threshold }) => {
   let velocity;
   let direction;
   let directionChangeCount = 0;
@@ -46,13 +46,8 @@ export default (subscribe, { interval, threshold, iframeTracking }) => {
     const acceleration = (nextVelocity - velocity) / interval;
 
     if (directionChangeCount && acceleration > threshold) {
-      var eventData = ['trackEvent', 'UX Research', 'Mouse shake'];
-      if(iframeTracking){
-        window.parent.postMessage({type: "PiwikPRO", payload: eventData}, "*");      
-      }
-      else{
-        subscribe();
-      }
+      let eventData = ['trackEvent', 'UX Research', 'Mouse shake'];
+      subscribe(eventData); 
     }
 
     distance = 0;
