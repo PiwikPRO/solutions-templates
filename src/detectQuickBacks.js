@@ -24,7 +24,7 @@ export default (subscribe, { threshold = 12000 }) => {
 
   document.addEventListener('click', listener);
 
- /* return () => {
+  return () => {
     removeEventListener('click', listener);
-  };*/
+  }; 
 };
