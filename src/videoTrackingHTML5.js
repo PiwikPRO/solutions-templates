@@ -13,6 +13,7 @@
     dimensionIdForTimestamps,
     trackVolumeAsDimension,
     dimensionIdForVolume
+
 }) => {
     
     const percentageThresholds = thresholdsToTrack.split(",").map(x=>+x);

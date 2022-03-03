@@ -5,14 +5,29 @@ const fs = require('fs');
 const ROOT = path.resolve( __dirname, 'src' );
 const DESTINATION = path.resolve( __dirname, 'build' );
 
-const entry = fs.readdirSync(path.join(__dirname, 'src'))
-  .filter(filename => filename.includes('.'))
-  .map(filename => filename.split('.'))
-  .reduce((acc, next) => {
-    acc[next[0]] = `./src/${next.join('.')}`;
+function readDirectoryContents(dirPath){
 
-    return acc;
-  }, {});
+  const output = fs.readdirSync(path.join(__dirname, dirPath))
+    .filter(filename => filename.includes('.'))
+    .map(filename => filename.split('.'))
+    .reduce((acc, next) => {
+      acc[next[0]] = `./`+dirPath+`/${next.join('.')}`;
+
+      return acc;
+    }, {});
+
+  return output;  
+
+}
+
+const src = readDirectoryContents('src');
+const minified = readDirectoryContents('src/helpers/minified');
+
+const entry = {
+  ...src,
+  ...minified
+};
+
 
 module.exports = {
   mode: 'production',

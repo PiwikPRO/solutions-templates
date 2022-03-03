@@ -46,7 +46,8 @@ export default (subscribe, { interval, threshold }) => {
     const acceleration = (nextVelocity - velocity) / interval;
 
     if (directionChangeCount && acceleration > threshold) {
-      subscribe();
+      let eventData = ['trackEvent', 'UX Research', 'Mouse shake'];
+      subscribe(eventData); 
     }
 
     distance = 0;

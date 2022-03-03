@@ -21,7 +21,9 @@ export default (subscribe) => {
 
     setTimeout(() => {
       if (error) {
-        subscribe(selector, error);
+        var eventData = ['trackEvent', 'UX Research', 'Error Click', selector];
+        subscribe(eventData);
+        
       }
 
       error = undefined;

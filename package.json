@@ -5,7 +5,8 @@
   "workspaces": [
     "docs",
     "src",
-    "src/helpers"
+    "src/helpers",
+    "src/helpers/minified"
   ],
   "repository": "https://github.com/PiwikPRO/solutions-templates",
   "scripts": {

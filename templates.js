@@ -19,10 +19,17 @@ module.exports = {
       Looking for dead clicks will help you find these main points of frustration and improve visitors\` experience as soon as possible.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}       
 ${fs.readFileSync(path.join(__dirname, 'build/detectDeadClicks.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectDeadClicks(function (target) {
-window._paq.push(['trackEvent', 'UX Research', 'Dead Click', target]);
+var unsubscribe = detectDeadClicks(function (eventData) {
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 
 // unsubscribe();
 }, {
@@ -33,6 +40,12 @@ limit: {{limit}},
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to reset counter', default: 1000 },
         { id: 'limit', type: 'number', displayName: 'Number of clicks needed to trigger subscription', default: 2 },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        default: false
+        },
       ],
     },
     {
@@ -46,15 +59,27 @@ limit: {{limit}},
         it’s a signal that a particular JavaScript element is not working.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}         
 ${fs.readFileSync(path.join(__dirname, 'build/detectErrorClicks.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectErrorClicks(function (target, error) {
-window._paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
-
+var unsubscribe = detectErrorClicks(function (eventData) {
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 });
       `,
-      arguments: []
+      arguments: [        
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        default: false
+        }, ]
     },
     {
       id: 'mouseShake',
@@ -66,10 +91,17 @@ window._paq.push(['trackEvent', 'UX Research', 'Error Click', target]);
         Perhaps the site performance is slow or they are struggling to figure something out.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}          
 ${fs.readFileSync(path.join(__dirname, 'build/detectMouseShake.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectMouseShake(function () {
-window._paq.push(['trackEvent', 'UX Research', 'Mouse shake']);
+var unsubscribe = detectMouseShake(function (eventData) {
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -80,6 +112,12 @@ threshold: {{threshold}},
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to reset counter', default: 350 },
         { id: 'threshold', type: 'number', displayName: 'Acceleration of mouse movement threshold', default: 0.01 },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        default: false
+        }, 
       ],
     },
     {
@@ -92,10 +130,17 @@ threshold: {{threshold}},
         so you may want to take a closer look at it.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}         
 ${fs.readFileSync(path.join(__dirname, 'build/detectRageClicks.js'), { encoding: 'utf-8' })}
 
-var unsubscribe = detectRageClicks(function (target) {
-window._paq.push(['trackEvent', 'UX Research', 'Rage click', target]);
+var unsubscribe = detectRageClicks(function (eventData) {
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -106,6 +151,12 @@ limit: {{limit}},
       arguments: [
         { id: 'interval', type: 'number', displayName: 'Time interval', description: 'Number of milliseconds to reset counter', default: 750 },
         { id: 'limit', type: 'number', displayName: 'Number of clicks to trigger event', default: 3 },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        default: false
+        }, 
       ],
     },
     {
@@ -116,10 +167,11 @@ limit: {{limit}},
         which the user does not find useful and returns to the original page or website under a certain threshold of time.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}       
 ${fs.readFileSync(path.join(__dirname, 'build/detectQuickBacks.js'), { encoding: 'utf-8' })}
 
 var unsubscribe = detectQuickBacks(function (url) {
-window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
+  pushToAnalytics(['trackEvent', 'UX Research', 'Quick Back', url]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -137,10 +189,11 @@ window._paq.push(['trackEvent', 'UX Research', 'Quick Back', url]);
         Excessive scrolling detects when a user scrolls through site content at a higher rate than expected for standard content consumption.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}           
 ${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
 
 var unsubscribe = detectExcessiveScroll(function (lastKnownPosition) {
-window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
+  pushToAnalytics(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
 
 // unsubscribe(); // Uncomment this line when you want to finish after first trigger
 }, {
@@ -161,13 +214,14 @@ window._paq.push(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosi
       Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}          
 ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encoding: 'utf-8' })}
   var heatmapCollector = collectHeatmapClicks();
 
   heatmapCollector.injectConfigForSiteInspector();
 
   document.addEventListener('click', function(e) {
-    window._paq.push([
+    pushToAnalytics([
       'trackEvent',
       'Heatmap events',
       'Click',
@@ -191,19 +245,21 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
         <form> element on your website will be automatically detected. It will also track the submission of the form.
       `,
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}    
 ${fs.readFileSync(path.join(__dirname, 'build/formTimingTracking.js'), { encoding: 'utf-8' })}
 
-formTimingTracking(function (fieldInteractionData) {
-  window._paq.push([
-                  'trackEvent',
-                  '{{eventCategoryPrefix}}'+fieldInteractionData.formName,
-                  fieldInteractionData.fieldName,
-                  fieldInteractionData.interactionType,
-                  fieldInteractionData.timeSpent/1000 || 0
-                  ])
+formTimingTracking(function (eventData) {
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 }, {
   formNameAttribute: '{{formNameAttribute}}',
   fieldNameAttribute: '{{fieldNameAttribute}}',
+  eventCategoryPrefix: '{{eventCategoryPrefix}}',
 });
       `,
       arguments: [
@@ -227,6 +283,12 @@ formTimingTracking(function (fieldInteractionData) {
           default: 'name',
           choices: ['id','name','label','placeholder']
         },
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        default: false
+        },    
       ],
     },
   {
@@ -236,13 +298,27 @@ formTimingTracking(function (fieldInteractionData) {
     This template allows you to track pieces of text that are copied to clipboard by your website users.
     `,
     template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
 ${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
 
-trackCopiedText(function (copiedItemText) {
-window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]);
-}, {});
+trackCopiedText(function (eventData) {
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
+});
     `,
-    arguments: [],
+    arguments: [
+      { id: 'iframeTracking',
+      type: 'boolean',
+      displayName: 'Send messages from iframes',
+      description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+      default: false
+      },      
+   ],
   },
   {
     id: 'videoTrackingHTML5',
@@ -252,10 +328,17 @@ window._paq.push(["trackEvent","User interaction","Copying text",copiedItemText]
     This template allows you to track videos watched on your website
     `,
     template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
 ${fs.readFileSync(path.join(__dirname, 'build/videoTrackingHTML5.js'), { encoding: 'utf-8' })}
 
 videoTrackingHTML5(function(eventData) {
-  window._paq.push(eventData);
+  var trackFromIframe = {{iframeTracking}}; 
+  if(!trackFromIframe){
+    pushToAnalytics(eventData);
+  } else {
+    postIframeMessage(eventData);
+  }
 }, {
   videoElementSelector: '{{videoElementSelector}}',
   eventCategoryLabel: '{{eventCategoryLabel}}',
@@ -266,7 +349,7 @@ videoTrackingHTML5(function(eventData) {
   trackTimestampAsDimension: {{trackTimestampAsDimension}},
   dimensionIdForTimestamps: '{{dimensionIdForTimestamps}}',
   trackVolumeAsDimension: {{trackVolumeAsDimension}},
-  dimensionIdForVolume: '{{dimensionIdForVolume}}'
+  dimensionIdForVolume: '{{dimensionIdForVolume}}',
 });
     `,
     arguments: [
@@ -337,7 +420,34 @@ videoTrackingHTML5(function(eventData) {
         description: 'If you track volume level as a custom dimension, create a custom dimension under Analytics > Settings > Custom dimensions and enter the dimension ID here.',
         default: 1
       },
+      { id: 'iframeTracking',
+      type: 'boolean',
+      displayName: 'Send messages from iframes',
+      description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+      default: false
+      },
     ],
+  },
+  {
+    id: 'iframeTrackingHandler',
+    name: 'Iframe Tracking Handler',
+    description: `
+      This is an iframe tracking handler.
+      Add one of the templates with iframe tracking turned on to the website
+      that will be shown as an iframe and use this handler to catch the messages
+      sent from the iframe on the parent website and turn them into events.
+    `,
+    template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}   
+
+window.addEventListener('message', function(event){ 
+  if(event.data.type === "PiwikPRO"){
+    pushToAnalytics(event.data.payload); 
+  }
+}, false);  
+    `,
+    arguments: [        
+   ]
   },
   ]
 };

@@ -8,7 +8,8 @@
     
     const processCopyEvent = () => {
         let copiedItemText = getSelectedText();
-        subscribe(copiedItemText);
+        var eventData = ["trackEvent","User interaction","Copying text",copiedItemText];
+        subscribe(eventData);   
     };
     
     const getSelectedText = () => window.getSelection()?.toString() ?? '';

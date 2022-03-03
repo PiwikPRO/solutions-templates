@@ -18,7 +18,8 @@ export default (subscribe, { interval, limit }) => {
 
   const listener = (event) => {
     if (count === limit) {
-      subscribe(getSelectorFromTarget(event.target));
+      var eventData = ['trackEvent', 'UX Research', 'Rage click', getSelectorFromTarget(event.target)];
+      subscribe(eventData);
     }
 
     count++;
