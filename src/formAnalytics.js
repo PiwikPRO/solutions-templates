@@ -58,7 +58,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
       return JSON.parse(value);
     }
 
-    return value;
+    return value || {};
   };
 
   const resetFormLastField = () => {
@@ -204,17 +204,17 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
     window._paq.push(['trackEvent', category, eventType, formId, value, dimensions]);
   };
 
-  this.sendEvent = (eventType, element, message) => {
+  this.sendEvent = function sendEvent(eventType, element, message) {
     switch (eventType) {
       case PPFormAnalytics.event.FormView:
         addFormInputEventListener('click', (ev) => {
-          this.sendEvent(PPFormAnalytics.event.Click, ev.target);
+          sendEvent(PPFormAnalytics.event.Click, ev.target);
         });
         addFormInputEventListener('input', (ev) => {
-          this.sendEvent(PPFormAnalytics.event.Input, ev.target);
+          sendEvent(PPFormAnalytics.event.Input, ev.target);
         });
         addFormInputEventListener('change', (ev) => {
-          this.sendEvent(PPFormAnalytics.event.Change, ev.target);
+          sendEvent(PPFormAnalytics.event.Change, ev.target);
         });
 
         // Abandoned form event start

@@ -296,7 +296,6 @@ formTimingTracking(function (eventData) {
       name: 'Form Analytics',
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/formAnalytics.js'), { encoding: 'utf-8' })}
-formAnalytics();
 var fa = new formAnalytics('{{formId}}', {{target}},
     {
         fieldType: 'dimension{{fieldType}}',
@@ -311,7 +310,7 @@ var fa = new formAnalytics('{{formId}}', {{target}},
     },
     {{fieldLabelMap}}
 );
-fa.sendEvent(PPFormAnalytics.event.{{eventName}});
+fa.sendEvent(formAnalytics.event.{{eventName}});
       `,
       arguments: [
         {
@@ -388,7 +387,7 @@ fa.sendEvent(PPFormAnalytics.event.{{eventName}});
           type: 'number',
           displayName: 'Tracking ID of a "formView" session dimension.',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
-            'first setup of form analytics, then you should create custom "formView" *session* dimension in ' +
+            'first setup of form analytics, then you should create custom "formView" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
           default: 7
         },
@@ -397,7 +396,7 @@ fa.sendEvent(PPFormAnalytics.event.{{eventName}});
           type: 'number',
           displayName: 'Tracking ID of a "formStarted" session dimension.',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
-            'first setup of form analytics, then you should create custom "formStarted" *session* dimension in ' +
+            'first setup of form analytics, then you should create custom "formStarted" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
           default: 8
         },
@@ -406,20 +405,21 @@ fa.sendEvent(PPFormAnalytics.event.{{eventName}});
           type: 'number',
           displayName: 'Tracking ID of a "formComplete" session dimension.',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
-            'first setup of form analytics, then you should create custom "formComplete" *session* dimension in ' +
+            'first setup of form analytics, then you should create custom "formComplete" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
           default: 9
         },
         {
           id: 'eventName',
           type: 'text',
+          choices: ['FormView', 'FormComplete'],
           displayName: 'Name of sent event.',
-          description: 'You can sent 2 events:\n' +
-            '- "FormView": should be sent when form using configured ID is present on current page.' +
-            '- "FormComplete": should be sent after form will be accepted by your system (there won\'t be any ' +
+          description: 'You should send one of 2 events. ' +
+            '"FormView": should be sent when form using configured ID is present on current page. ' +
+            '"FormComplete": should be sent after form will be accepted by your system (there won\'t be any ' +
             'validation errors in sent form). If you redirect user on "than you" page after accepting the form, you ' +
             'can add this code on it.',
-          default: 'FormView'
+          default: ''
         },
         {
           id: 'fieldLabelMap',
@@ -428,7 +428,7 @@ fa.sendEvent(PPFormAnalytics.event.{{eventName}});
           description: 'Optional: Form analytics will try to detect field labels attached to each field and will ' +
             'send them to server for easier identification of fields in reports, but if page supports different ' +
             'language versions this data maybe become fragmented. To fix this issue you can configure JSON map of ' +
-            'the HTML field names to labels that should be used in reports.\n' +
+            'the HTML field names to labels that should be used in reports. ' +
             'Example: `{"name": "First name", "surname": "Last name"}`.',
           default: '{}'
         },
