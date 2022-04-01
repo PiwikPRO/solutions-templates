@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 'use strict';
 
 import {stringify} from "ts-jest/dist/utils/json";
@@ -7,7 +8,7 @@ import {stringify} from "ts-jest/dist/utils/json";
  *
  * This script sends events for <form> fields interactions that are used in form analytics reports.
  */
-function PPFormAnalytics(formId: string, target: HTMLElement, dimensionMap: object, fieldLabelMap: object) {
+function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
   window._paq = window._paq || [];
   const category = 'formTracking',
     formInputTags = ['INPUT', 'TEXTAREA', 'SELECT'],
@@ -50,14 +51,14 @@ function PPFormAnalytics(formId: string, target: HTMLElement, dimensionMap: obje
 
   };
 
-  const getFormLastField = (): {name: string, label: string} => {
+  const getFormLastField = () => {
     let value = sessionStorage.getItem(storageNameLastField);
 
     if (value) {
-      value = JSON.parse(value);
+      return JSON.parse(value);
     }
 
-    return value || {};
+    return value;
   };
 
   const resetFormLastField = () => {
