@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 'use strict';
 
 import {stringify} from "ts-jest/dist/utils/json";
@@ -122,6 +121,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
 
   const sendPiwikEvent = (eventType, fieldType, fieldName, fieldLabel, message) => {
     let dimensionName,
+      lastTouchedFiled,
       dimensions = {},
       value = 0;
     const lastFormStartTime = getFormStartTime(), now = +new Date();
@@ -166,7 +166,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
       case PPFormAnalytics.event.Click:
       case PPFormAnalytics.event.Input:
       case PPFormAnalytics.event.Change:
-        const lastTouchedFiled = getFormLastField();
+        lastTouchedFiled = getFormLastField();
         if (lastTouchedFiled.name === undefined && !lastFormStartTime) {
           dimensionName = 'formStarted';
           setFormStartTime(now);
@@ -205,6 +205,8 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
   };
 
   this.sendEvent = function sendEvent(eventType, element, message) {
+    let field, onunload;
+
     switch (eventType) {
       case PPFormAnalytics.event.FormView:
         addFormInputEventListener('click', (ev) => {
@@ -218,7 +220,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
         });
 
         // Abandoned form event start
-        const onunload = () => {
+        onunload = () => {
           const lastTouchedFiled = getFormLastField();
           if (lastTouchedFiled.name !== undefined || getFormStartTime() > 0) {
             window._paq.push(['trackEvent', category, 'formAbandoned', formId, +new Date() - getFormStartTime(), {
@@ -245,7 +247,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
       case PPFormAnalytics.event.Input:
       case PPFormAnalytics.event.Change:
       case PPFormAnalytics.event.Error:
-        const field = getFieldData(element);
+        field = getFieldData(element);
         sendPiwikEvent(eventType, field.fieldType || '', field.fieldName || '', field.fieldLabel || '', message || '');
         break;
     }
