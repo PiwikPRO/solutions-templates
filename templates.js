@@ -291,6 +291,149 @@ formTimingTracking(function (eventData) {
         },    
       ],
     },
+    {
+      id: 'formAnalytics',
+      name: 'Form Analytics',
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/formAnalytics.js'), { encoding: 'utf-8' })}
+formAnalytics();
+var fa = new formAnalytics('{{formId}}', {{target}},
+    {
+        fieldType: 'dimension{{fieldType}}',
+        fieldName: 'dimension{{fieldName}}',
+        fieldLabel: 'dimension{{fieldLabel}}',
+        fieldMessage: 'dimension{{fieldMessage}}',
+        formLastField: 'dimension{{formLastField}}',
+        formLastFieldLabel: 'dimension{{formLastFieldLabel}}',
+        formView: 'dimension{{formView}}',
+        formStarted: 'dimension{{formStarted}}',
+        formComplete: 'dimension{{formComplete}}'
+    },
+    {{fieldLabelMap}}
+);
+fa.sendEvent(PPFormAnalytics.event.{{eventName}});
+      `,
+      arguments: [
+        {
+          id: 'formId',
+          type: 'text',
+          displayName: 'Sets form ID used to identify form in reports.',
+          description: 'It needs to be unique ID for form tracked on the website.',
+          default: 'test-form'
+        },
+        {
+          id: 'target',
+          type: 'text',
+          displayName: 'Target element on page for listeners.',
+          description: 'Target element on page for listeners. You can leave default value if you don\'t have ' +
+            'multiple forms on same page and don\'t use SPA.',
+          default: 'document.body'
+        },
+        {
+          id: 'fieldType',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldType" event dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldType" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 1
+        },
+        {
+          id: 'fieldName',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldName" event dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldName" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 2
+        },
+        {
+          id: 'fieldLabel',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldLabel" event dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldLabel" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 3
+        },
+        {
+          id: 'fieldMessage',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldMessage" event dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldMessage" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 4
+        },
+        {
+          id: 'formLastField',
+          type: 'number',
+          displayName: 'Tracking ID of a "formLastField" event dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formLastField" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 5
+        },
+        {
+          id: 'formLastFieldLabel',
+          type: 'number',
+          displayName: 'Tracking ID of a "formLastFieldLabel" event dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formLastFieldLabel" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 6
+        },
+        {
+          id: 'formView',
+          type: 'number',
+          displayName: 'Tracking ID of a "formView" session dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formView" *session* dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 7
+        },
+        {
+          id: 'formStarted',
+          type: 'number',
+          displayName: 'Tracking ID of a "formStarted" session dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formStarted" *session* dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 8
+        },
+        {
+          id: 'formComplete',
+          type: 'number',
+          displayName: 'Tracking ID of a "formComplete" session dimension.',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formComplete" *session* dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 9
+        },
+        {
+          id: 'eventName',
+          type: 'text',
+          displayName: 'Name of sent event.',
+          description: 'You can sent 2 events:\n' +
+            '- "FormView": should be sent when form using configured ID is present on current page.' +
+            '- "FormComplete": should be sent after form will be accepted by your system (there won\'t be any ' +
+            'validation errors in sent form). If you redirect user on "than you" page after accepting the form, you ' +
+            'can add this code on it.',
+          default: 'FormView'
+        },
+        {
+          id: 'fieldLabelMap',
+          type: 'text',
+          displayName: 'Map of HTML form field names to human friendly labels.',
+          description: 'Optional: Form analytics will try to detect field labels attached to each field and will ' +
+            'send them to server for easier identification of fields in reports, but if page supports different ' +
+            'language versions this data maybe become fragmented. To fix this issue you can configure JSON map of ' +
+            'the HTML field names to labels that should be used in reports.\n' +
+            'Example: `{"name": "First name", "surname": "Last name"}`.',
+          default: '{}'
+        },
+      ],
+    },
   {
     id: 'trackCopiedText',
     name: 'Track copied text',
