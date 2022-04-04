@@ -316,7 +316,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formId',
           type: 'text',
-          displayName: 'Sets form ID used to identify form in reports.',
+          displayName: 'Form ID used to identify form in reports',
           description: 'It needs to be unique ID for form tracked on the website.',
           default: 'test-form'
         },
