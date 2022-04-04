@@ -323,7 +323,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'target',
           type: 'text',
-          displayName: 'Target element on page for listeners.',
+          displayName: 'Target element on page for listeners',
           description: 'Target element on page for listeners. You can leave default value if you don\'t have ' +
             'multiple forms on same page and don\'t use SPA.',
           default: 'document.body'
