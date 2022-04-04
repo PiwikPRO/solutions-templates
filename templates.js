@@ -385,7 +385,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formView',
           type: 'number',
-          displayName: 'Tracking ID of a "formView" session dimension.',
+          displayName: 'Tracking ID of a "formView" session dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "formView" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
