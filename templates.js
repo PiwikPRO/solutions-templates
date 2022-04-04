@@ -340,7 +340,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'fieldName',
           type: 'number',
-          displayName: 'Tracking ID of a "fieldName" event dimension.',
+          displayName: 'Tracking ID of a "fieldName" event dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "fieldName" event dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
