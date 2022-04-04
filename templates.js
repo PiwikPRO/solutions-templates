@@ -403,7 +403,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formComplete',
           type: 'number',
-          displayName: 'Tracking ID of a "formComplete" session dimension.',
+          displayName: 'Tracking ID of a "formComplete" session dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "formComplete" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
