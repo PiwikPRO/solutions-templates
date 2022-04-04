@@ -424,7 +424,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'fieldLabelMap',
           type: 'text',
-          displayName: 'Map of HTML form field names to human friendly labels.',
+          displayName: 'Map of HTML form field names to human-friendly labels',
           description: 'Optional: Form analytics will try to detect field labels attached to each field and will ' +
             'send them to server for easier identification of fields in reports, but if page supports different ' +
             'language versions this data maybe become fragmented. To fix this issue you can configure JSON map of ' +
