@@ -299,7 +299,8 @@ formTimingTracking(function (eventData) {
         "how long it takes to interact with each field and more. Since it's still in experimental stage, tracked " +
         "details may change to improve reports that use them and breaking changes may happen. Currently it's " +
         "intended for early adopters that want to track forms in more detailed way then \"Form timing tracking\" " +
-        "script allows.",
+        "script allows. Warning: this script always requires customization to work with each new form " +
+        "(e.g. unique formId).",
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/formAnalytics.js'), { encoding: 'utf-8' })}
 var fa = new formAnalytics('{{formId}}', {{target}},
