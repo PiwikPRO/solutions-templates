@@ -322,14 +322,14 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formId',
           type: 'text',
-          displayName: 'Sets form ID used to identify form in reports.',
+          displayName: 'Form ID used to identify form in reports',
           description: 'It needs to be unique ID for form tracked on the website.',
           default: 'test-form'
         },
         {
           id: 'target',
           type: 'text',
-          displayName: 'Target element on page for listeners.',
+          displayName: 'Target element on page for listeners',
           description: 'Target element on page for listeners. You can leave default value if you don\'t have ' +
             'multiple forms on same page and don\'t use SPA.',
           default: 'document.body'
@@ -337,7 +337,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'fieldType',
           type: 'number',
-          displayName: 'Tracking ID of a "fieldType" event dimension.',
+          displayName: 'Tracking ID of a "fieldType" event dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "fieldType" event dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -346,7 +346,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'fieldName',
           type: 'number',
-          displayName: 'Tracking ID of a "fieldName" event dimension.',
+          displayName: 'Tracking ID of a "fieldName" event dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "fieldName" event dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -355,7 +355,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'fieldLabel',
           type: 'number',
-          displayName: 'Tracking ID of a "fieldLabel" event dimension.',
+          displayName: 'Tracking ID of a "fieldLabel" event dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "fieldLabel" event dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -364,7 +364,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'fieldMessage',
           type: 'number',
-          displayName: 'Tracking ID of a "fieldMessage" event dimension.',
+          displayName: 'Tracking ID of a "fieldMessage" event dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "fieldMessage" event dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -373,7 +373,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formLastField',
           type: 'number',
-          displayName: 'Tracking ID of a "formLastField" event dimension.',
+          displayName: 'Tracking ID of a "formLastField" event dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "formLastField" event dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -382,7 +382,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formLastFieldLabel',
           type: 'number',
-          displayName: 'Tracking ID of a "formLastFieldLabel" event dimension.',
+          displayName: 'Tracking ID of a "formLastFieldLabel" event dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "formLastFieldLabel" event dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -391,7 +391,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formView',
           type: 'number',
-          displayName: 'Tracking ID of a "formView" session dimension.',
+          displayName: 'Tracking ID of a "formView" session dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "formView" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -400,7 +400,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formStarted',
           type: 'number',
-          displayName: 'Tracking ID of a "formStarted" session dimension.',
+          displayName: 'Tracking ID of a "formStarted" session dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "formStarted" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -409,7 +409,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'formComplete',
           type: 'number',
-          displayName: 'Tracking ID of a "formComplete" session dimension.',
+          displayName: 'Tracking ID of a "formComplete" session dimension',
           description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
             'first setup of form analytics, then you should create custom "formComplete" session dimension in ' +
             '"Analytics" > "Settings" > "Custom dimensions" of your website.',
@@ -429,7 +429,7 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         {
           id: 'fieldLabelMap',
           type: 'text',
-          displayName: 'Map of HTML form field names to human friendly labels.',
+          displayName: 'Map of HTML form field names to human friendly labels',
           description: 'Optional: Form analytics will detect field labels attached to every field and it will ' +
             'send them to the server for easier identification of fields in reports. However, if your page supports' +
             ' different language versions the data may become fragmented. To fix this issue, configure JSON map of ' +
