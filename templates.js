@@ -294,6 +294,12 @@ formTimingTracking(function (eventData) {
     {
       id: 'formAnalytics',
       name: 'Form Analytics',
+      description: "This is experimental script that tracks form interactions using more detailed model then " +
+        "\"Form timing tracking\". It will let you track how long it takes to fill out or abandon form, " +
+        "how long it takes to interact with each field and more. Since it's still in experimental stage, tracked " +
+        "details may change to improve reports that use them and breaking changes may happen. Currently it's " +
+        "intended for early adopters that want to track forms in more detailed way then \"Form timing tracking\" " +
+        "script allows.",
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/formAnalytics.js'), { encoding: 'utf-8' })}
 var fa = new formAnalytics('{{formId}}', {{target}},
@@ -413,22 +419,22 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
           id: 'eventName',
           type: 'text',
           choices: ['FormView', 'FormComplete'],
-          displayName: 'Name of sent event.',
+          displayName: 'Form event',
           description: 'You should send one of 2 events. ' +
-            '"FormView": should be sent when form using configured ID is present on current page. ' +
-            '"FormComplete": should be sent after form will be accepted by your system (there won\'t be any ' +
-            'validation errors in sent form). If you redirect user on "than you" page after accepting the form, you ' +
-            'can add this code on it.',
-          default: ''
+            '"FormView" should be sent when a form using the provided ID is present on the displayed page. ' +
+            '"FormComplete" should be sent when your system has accepted the form (there are no validation ' +
+            'errors). If you redirect user to "thank you" page after accepting the form, you should add this code to it.',
+          default: 'FormView'
         },
         {
           id: 'fieldLabelMap',
           type: 'text',
           displayName: 'Map of HTML form field names to human friendly labels.',
-          description: 'Optional: Form analytics will try to detect field labels attached to each field and will ' +
-            'send them to server for easier identification of fields in reports, but if page supports different ' +
-            'language versions this data maybe become fragmented. To fix this issue you can configure JSON map of ' +
-            'the HTML field names to labels that should be used in reports. ' +
+          description: 'Optional: Form analytics will detect field labels attached to every field and it will ' +
+            'send them to the server for easier identification of fields in reports. However, if your page supports' +
+            ' different language versions the data may become fragmented. To fix this issue, configure JSON map of ' +
+            'HTML field names to labels that should be used in reports or set your preferred names using ' +
+            '"Analytics" > "Settings" > "Dimension value grouping". ' +
             'Example: `{"name": "First name", "surname": "Last name"}`.',
           default: '{}'
         },
