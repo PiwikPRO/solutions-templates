@@ -88,25 +88,21 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
     let label = fieldLabelMap[element.getAttribute('name') || ''],
       id = element.getAttribute('id');
 
-    if (label) {
-      return label;
-    }
+    if (label) return label;
 
     if (id) {
-      label = target.querySelector('label[for=' + id + ']');
+       label = target.querySelector('label[for="' + id + '"]');
     }
 
     if (!label) {
-      label = element.closest('label');
+       label = element.closest('label');
     }
 
     if (!label) {
       label = element.getAttribute('value');
     }
 
-    if (label) {
-      return label.textContent.trim();
-    }
+    if (label) return label.textContent.trim();
 
     return '';
   };
