@@ -43,7 +43,7 @@ limit: {{limit}},
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         },
       ],
@@ -77,7 +77,7 @@ var unsubscribe = detectErrorClicks(function (eventData) {
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         }, ]
     },
@@ -115,7 +115,7 @@ threshold: {{threshold}},
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         }, 
       ],
@@ -154,7 +154,7 @@ limit: {{limit}},
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         }, 
       ],
@@ -286,7 +286,7 @@ formTimingTracking(function (eventData) {
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         },    
       ],
@@ -302,6 +302,8 @@ formTimingTracking(function (eventData) {
         "script allows. Warning: this script always requires customization to work with each new form " +
         "(e.g. unique formId).",
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}
 ${fs.readFileSync(path.join(__dirname, 'build/formAnalytics.js'), { encoding: 'utf-8' })}
 var fa = new formAnalytics('{{formId}}', {{target}},
     {
@@ -314,6 +316,14 @@ var fa = new formAnalytics('{{formId}}', {{target}},
         formView: 'dimension{{formView}}',
         formStarted: 'dimension{{formStarted}}',
         formComplete: 'dimension{{formComplete}}'
+    },
+    function (eventData) {
+      var trackFromIframe = {{iframeTracking}};
+      if(!trackFromIframe){
+        pushToAnalytics(eventData);
+      } else {
+        postIframeMessage(eventData);
+      }
     },
     {{fieldLabelMap}}
 );
@@ -439,6 +449,13 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
             'Example: `{"name": "First name", "surname": "Last name"}`.',
           default: '{}'
         },
+        {
+          id: 'iframeTracking',
+          type: 'boolean',
+          displayName: 'Send messages from iframes',
+          description: 'If checked, you will pass messages to the parent window instead of _paq.push',
+          default: false
+        },
       ],
     },
   {
@@ -465,7 +482,7 @@ trackCopiedText(function (eventData) {
       { id: 'iframeTracking',
       type: 'boolean',
       displayName: 'Send messages from iframes',
-      description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+      description: 'If checked, you will pass messages to the parent window instead of _paq.push',
       default: false
       },      
    ],
@@ -573,7 +590,7 @@ videoTrackingHTML5(function(eventData) {
       { id: 'iframeTracking',
       type: 'boolean',
       displayName: 'Send messages from iframes',
-      description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+      description: 'If checked, you will pass messages to the parent window instead of _paq.push',
       default: false
       },
     ],
