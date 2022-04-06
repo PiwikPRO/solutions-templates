@@ -298,7 +298,7 @@ formTimingTracking(function (eventData) {
         "\"Form timing tracking\". It will let you track how long it takes to fill out or abandon form, " +
         "how long it takes to interact with each field and more. Since it's still in experimental stage, tracked " +
         "details may change to improve reports that use them and breaking changes may happen. Currently it's " +
-        "intended for early adopters that want to track forms in more detailed way then \"Form timing tracking\" " +
+        "intended for early adopters that want to track forms in more detailed way than \"Form timing tracking\" " +
         "script allows. Warning: this script always requires customization to work with each new form " +
         "(e.g. unique formId).",
       template: `
