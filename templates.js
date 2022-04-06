@@ -294,7 +294,7 @@ formTimingTracking(function (eventData) {
     {
       id: 'formAnalytics',
       name: 'Form Analytics',
-      description: "This is experimental script that tracks form interactions using more detailed model then " +
+      description: "This is experimental script that tracks form interactions using more detailed model than " +
         "\"Form timing tracking\". It will let you track how long it takes to fill out or abandon form, " +
         "how long it takes to interact with each field and more. Since it's still in experimental stage, tracked " +
         "details may change to improve reports that use them and breaking changes may happen. Currently it's " +
