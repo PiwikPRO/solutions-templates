@@ -302,6 +302,8 @@ formTimingTracking(function (eventData) {
         "script allows. Warning: this script always requires customization to work with each new form " +
         "(e.g. unique formId).",
       template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}
 ${fs.readFileSync(path.join(__dirname, 'build/formAnalytics.js'), { encoding: 'utf-8' })}
 var fa = new formAnalytics('{{formId}}', {{target}},
     {
@@ -314,6 +316,14 @@ var fa = new formAnalytics('{{formId}}', {{target}},
         formView: 'dimension{{formView}}',
         formStarted: 'dimension{{formStarted}}',
         formComplete: 'dimension{{formComplete}}'
+    },
+    function (eventData) {
+      var trackFromIframe = {{iframeTracking}};
+      if(!trackFromIframe){
+        pushToAnalytics(eventData);
+      } else {
+        postIframeMessage(eventData);
+      }
     },
     {{fieldLabelMap}}
 );
@@ -438,6 +448,13 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
             '"Analytics" > "Settings" > "Dimension value grouping". ' +
             'Example: `{"name": "First name", "surname": "Last name"}`.',
           default: '{}'
+        },
+        {
+          id: 'iframeTracking',
+          type: 'boolean',
+          displayName: 'Send messages from iframes',
+          description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+          default: false
         },
       ],
     },

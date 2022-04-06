@@ -7,8 +7,7 @@ import {stringify} from "ts-jest/dist/utils/json";
  *
  * This script sends events for <form> fields interactions that are used in form analytics reports.
  */
-function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
-  window._paq = window._paq || [];
+function PPFormAnalytics(formId, target, dimensionMap, sendData, fieldLabelMap) {
   const category = 'formTracking',
     formInputTags = ['INPUT', 'TEXTAREA', 'SELECT'],
     storageName = 'PPFA-' + formId,
@@ -170,7 +169,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
         if (lastTouchedFiled.name === undefined && !lastFormStartTime) {
           dimensionName = 'formStarted';
           setFormStartTime(now);
-          window._paq.push(['trackEvent', category, 'formStarted', formId]);
+          sendData(['trackEvent', category, 'formStarted', formId]);
         }
 
         if (lastTouchedFiled.name !== fieldName) {
@@ -201,7 +200,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
       dimensions[dimensionMap[dimensionName]] = '1';
     }
 
-    window._paq.push(['trackEvent', category, eventType, formId, value, dimensions]);
+    sendData(['trackEvent', category, eventType, formId, value, dimensions]);
   };
 
   this.sendEvent = function sendEvent(eventType, element, message) {
@@ -223,7 +222,7 @@ function PPFormAnalytics(formId, target, dimensionMap, fieldLabelMap) {
         onunload = () => {
           const lastTouchedFiled = getFormLastField();
           if (lastTouchedFiled.name !== undefined || getFormStartTime() > 0) {
-            window._paq.push(['trackEvent', category, 'formAbandoned', formId, +new Date() - getFormStartTime(), {
+            sendData(['trackEvent', category, 'formAbandoned', formId, +new Date() - getFormStartTime(), {
               [dimensionMap.formLastField]: lastTouchedFiled.name,
               [dimensionMap.formLastFieldLabel]: lastTouchedFiled.label
             }]);
