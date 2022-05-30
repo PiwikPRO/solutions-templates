@@ -238,11 +238,16 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
     },
     {
       id: 'formTimingTracking',
-      name: 'Form timing tracking',
+      name: 'Form timing tracking (deprecated)',
       description: `
-        This script will track events of focus, blur and change on <input>, <select>, <textarea> and <datalist> fields of <form> elements.
-        Script will calculate the time spent on given field and submit value in seconds as Custom Event value (e.g. 2.345).
-        <form> element on your website will be automatically detected. It will also track the submission of the form.
+        About: This script lets you track interactions with forms on your site.
+        Tracked interactions: (1) focus, blur or change on <input>, <select>, <textarea> and <datalist> in a <form> element,
+        (2) time spent on a form field, (3) form submission.
+        Reporting: All interactions are tracked as custom events.
+        You can see them in Analytics > Reports > Custom events or use them in Analytics > Custom reports.
+        Note: This script automatically detects all <form> elements on your site.
+        Note: This is a deprecated version because a better one is now available.
+        We recommend switching to this solution: Form analytics (beta).
       `,
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
@@ -293,14 +298,19 @@ formTimingTracking(function (eventData) {
     },
     {
       id: 'formAnalytics',
-      name: 'Form Analytics',
-      description: "This is experimental script that tracks form interactions using more detailed model then " +
-        "\"Form timing tracking\". It will let you track how long it takes to fill out or abandon form, " +
-        "how long it takes to interact with each field and more. Since it's still in experimental stage, tracked " +
-        "details may change to improve reports that use them and breaking changes may happen. Currently it's " +
-        "intended for early adopters that want to track forms in more detailed way then \"Form timing tracking\" " +
-        "script allows. Warning: this script always requires customization to work with each new form " +
-        "(e.g. unique formId).",
+      name: 'Form Analytics (beta)',
+      description: `
+        About: This script lets you track interactions with forms on your site.
+        Tracked dimensions: formView, formStarted, formCompleted, fieldType, fieldName, fieldLabel, fieldMessage, formLastField, formLastFieldLabel.
+        (Note: You can use your own names for custom dimensions.)
+        Tracked interactions: (1) Field click: A visitor clicked on a field, (2) Field input: A visitor typed something in a field,
+        (3) Field leave: A visitor left a field (blur), (4) Time to complete or abandon a form, (5) Time spent on a form field.
+        Reporting: All tracked events are saved as custom events.
+        You can see them in Analytics > Reports > Custom events or use them in Analytics > Custom reports.
+        Customization: Each tracked form needs a customized script because the script uses a form ID and other identifying parameters.
+        Note: This is a beta version of this solution, and we'll improve it to track more form details.
+        We also recommend switching to this solution if you currently use this script: Form timing tracking.
+      `,
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}
 ${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}
