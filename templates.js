@@ -43,7 +43,7 @@ limit: {{limit}},
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         },
       ],
@@ -77,7 +77,7 @@ var unsubscribe = detectErrorClicks(function (eventData) {
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         }, ]
     },
@@ -115,7 +115,7 @@ threshold: {{threshold}},
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         }, 
       ],
@@ -154,7 +154,7 @@ limit: {{limit}},
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         }, 
       ],
@@ -238,11 +238,16 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
     },
     {
       id: 'formTimingTracking',
-      name: 'Form timing tracking',
+      name: 'Form timing tracking (deprecated)',
       description: `
-        This script will track events of focus, blur and change on <input>, <select>, <textarea> and <datalist> fields of <form> elements.
-        Script will calculate the time spent on given field and submit value in seconds as Custom Event value (e.g. 2.345).
-        <form> element on your website will be automatically detected. It will also track the submission of the form.
+        About: This script lets you track interactions with forms on your site.
+        Tracked interactions: (1) focus, blur or change on <input>, <select>, <textarea> and <datalist> in a <form> element,
+        (2) time spent on a form field, (3) form submission.
+        Reporting: All interactions are tracked as custom events.
+        You can see them in Analytics > Reports > Custom events or use them in Analytics > Custom reports.
+        Note: This script automatically detects all <form> elements on your site.
+        Note: This is a deprecated version because a better one is now available.
+        We recommend switching to this solution: Form analytics (beta).
       `,
       template: `
 ${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
@@ -286,9 +291,181 @@ formTimingTracking(function (eventData) {
         { id: 'iframeTracking',
         type: 'boolean',
         displayName: 'Send messages from iframes',
-        description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
         default: false
         },    
+      ],
+    },
+    {
+      id: 'formAnalytics',
+      name: 'Form Analytics (beta)',
+      description: `
+        About: This script lets you track interactions with forms on your site.
+        Tracked dimensions: formView, formStarted, formCompleted, fieldType, fieldName, fieldLabel, fieldMessage, formLastField, formLastFieldLabel.
+        (Note: You can use your own names for custom dimensions.)
+        Tracked interactions: (1) Field click: A visitor clicked on a field, (2) Field input: A visitor typed something in a field,
+        (3) Field leave: A visitor left a field (blur), (4) Time to complete or abandon a form, (5) Time spent on a form field.
+        Reporting: All tracked events are saved as custom events.
+        You can see them in Analytics > Reports > Custom events or use them in Analytics > Custom reports.
+        Customization: Each tracked form needs a customized script because the script uses a form ID and other identifying parameters.
+        Note: This is a beta version of this solution, and we'll improve it to track more form details.
+        We also recommend switching to this solution if you currently use this script: Form timing tracking.
+      `,
+      template: `
+${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}
+${fs.readFileSync(path.join(__dirname, 'build/formAnalytics.js'), { encoding: 'utf-8' })}
+var fa = new formAnalytics('{{formId}}', {{target}},
+    {
+        fieldType: 'dimension{{fieldType}}',
+        fieldName: 'dimension{{fieldName}}',
+        fieldLabel: 'dimension{{fieldLabel}}',
+        fieldMessage: 'dimension{{fieldMessage}}',
+        formLastField: 'dimension{{formLastField}}',
+        formLastFieldLabel: 'dimension{{formLastFieldLabel}}',
+        formView: 'dimension{{formView}}',
+        formStarted: 'dimension{{formStarted}}',
+        formComplete: 'dimension{{formComplete}}'
+    },
+    function (eventData) {
+      var trackFromIframe = {{iframeTracking}};
+      if(!trackFromIframe){
+        pushToAnalytics(eventData);
+      } else {
+        postIframeMessage(eventData);
+      }
+    },
+    {{fieldLabelMap}}
+);
+fa.sendEvent(formAnalytics.event.{{eventName}});
+      `,
+      arguments: [
+        {
+          id: 'formId',
+          type: 'text',
+          displayName: 'Form ID used to identify form in reports',
+          description: 'It needs to be unique ID for form tracked on the website.',
+          default: 'test-form'
+        },
+        {
+          id: 'target',
+          type: 'text',
+          displayName: 'Target element on page for listeners',
+          description: 'Target element on page for listeners. You can leave default value if you don\'t have ' +
+            'multiple forms on same page and don\'t use SPA.',
+          default: 'document.body'
+        },
+        {
+          id: 'fieldType',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldType" event dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldType" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 1
+        },
+        {
+          id: 'fieldName',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldName" event dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldName" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 2
+        },
+        {
+          id: 'fieldLabel',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldLabel" event dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldLabel" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 3
+        },
+        {
+          id: 'fieldMessage',
+          type: 'number',
+          displayName: 'Tracking ID of a "fieldMessage" event dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "fieldMessage" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 4
+        },
+        {
+          id: 'formLastField',
+          type: 'number',
+          displayName: 'Tracking ID of a "formLastField" event dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formLastField" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 5
+        },
+        {
+          id: 'formLastFieldLabel',
+          type: 'number',
+          displayName: 'Tracking ID of a "formLastFieldLabel" event dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formLastFieldLabel" event dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 6
+        },
+        {
+          id: 'formView',
+          type: 'number',
+          displayName: 'Tracking ID of a "formView" session dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formView" session dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 7
+        },
+        {
+          id: 'formStarted',
+          type: 'number',
+          displayName: 'Tracking ID of a "formStarted" session dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formStarted" session dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 8
+        },
+        {
+          id: 'formComplete',
+          type: 'number',
+          displayName: 'Tracking ID of a "formComplete" session dimension',
+          description: 'Form analytics uses custom dimensions to track data about user behavior. If this is your ' +
+            'first setup of form analytics, then you should create custom "formComplete" session dimension in ' +
+            '"Analytics" > "Settings" > "Custom dimensions" of your website.',
+          default: 9
+        },
+        {
+          id: 'eventName',
+          type: 'text',
+          choices: ['FormView', 'FormComplete'],
+          displayName: 'Form event',
+          description: 'You should send one of 2 events. ' +
+            '"FormView" should be sent when a form using the provided ID is present on the displayed page. ' +
+            '"FormComplete" should be sent when your system has accepted the form (there are no validation ' +
+            'errors). If you redirect user to "thank you" page after accepting the form, you should add this code to it.',
+          default: 'FormView'
+        },
+        {
+          id: 'fieldLabelMap',
+          type: 'text',
+          displayName: 'Map of HTML form field names to human friendly labels',
+          description: 'Optional: Form analytics will detect field labels attached to every field and it will ' +
+            'send them to the server for easier identification of fields in reports. However, if your page supports' +
+            ' different language versions the data may become fragmented. To fix this issue, configure JSON map of ' +
+            'HTML field names to labels that should be used in reports or set your preferred names using ' +
+            '"Analytics" > "Settings" > "Dimension value grouping". ' +
+            'Example: `{"name": "First name", "surname": "Last name"}`.',
+          default: '{}'
+        },
+        {
+          id: 'iframeTracking',
+          type: 'boolean',
+          displayName: 'Send messages from iframes',
+          description: 'If checked, you will pass messages to the parent window instead of _paq.push',
+          default: false
+        },
       ],
     },
   {
@@ -315,7 +492,7 @@ trackCopiedText(function (eventData) {
       { id: 'iframeTracking',
       type: 'boolean',
       displayName: 'Send messages from iframes',
-      description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+      description: 'If checked, you will pass messages to the parent window instead of _paq.push',
       default: false
       },      
    ],
@@ -423,7 +600,7 @@ videoTrackingHTML5(function(eventData) {
       { id: 'iframeTracking',
       type: 'boolean',
       displayName: 'Send messages from iframes',
-      description: 'If checked, you won’t send the _paq.push but instead you will send a message to the parent window',
+      description: 'If checked, you will pass messages to the parent window instead of _paq.push',
       default: false
       },
     ],
