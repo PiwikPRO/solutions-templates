@@ -191,6 +191,20 @@
         });
     };
 
+    const debounce = (func, wait) => {
+        let timeout;
+
+        return function executedFunction(...args) {
+            const later = () => {
+                timeout = null;
+                func(...args);
+            };
+
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    };
+
     const processVolumeChangeMediaEvent = (e) => {
         let eventTypeToTrack;
         const {currentTime, volume, muted, hasMuted} = e.target;
@@ -257,7 +271,7 @@
         mediaElement.addEventListener("pause", processPauseMediaEvent);
         mediaElement.addEventListener("seeked", processSeekedMediaEvent);
         mediaElement.addEventListener("ended", processEndedMediaEvent);
-        mediaElement.addEventListener("volumechange", processVolumeChangeMediaEvent);
+        mediaElement.addEventListener("volumechange", debounce((e) => processVolumeChangeMediaEvent(e), 250));
     }
 
     function addListenersForEachItem(mediaElements){
