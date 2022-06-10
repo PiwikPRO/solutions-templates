@@ -452,7 +452,7 @@ window.addEventListener('message', function(event){
   {
     id: 'EcommerceCartUpdate',
     name: 'Ecommerce - cart update',
-    beforeDescriptionNote: 'Important: This script uses an example data layer described in this <a target="_blank" href="waiting_for_art_published">article</a>',
+    beforeDescriptionNote: 'Important: This script uses an example data layer described in this <a target="_blank" href="https://help.piwik.pro/support/getting-started/track-ecommerce/">article</a>',
     description: `
     This script lets you track a cart update from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. 
     `,
@@ -461,7 +461,7 @@ window.addEventListener('message', function(event){
   var cart_amount = {{ {{cartAmount}} }};
   var products = {{ {{products}} }};
   products.forEach(function(product){
-    _paq.push(["addEcommerceItem", product.{{productSku}}, product.{{productName}},product.{{productCategory}}, product.{{productPrice}}, product.{{productQuantity}}]);
+    _paq.push(["addEcommerceItem", {{productSku}} {{productName}} {{productCategory}} {{productPrice}} {{productQuantity}}]);
   });
   _paq.push(["trackEcommerceCartUpdate", cart_amount]);  
 
@@ -486,52 +486,52 @@ window.addEventListener('message', function(event){
       displayName: 'Product SKU',
       recommended: "sku",
       description: 'Product stock-keeping unit (required)',
-      default: "sku"
+      default: "product.sku,"
     }, 
     { id: 'productName',
     type: 'text',
     displayName: 'Product name',
     recommended: "name",
     description: 'The name of the product (optional)',
-    default: "name"
+    default: "product.name,"
     }, 
     { id: 'productCategory',
     type: 'text',
     displayName: 'Product category',
     recommended: "category",
     description: 'Product category (optional)',
-    default: "category"
+    default: "product.category,"
     }, 
     { id: 'productPrice',
     type: 'text',
     displayName: 'Product price',
     recommended: "price",
     description: 'The price of the product (optional)',
-    default: "price"
+    default: "product.price,"
     }, 
     { id: 'productQuantity',
     type: 'text',
     displayName: 'Product quantity',
     recommended: "quantity",
     description: 'The number of units (optional)',
-    default: "quantity"
+    default: "product.quantity"
     },       
    ]
   },
   {
     id: 'EcommerceOrderConfirmation',
     name: 'Ecommerce - Order confirmation',
-    beforeDescriptionNote: 'Important: This script uses an example data layer described in this <a target="_blank" href="waiting_for_art_published">article</a>',
+    beforeDescriptionNote: 'Important: This script uses an example data layer described in this <a target="_blank" href="https://help.piwik.pro/support/getting-started/track-ecommerce/">article</a>',
     description: `
     This script lets you track an order confirmation from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use it in Analytics > Custom reports. 
     `,
     template: `
 
-  var products = {{ products }};
+  var products = {{ {{products}} }};
   products.forEach(function(product){
-    _paq.push(["addEcommerceItem", product.{{productSku}}, product.{{productName}},product.{{productCategory}}, product.{{productPrice}}, product.{{productQuantity}}]);
+    _paq.push(["addEcommerceItem", {{productSku}} {{productName}} {{productCategory}} {{productPrice}} {{productQuantity}}]);
   });
-  _paq.push(["trackEcommerceOrder",{{ {{orderID}} }}, {{ {{grandTotal}} }}, {{ {{subtotal}} }}, {{ {{tax}} }}, {{ {{shipping}} }}, {{ {{discount}} }}]);  
+  _paq.push(["trackEcommerceOrder",{{ {{orderID}} }}, {{ {{grandTotal}} }}, {{subtotal}} {{tax}} {{shipping}} {{discount}}]);  
 
     `,
     arguments: [   
@@ -547,36 +547,8 @@ window.addEventListener('message', function(event){
       displayName: 'Product SKU',
       recommended: "sku",
       description: 'Product stock-keeping unit (required)',
-      default: "sku"
+      default: "product.sku,"
     }, 
-    { id: 'productName',
-    type: 'text',
-    displayName: 'Product name',
-    recommended: "name",
-    description: 'The name of the product (optional)',
-    default: "name"
-    }, 
-    { id: 'productCategory',
-    type: 'text',
-    displayName: 'Product category',
-    recommended: "category",
-    description: 'Product category (optional)',
-    default: "category"
-    }, 
-    { id: 'productPrice',
-    type: 'text',
-    displayName: 'Product price',
-    recommended: "price",
-    description: 'The price of the product (optional)',
-    default: "price"
-    }, 
-    { id: 'productQuantity',
-    type: 'text',
-    displayName: 'Product quantity',
-    recommended: "quantity",
-    description: 'The number of units (optional)',
-    default: "quantity"
-    },      
     { id: 'orderID',
     type: 'text',
     displayName: 'Order ID',
@@ -591,33 +563,62 @@ window.addEventListener('message', function(event){
     description: 'Order Revenue grand total - tax, shipping and discount included (required)',
     default: "grand_total"
     },      
+    { id: 'productName',
+    type: 'text',
+    displayName: 'Product name',
+    recommended: "name",
+    description: 'The name of the product (optional)',
+    default: "product.name,"
+    }, 
+    { id: 'productCategory',
+    type: 'text',
+    displayName: 'Product category',
+    recommended: "category",
+    description: 'Product category (optional)',
+    default: "product.category,"
+    }, 
+    { id: 'productPrice',
+    type: 'text',
+    displayName: 'Product price',
+    recommended: "price",
+    description: 'The price of the product (optional)',
+    default: "product.price,"
+    }, 
+    { id: 'productQuantity',
+    type: 'text',
+    displayName: 'Product quantity',
+    recommended: "quantity",
+    description: 'The number of units (optional)',
+    default: "product.quantity"
+    }, 
+  
     { id: 'subtotal',
     type: 'text',
     displayName: 'Subtotal',
     recommended: "subtotal",
     description: 'Order subtotal - without shipping (optional)',
-    default: "subtotal"
+    default: "{{ subtotal }},"
     },
     { id: 'tax',
     type: 'text',
     displayName: 'Tax',
     recommended: "tax",
     description: 'Order tax amount (optional)',
-    default: "tax"
+    default: "{{ tax }},"
     },   
     { id: 'shipping',
     type: 'text',
     displayName: 'Shipping',
     recommended: "shipping",
     description: 'Order shipping cost (optional)',
-    default: "shipping"
+    default: "{{ shipping }},"
     },  
     { id: 'discount',
     type: 'text',
     displayName: 'Discount',
     recommended: "discount",
     description: 'Order discount amount (optional)',
-    default: "discount"
+    default: "{{ discount }}"
     },             
    ]
   },
