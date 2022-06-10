@@ -103,7 +103,7 @@ function PPFormAnalytics(formId, target, dimensionMap, sendData, fieldLabelMap) 
       label = element.getAttribute('value');
     }
 
-    if (label) {
+    if (label && label.textContent) {
       return label.textContent.trim();
     }
 
