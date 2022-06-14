@@ -628,10 +628,9 @@ window.addEventListener('message', function(event){
   },
   {
     id: 'EcommerceCartUpdate',
-    name: 'Ecommerce - cart update',
-    beforeDescriptionNote: 'Important: This script uses an example data layer described in this <a target="_blank" href="https://help.piwik.pro/support/getting-started/track-ecommerce/">article</a>',
+    name: 'Ecommerce cart update',
     description: `
-    This script lets you track a cart update from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. 
+    This script lets you track a cart update from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
     `,
     template: `
 
@@ -697,10 +696,9 @@ window.addEventListener('message', function(event){
   },
   {
     id: 'EcommerceOrderConfirmation',
-    name: 'Ecommerce - Order confirmation',
-    beforeDescriptionNote: 'Important: This script uses an example data layer described in this <a target="_blank" href="https://help.piwik.pro/support/getting-started/track-ecommerce/">article</a>',
+    name: 'Ecommerce order confirmation',
     description: `
-    This script lets you track an order confirmation from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use it in Analytics > Custom reports. 
+    This script lets you track an order confirmation from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use it in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
     `,
     template: `
 
