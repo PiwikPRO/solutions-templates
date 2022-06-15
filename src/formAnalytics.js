@@ -103,7 +103,7 @@ function PPFormAnalytics(formId, target, dimensionMap, sendData, fieldLabelMap) 
       label = element.getAttribute('value');
     }
 
-    if (label) {
+    if (label && label.textContent) {
       return label.textContent.trim();
     }
 
@@ -232,10 +232,19 @@ function PPFormAnalytics(formId, target, dimensionMap, sendData, fieldLabelMap) 
         };
 
         window.addEventListener('beforeunload', onunload);
-        target.querySelector('form').addEventListener('submit', () => {
-          window.removeEventListener('beforeunload', onunload);
-        });
-        // Abandoned form event stop
+        var forms = target.nodeName === 'FORM' ? [target] : target.querySelectorAll('form');
+
+        if (forms.length === 1) {
+          forms[0].addEventListener('submit', () => {
+            window.removeEventListener('beforeunload', onunload);
+          });
+          // Abandoned form event stop
+        } else {
+          console.warn(
+            'Provided target element contains ' + forms.length + ' <form> elements. ' +
+            'This is causing issue with handling abandoned form events (they will be sent on each page exit). ' +
+            'Please replace `document.body` parameter with more specific element that contains only one <form> element to fix this issue.');
+        }
 
         sendPiwikEvent(PPFormAnalytics.event.FormView);
         break;
