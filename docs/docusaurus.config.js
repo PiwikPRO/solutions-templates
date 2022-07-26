@@ -10,8 +10,8 @@ const path = require('path');
 const generator = require('../templates');
 
 module.exports = {
-  title: 'Solutions Templates',
-  tagline: 'A library of detection helpers that can be used in Tag Managers to improve tracking abilities of Analytics software.',
+  title: 'Piwik PRO',
+  tagline: 'Use our library of custom tags to collect more data from your site.',
   url: 'https://piwikpro.github.io',
   baseUrl: '/solutions-templates/',
   onBrokenLinks: 'throw',
@@ -24,7 +24,7 @@ module.exports = {
       disableSwitch: true,
     },
     navbar: {
-      title: 'Solutions Templates',
+      title: 'Solution Templates',
       logo: {
         alt: 'Piwik PRO logo',
         src: 'https://piwik.pro/wp-content/assets/img/pp-logo_dark.svgz?ver=1610458769',
