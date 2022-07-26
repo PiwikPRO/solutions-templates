@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://piwikpro.github.io/blog</id>
-    <title>Solutions Templates Blog</title>
+    <title>Solution Templates | Piwik PRO Blog</title>
     <updated>2015-10-25T23:29:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://piwikpro.github.io/blog"/>
-    <subtitle>Solutions Templates Blog</subtitle>
+    <subtitle>Solution Templates | Piwik PRO Blog</subtitle>
     <icon>https://piwikpro.github.io/https://piwik.pro/wp-content/assets/img/favicon.png?ver=1608560712</icon>
 </feed>
