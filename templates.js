@@ -634,6 +634,7 @@ window.addEventListener('message', function(event){
     `,
     template: `
 
+  window._paq = window._paq || [];
   var cart_amount = {{ {{cartAmount}} }};
   var products = {{ {{products}} }};
   products.forEach(function(product){
@@ -702,6 +703,7 @@ window.addEventListener('message', function(event){
     `,
     template: `
 
+  window._paq = window._paq || [];
   var products = {{ {{products}} }};
   products.forEach(function(product){
     _paq.push(["addEcommerceItem", {{productSku}} {{productName}} {{productCategory}} {{productPrice}} {{productQuantity}}]);
