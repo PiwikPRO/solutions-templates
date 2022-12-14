@@ -541,7 +541,7 @@ videoTrackingHTML5(function(eventData) {
         type: 'text',
         displayName: 'Event category label',
         recommended: "Video",
-        description: 'The category under which custom events are tracked. You can use it to filter events in reports and create custom reports.',
+        description: 'The category under which custom events are tracked. You can use it to filter events in reports and create custom reports. Please remember that our Video Analytics reports have filters based on this setting so if you change this value, the Video Analytics reports will show up empty.',
         default: "Video"
       },
       { id: 'videoTitleAttribute',
