@@ -628,7 +628,7 @@ window.addEventListener('message', function(event){
   },
   {
     id: 'EcommerceCartUpdate',
-    name: 'Ecommerce cart update',
+    name: 'Ecommerce cart update (deprecated)',
     description: `
     This script lets you track a cart update from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
     `,
@@ -697,7 +697,7 @@ window.addEventListener('message', function(event){
   },
   {
     id: 'EcommerceOrderConfirmation',
-    name: 'Ecommerce order confirmation',
+    name: 'Ecommerce order confirmation (deprecated)',
     description: `
     This script lets you track an order confirmation from a data layer. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use it in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
     `,
@@ -797,6 +797,383 @@ window.addEventListener('message', function(event){
     description: 'Order discount amount (optional)',
     default: "{{ discount }}"
     },             
+   ]
+  },
+  {
+    id: 'EcommerceProductDetailView',
+    name: 'Ecommerce product detail view',
+    description: `
+    This script lets you track a product detail view. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    `,
+    template: `
+
+  window._paq = window._paq || [];
+  var products = {{ {{products}} }}.map(function(product) {
+    return {
+      sku: {{productSku}},
+      name: {{productName}},
+      category: {{productCategory}},
+      price: {{productPrice}},
+      brand: {{productBrand}},
+      variant: {{productVariant}}
+    };
+  });
+
+  _paq.push(["ecommerceProductDetailView", products]); 
+
+    `,
+    arguments: [ 
+    { id: 'products',
+      type: 'text',
+      displayName: 'Products',
+      recommended: "products",
+      description: 'Variable name that stores the products in your virtual shopping cart',
+      default: "[detail] products"
+    },  
+    { id: 'productSku',
+      type: 'text',
+      displayName: 'Product SKU',
+      recommended: "sku",
+      description: 'Product stock-keeping unit (required)',
+      default: "product.id"
+    }, 
+    { id: 'productName',
+    type: 'text',
+    displayName: 'Product name',
+    recommended: "name",
+    description: 'The name of the product (optional)',
+    default: "product.name"
+    }, 
+    { id: 'productCategory',
+    type: 'text',
+    displayName: 'Product category',
+    recommended: "category",
+    description: 'Product category (optional)',
+    default: "product.category"
+    }, 
+    { id: 'productPrice',
+    type: 'text',
+    displayName: 'Product price',
+    recommended: "price",
+    description: 'The price of the product (optional)',
+    default: "product.price"
+    },  
+    { id: 'productBrand',
+    type: 'text',
+    displayName: 'Product brand',
+    recommended: "brand",
+    description: 'The brand of the product (optional)',
+    default: "product.brand"
+    },  
+    { id: 'productVariant',
+    type: 'text',
+    displayName: 'Product variant',
+    recommended: "variant",
+    description: 'The variant of the product (optional)',
+    default: "product.variant"
+    },      
+   ]
+  },
+  {
+    id: 'EcommerceAddToCart',
+    name: 'Ecommerce add to cart',
+    description: `
+    This script lets you track an add to cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    `,
+    template: `
+
+  window._paq = window._paq || [];
+  var products = {{ {{products}} }}.map(function(product) {
+    return {
+      sku: {{productSku}},
+      name: {{productName}},
+      category: {{productCategory}},
+      price: {{productPrice}},
+      brand: {{productBrand}},
+      variant: {{productVariant}},
+      quantity: {{productQuantity}}
+    };
+  });
+
+  _paq.push(["ecommerceAddToCart", products]);
+
+    `,
+    arguments: [ 
+    { id: 'products',
+      type: 'text',
+      displayName: 'Products',
+      recommended: "products",
+      description: 'Variable name that stores the products in your virtual shopping cart',
+      default: "[add] products"
+    },  
+    { id: 'productSku',
+      type: 'text',
+      displayName: 'Product SKU',
+      recommended: "sku",
+      description: 'Product stock-keeping unit (required)',
+      default: "product.id"
+    }, 
+    { id: 'productName',
+    type: 'text',
+    displayName: 'Product name',
+    recommended: "name",
+    description: 'The name of the product (optional)',
+    default: "product.name"
+    }, 
+    { id: 'productCategory',
+    type: 'text',
+    displayName: 'Product category',
+    recommended: "category",
+    description: 'Product category (optional)',
+    default: "product.category"
+    }, 
+    { id: 'productPrice',
+    type: 'text',
+    displayName: 'Product price',
+    recommended: "price",
+    description: 'The price of the product (optional)',
+    default: "product.price"
+    }, 
+    { id: 'productQuantity',
+    type: 'text',
+    displayName: 'Product quantity',
+    recommended: "quantity",
+    description: 'The number of units (optional)',
+    default: "product.quantity"
+    },   
+    { id: 'productBrand',
+    type: 'text',
+    displayName: 'Product brand',
+    recommended: "brand",
+    description: 'The brand of the product (optional)',
+    default: "product.brand"
+    },  
+    { id: 'productVariant',
+    type: 'text',
+    displayName: 'Product variant',
+    recommended: "variant",
+    description: 'The variant of the product (optional)',
+    default: "product.variant"
+    },      
+   ]
+  },
+  {
+    id: 'EcommerceRemoveFromCart',
+    name: 'Ecommerce remove from cart',
+    description: `
+    This script lets you track a remove from cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    `,
+    template: `
+
+  window._paq = window._paq || [];
+  var products = {{ {{products}} }}.map(function(product) {
+    return {
+      sku: {{productSku}},
+      name: {{productName}},
+      category: {{productCategory}},
+      price: {{productPrice}},
+      brand: {{productBrand}},
+      variant: {{productVariant}},
+      quantity: {{productQuantity}}
+    };
+  });
+  
+  _paq.push(["ecommerceRemoveFromCart", products]);
+
+    `,
+    arguments: [ 
+    { id: 'products',
+      type: 'text',
+      displayName: 'Products',
+      recommended: "products",
+      description: 'Variable name that stores the products in your virtual shopping cart',
+      default: "[remove] products"
+    },  
+    { id: 'productSku',
+      type: 'text',
+      displayName: 'Product SKU',
+      recommended: "sku",
+      description: 'Product stock-keeping unit (required)',
+      default: "product.id"
+    }, 
+    { id: 'productName',
+    type: 'text',
+    displayName: 'Product name',
+    recommended: "name",
+    description: 'The name of the product (optional)',
+    default: "product.name"
+    }, 
+    { id: 'productCategory',
+    type: 'text',
+    displayName: 'Product category',
+    recommended: "category",
+    description: 'Product category (optional)',
+    default: "product.category"
+    }, 
+    { id: 'productPrice',
+    type: 'text',
+    displayName: 'Product price',
+    recommended: "price",
+    description: 'The price of the product (optional)',
+    default: "product.price"
+    }, 
+    { id: 'productQuantity',
+    type: 'text',
+    displayName: 'Product quantity',
+    recommended: "quantity",
+    description: 'The number of units (optional)',
+    default: "product.quantity"
+    },   
+    { id: 'productBrand',
+    type: 'text',
+    displayName: 'Product brand',
+    recommended: "brand",
+    description: 'The brand of the product (optional)',
+    default: "product.brand"
+    },  
+    { id: 'productVariant',
+    type: 'text',
+    displayName: 'Product variant',
+    recommended: "variant",
+    description: 'The variant of the product (optional)',
+    default: "product.variant"
+    },      
+   ]
+  },
+  {
+    id: 'EcommerceOrder',
+    name: 'Ecommerce order',
+    description: `
+    This script lets you track an ecommerce order. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    `,
+    template: `
+
+  window._paq = window._paq || [];
+  var products = {{ {{products}} }}.map(function(product) {
+    return {
+      sku: {{productSku}},
+      name: {{productName}},
+      category: {{productCategory}},
+      price: {{productPrice}},
+      brand: {{productBrand}},
+      variant: {{productVariant}},
+      quantity: {{productQuantity}}
+    };
+  });
+  
+  var paymentInformation = [{{ {{actionField}} }}].map(function(order) {
+    return {
+      orderId: {{orderId}},
+      grandTotal: {{grandTotal}},
+      subTotal: {{subTotal}},
+      tax: {{tax}},
+      shipping: {{shipping}}
+    };
+  });
+  paymentInformation = paymentInformation[0];
+  
+  _paq.push(["ecommerceOrder", products, paymentInformation]);  
+
+    `,
+    arguments: [ 
+    { id: 'products',
+      type: 'text',
+      displayName: 'Products',
+      recommended: "products",
+      description: 'Variable name that stores the products in your virtual shopping cart',
+      default: "[purchase] products"
+    },  
+    { id: 'productSku',
+      type: 'text',
+      displayName: 'Product SKU',
+      recommended: "sku",
+      description: 'Product stock-keeping unit (required)',
+      default: "product.id"
+    }, 
+    { id: 'productName',
+    type: 'text',
+    displayName: 'Product name',
+    recommended: "name",
+    description: 'The name of the product (optional)',
+    default: "product.name"
+    }, 
+    { id: 'productCategory',
+    type: 'text',
+    displayName: 'Product category',
+    recommended: "category",
+    description: 'Product category (optional)',
+    default: "product.category"
+    }, 
+    { id: 'productPrice',
+    type: 'text',
+    displayName: 'Product price',
+    recommended: "price",
+    description: 'The price of the product (optional)',
+    default: "product.price"
+    }, 
+    { id: 'productQuantity',
+    type: 'text',
+    displayName: 'Product quantity',
+    recommended: "quantity",
+    description: 'The number of units (optional)',
+    default: "product.quantity"
+    },   
+    { id: 'productBrand',
+    type: 'text',
+    displayName: 'Product brand',
+    recommended: "brand",
+    description: 'The brand of the product (optional)',
+    default: "product.brand"
+    },  
+    { id: 'productVariant',
+    type: 'text',
+    displayName: 'Product variant',
+    recommended: "variant",
+    description: 'The variant of the product (optional)',
+    default: "product.variant"
+    },    
+    { id: 'actionField',
+    type: 'text',
+    displayName: 'Payment Information',
+    recommended: "actionField",
+    description: 'Variable name that stores the order payment information',
+    default: "actionField"
+    },   
+    { id: 'orderId',
+    type: 'text',
+    displayName: 'Order ID',
+    recommended: "id",
+    description: 'The order ID (required)',
+    default: "order.id"
+    }, 
+    { id: 'grandTotal',
+    type: 'text',
+    displayName: 'Grand Total',
+    recommended: "revenue",
+    description: 'The grand total of the order (required)',
+    default: "order.revenue"
+    }, 
+    { id: 'subTotal',
+    type: 'text',
+    displayName: 'Sub Total',
+    recommended: "subtotal",
+    description: 'Total value of items in a cart without shipping (optional)',
+    default: "order.revenue - order.shipping"
+    }, 
+    { id: 'tax',
+    type: 'text',
+    displayName: 'Tax',
+    recommended: "tax",
+    description: 'Total tax amount (optional)',
+    default: "order.tax"
+    }, 
+    { id: 'shipping',
+    type: 'text',
+    displayName: 'Shipping',
+    recommended: "shipping",
+    description: 'Total shipping cost (optional)',
+    default: "order.shipping"
+    }, 
    ]
   },
   ]
