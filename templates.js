@@ -238,7 +238,7 @@ ${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encod
     },
     {
       id: 'formTimingTracking',
-      name: 'Form timing tracking (deprecated)',
+      name: 'Form tracking',
       description: `
         About: This script lets you track interactions with forms on your site.
         Tracked interactions: (1) focus, blur or change on <input>, <select>, <textarea> and <datalist> in a <form> element,
@@ -272,7 +272,7 @@ formTimingTracking(function (eventData) {
           type: 'text',
           displayName: 'Event category prefix',
           description: 'Prefix that will preceed form name in Custom Event Category of the event that you will track',
-          default: 'Form timing: '
+          default: 'Form tracking: '
         },
         { id: 'formNameAttribute',
           type: 'text',
@@ -298,7 +298,7 @@ formTimingTracking(function (eventData) {
     },
     {
       id: 'formAnalytics',
-      name: 'Form Analytics (beta)',
+      name: 'Enchanced form analytics (beta)',
       description: `
         About: This script lets you track interactions with forms on your site.
         Tracked dimensions: formView, formStarted, formCompleted, fieldType, fieldName, fieldLabel, fieldMessage, formLastField, formLastFieldLabel.
@@ -803,7 +803,7 @@ window.addEventListener('message', function(event){
     id: 'EcommerceProductDetailView',
     name: 'Ecommerce product detail view',
     description: `
-    This script lets you track a product detail view. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    This script lets you track a product detail view. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: if you have an enchanced ecommerce setup, [detail] products should be a dataLayer variable with the value taken from ecommerce.detail.products
     `,
     template: `
 
@@ -878,7 +878,7 @@ window.addEventListener('message', function(event){
     id: 'EcommerceAddToCart',
     name: 'Ecommerce add to cart',
     description: `
-    This script lets you track an add to cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    This script lets you track an add to cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: if you have an enchanced ecommerce setup, [add] products should be a dataLayer variable with the value taken from ecommerce.add.products
     `,
     template: `
 
@@ -961,7 +961,7 @@ window.addEventListener('message', function(event){
     id: 'EcommerceRemoveFromCart',
     name: 'Ecommerce remove from cart',
     description: `
-    This script lets you track a remove from cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    This script lets you track a remove from cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note:  if you have an enchanced ecommerce setup, [remove] products should be a dataLayer variable with the value taken from ecommerce.remove.products
     `,
     template: `
 
@@ -1044,7 +1044,7 @@ window.addEventListener('message', function(event){
     id: 'EcommerceOrder',
     name: 'Ecommerce order',
     description: `
-    This script lets you track an ecommerce order. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: This script uses an example data layer described in this article: https://help.piwik.pro/support/getting-started/track-ecommerce/
+    This script lets you track an ecommerce order. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note:  if you have an enchanced ecommerce setup, [purchase] products should be a dataLayer variable with the value taken from ecommerce.purchase.products and actionField should be a dataLayer varialbe with the value taken from ecommerce.purchase.actionField
     `,
     template: `
 
