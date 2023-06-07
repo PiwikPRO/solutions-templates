@@ -1013,7 +1013,7 @@ window.addEventListener('message', function(event){
   var cart_amount = {{ {{cartAmount}} }};
   var products = {{ {{products}} }};
   products.forEach(function(product){
-    _paq.push(["addEcommerceItem", {{productSku}} {{productName}} {{productCategory}} {{productPrice}} {{productQuantity}}]);
+    _paq.push(["addEcommerceItem", {{productSku}}, {{productName}}, {{productCategory}}, {{productPrice}}, {{productQuantity}}]);
   });
   _paq.push(["trackEcommerceCartUpdate", cart_amount]);  
 
@@ -1038,28 +1038,28 @@ window.addEventListener('message', function(event){
       displayName: 'Product SKU',
       recommended: "sku",
       description: 'Product stock-keeping unit (required)',
-      default: "product.sku,"
+      default: "product.sku"
     }, 
     { id: 'productName',
     type: 'text',
     displayName: 'Product name',
     recommended: "name",
     description: 'The name of the product (optional)',
-    default: "product.name,"
+    default: "product.name"
     }, 
     { id: 'productCategory',
     type: 'text',
     displayName: 'Product category',
     recommended: "category",
     description: 'Product category (optional)',
-    default: "product.category,"
+    default: "product.category"
     }, 
     { id: 'productPrice',
     type: 'text',
     displayName: 'Product price',
     recommended: "price",
     description: 'The price of the product (optional)',
-    default: "product.price,"
+    default: "product.price"
     }, 
     { id: 'productQuantity',
     type: 'text',
@@ -1081,9 +1081,9 @@ window.addEventListener('message', function(event){
   window._paq = window._paq || [];
   var products = {{ {{products}} }};
   products.forEach(function(product){
-    _paq.push(["addEcommerceItem", {{productSku}} {{productName}} {{productCategory}} {{productPrice}} {{productQuantity}}]);
+    _paq.push(["addEcommerceItem", {{productSku}}, {{productName}}, {{productCategory}}, {{productPrice}}, {{productQuantity}}]);
   });
-  _paq.push(["trackEcommerceOrder",{{ {{orderID}} }}, {{ {{grandTotal}} }}, {{subtotal}} {{tax}} {{shipping}} {{discount}}]);  
+  _paq.push(["trackEcommerceOrder", {{ {{orderID}} }}, {{ {{grandTotal}} }}, {{ {{subtotal}} }}, {{ {{tax}} }}, {{ {{shipping}} }}, {{ {{discount}} }}]);  
 
     `,
     arguments: [   
@@ -1099,7 +1099,7 @@ window.addEventListener('message', function(event){
       displayName: 'Product SKU',
       recommended: "sku",
       description: 'Product stock-keeping unit (required)',
-      default: "product.sku,"
+      default: "product.sku"
     }, 
     { id: 'orderID',
     type: 'text',
@@ -1120,21 +1120,21 @@ window.addEventListener('message', function(event){
     displayName: 'Product name',
     recommended: "name",
     description: 'The name of the product (optional)',
-    default: "product.name,"
+    default: "product.name"
     }, 
     { id: 'productCategory',
     type: 'text',
     displayName: 'Product category',
     recommended: "category",
     description: 'Product category (optional)',
-    default: "product.category,"
+    default: "product.category"
     }, 
     { id: 'productPrice',
     type: 'text',
     displayName: 'Product price',
     recommended: "price",
     description: 'The price of the product (optional)',
-    default: "product.price,"
+    default: "product.price"
     }, 
     { id: 'productQuantity',
     type: 'text',
@@ -1149,28 +1149,28 @@ window.addEventListener('message', function(event){
     displayName: 'Subtotal',
     recommended: "subtotal",
     description: 'Order subtotal - without shipping (optional)',
-    default: "{{ subtotal }},"
+    default: "subtotal"
     },
     { id: 'tax',
     type: 'text',
     displayName: 'Tax',
     recommended: "tax",
     description: 'Order tax amount (optional)',
-    default: "{{ tax }},"
+    default: "tax"
     },   
     { id: 'shipping',
     type: 'text',
     displayName: 'Shipping',
     recommended: "shipping",
     description: 'Order shipping cost (optional)',
-    default: "{{ shipping }},"
+    default: "shipping"
     },  
     { id: 'discount',
     type: 'text',
     displayName: 'Discount',
     recommended: "discount",
     description: 'Order discount amount (optional)',
-    default: "{{ discount }}"
+    default: "discount"
     },             
    ]
   },
