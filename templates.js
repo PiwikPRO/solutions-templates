@@ -580,38 +580,6 @@ var unsubscribe = detectExcessiveScroll(function (lastKnownPosition) {
       ],
     },
     {
-      id: 'heatmapClicks',
-      name: 'Heatmap clicks collector',
-      beforeDescriptionNote: '<b>IMPORTANT: If your PPAS version is higher than 16.8.0 you should migrate to integrated, backward compatible solution which is <a target="_blank" href="https://help.piwik.pro/support/tag-manager/heatmap-clickmap-tag/">Heatmap & clickmap tag</a></b>',
-      description: `
-      First exposed function (getElementPath) allow to collect clicks data for Site inspector's heatmap/clickmap feature.
-      Second exposed function (injectConfigForSiteInspector) gets configuration from Tag manager container and exposes it for Site inspector.
-      Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector.
-      `,
-      template: `
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}          
-${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encoding: 'utf-8' })}
-  var heatmapCollector = collectHeatmapClicks();
-
-  heatmapCollector.injectConfigForSiteInspector();
-
-  document.addEventListener('click', function(e) {
-    pushToAnalytics([
-      'trackEvent',
-      'Heatmap events',
-      'Click',
-      heatmapCollector.getElementPath(
-        e,
-        { blacklistedClasses: {{blacklistedClasses}} },
-      ),
-    ]);
-  });
-      `,
-      arguments: [
-        { id: 'blacklistedClasses', type: 'text', displayName: 'Blacklisted classes', description: 'Array of regexps (eg. /class-name/ for strict string search) of CSS classnames which will be filtered from final path', default: '[]' },
-      ],
-    },
-    {
       id: 'formTimingTracking',
       name: 'Form tracking',
       description: `
@@ -873,8 +841,61 @@ trackCopiedText(function (eventData) {
    ],
   },
   {
+    id: 'iframeTrackingHandler',
+    name: 'Iframe Tracking Handler',
+    description: `
+      This is an iframe tracking handler.
+      Add one of the templates with iframe tracking turned on to the website
+      that will be shown as an iframe and use this handler to catch the messages
+      sent from the iframe on the parent website and turn them into events.
+    `,
+    template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}   
+
+window.addEventListener('message', function(event){ 
+  if(event.data.type === "PiwikPRO"){
+    pushToAnalytics(event.data.payload); 
+  }
+}, false);  
+    `,
+    arguments: [        
+   ]
+  },
+  {
+    id: 'heatmapClicks',
+    name: 'Heatmap clicks collector (deprecated)',
+    beforeDescriptionNote: '<b>IMPORTANT: If your PPAS version is higher than 16.8.0 you should migrate to integrated, backward compatible solution which is <a target="_blank" href="https://help.piwik.pro/support/tag-manager/heatmap-clickmap-tag/">Heatmap & clickmap tag</a></b>',
+    description: `
+    First exposed function (getElementPath) allow to collect clicks data for Site inspector's heatmap/clickmap feature.
+    Second exposed function (injectConfigForSiteInspector) gets configuration from Tag manager container and exposes it for Site inspector.
+    Provided solution saves clicked target paths under custom event which name should remain unchanged to correct work of Site inspector.
+    `,
+    template: `
+${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}          
+${fs.readFileSync(path.join(__dirname, 'build/collectHeatmapClicks.js'), { encoding: 'utf-8' })}
+var heatmapCollector = collectHeatmapClicks();
+
+heatmapCollector.injectConfigForSiteInspector();
+
+document.addEventListener('click', function(e) {
+  pushToAnalytics([
+    'trackEvent',
+    'Heatmap events',
+    'Click',
+    heatmapCollector.getElementPath(
+      e,
+      { blacklistedClasses: {{blacklistedClasses}} },
+    ),
+  ]);
+});
+    `,
+    arguments: [
+      { id: 'blacklistedClasses', type: 'text', displayName: 'Blacklisted classes', description: 'Array of regexps (eg. /class-name/ for strict string search) of CSS classnames which will be filtered from final path', default: '[]' },
+    ],
+  },
+  {
     id: 'videoTrackingHTML5',
-    name: 'Video tracking for HTML5 videos',
+    name: 'Video tracking for HTML5 videos (deprecated)',
     beforeDescriptionNote: '<b>IMPORTANT: If your PPAS version is higher than 16.5.0 consider using <a target="_blank" href="https://help.piwik.pro/support/tag-manager/html5-video-tracking-tag/">HTML5 video tracking tag</a></b>',
     description: `
     This template allows you to track videos watched on your website
@@ -979,27 +1000,6 @@ videoTrackingHTML5(function(eventData) {
       default: false
       },
     ],
-  },
-  {
-    id: 'iframeTrackingHandler',
-    name: 'Iframe Tracking Handler',
-    description: `
-      This is an iframe tracking handler.
-      Add one of the templates with iframe tracking turned on to the website
-      that will be shown as an iframe and use this handler to catch the messages
-      sent from the iframe on the parent website and turn them into events.
-    `,
-    template: `
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}   
-
-window.addEventListener('message', function(event){ 
-  if(event.data.type === "PiwikPRO"){
-    pushToAnalytics(event.data.payload); 
-  }
-}, false);  
-    `,
-    arguments: [        
-   ]
   },
   {
     id: 'EcommerceCartUpdate',
