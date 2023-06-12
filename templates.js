@@ -12,7 +12,7 @@ module.exports = {
     id: 'EcommerceProductDetailView',
     name: 'Ecommerce product detail view',
     description: `
-    This script lets you track a product detail view. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: if you have an enchanced ecommerce setup, [detail] products should be a dataLayer variable with the value taken from ecommerce.detail.products
+    This script lets you track a product detail view. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: if you have an enhanced ecommerce setup, [detail] products should be a dataLayer variable with the value taken from ecommerce.detail.products
     `,
     template: `
 
@@ -87,7 +87,7 @@ module.exports = {
     id: 'EcommerceAddToCart',
     name: 'Ecommerce add to cart',
     description: `
-    This script lets you track an add to cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: if you have an enchanced ecommerce setup, [add] products should be a dataLayer variable with the value taken from ecommerce.add.products
+    This script lets you track an add to cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note: if you have an enhanced ecommerce setup, [add] products should be a dataLayer variable with the value taken from ecommerce.add.products
     `,
     template: `
 
@@ -170,7 +170,7 @@ module.exports = {
     id: 'EcommerceRemoveFromCart',
     name: 'Ecommerce remove from cart',
     description: `
-    This script lets you track a remove from cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note:  if you have an enchanced ecommerce setup, [remove] products should be a dataLayer variable with the value taken from ecommerce.remove.products
+    This script lets you track a remove from cart. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note:  if you have an enhanced ecommerce setup, [remove] products should be a dataLayer variable with the value taken from ecommerce.remove.products
     `,
     template: `
 
@@ -253,7 +253,7 @@ module.exports = {
     id: 'EcommerceOrder',
     name: 'Ecommerce order',
     description: `
-    This script lets you track an ecommerce order. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note:  if you have an enchanced ecommerce setup, [purchase] products should be a dataLayer variable with the value taken from ecommerce.purchase.products and actionField should be a dataLayer varialbe with the value taken from ecommerce.purchase.actionField
+    This script lets you track an ecommerce order. You can add it as a tag with a data layer event trigger in Tag Manager. You can see collected ecommerce data in Analytics > Ecommerce or use them in Analytics > Custom reports. Note:  if you have an enhanced ecommerce setup, [purchase] products should be a dataLayer variable with the value taken from ecommerce.purchase.products and actionField should be a dataLayer varialbe with the value taken from ecommerce.purchase.actionField
     `,
     template: `
 
@@ -641,7 +641,7 @@ formTimingTracking(function (eventData) {
     },
     {
       id: 'formAnalytics',
-      name: 'Enchanced form analytics (beta)',
+      name: 'Enhanced form analytics (beta)',
       description: `
         About: This script lets you track interactions with forms on your site.
         Tracked dimensions: formView, formStarted, formCompleted, fieldType, fieldName, fieldLabel, fieldMessage, formLastField, formLastFieldLabel.
