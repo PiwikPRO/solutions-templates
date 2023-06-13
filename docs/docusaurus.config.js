@@ -101,8 +101,8 @@ module.exports = {
               to: '#form-tracking',
             },
             {
-              label: 'Enchanced form analytics (beta)',
-              to: '#enchanced-form-analytics-(beta)',
+              label: 'Enhanced form analytics (beta)',
+              to: '#enhanced-form-analytics-(beta)',
             },
           ]
         },
