@@ -36,6 +36,108 @@ module.exports = {
           label: 'GitHub',
           position: 'right',
         },
+        {
+          label: 'Ecommerce tracking',
+          position: 'left',
+          items: [
+            {
+              label: 'Product detail view',
+              to: '#ecommerce-product-detail-view',
+            },
+            {
+              label: 'Add to cart',
+              to: '#ecommerce-add-to-cart',
+            },
+            {
+              label: 'Remove from cart',
+              to: '#ecommerce-remove-from-cart',
+            },
+            {
+              label: 'Order',
+              to: '#ecommerce-order',
+            },
+          ]
+        },
+        {
+          label: 'UX research',
+          position: 'left',
+          items: [
+            {
+              label: 'Dead clicks',
+              to: '#dead-clicks',
+            },
+            {
+              label: 'Error clicks',
+              to: '#error-clicks',
+            },
+            {
+              label: 'Mouse shake',
+              to: '#mouse-shake',
+            },
+            {
+              label: 'Rage clicks',
+              to: '#rage-clicks',
+            },
+            {
+              label: 'Quick Back',
+              to: '#quick-back',
+            },
+            {
+              label: 'Excessive Scroll',
+              to: '#excessive-scroll',
+            },
+            {
+              label: 'Copied text',
+              to: '#track-copied-text',
+            },
+          ]
+        },
+        {
+          label: 'Form tracking',
+          position: 'left',
+          items: [
+            {
+              label: 'Form tracking',
+              to: '#form-tracking',
+            },
+            {
+              label: 'Enchanced form analytics (beta)',
+              to: '#enchanced-form-analytics-(beta)',
+            },
+          ]
+        },
+        {
+          label: 'Utilities',
+          position: 'left',
+          items: [
+            {
+              label: 'Iframe tracking handler',
+              to: '#iframe-tracking-handler'
+            }
+          ]
+        },
+        {
+          label: 'Deprecated',
+          position: 'left',
+          items: [
+            {
+              label: 'Heatmap clicks collector (deprecated)',
+              to: '#heatmap-clicks-collector-(deprecated)',
+            },
+            {
+              label: 'Video tracking for HTML5 videos (deprecated)',
+              to: '#video-tracking-for-html5-videos-(deprecated)',
+            },
+            {
+              label: 'Ecommerce cart update (deprecated)',
+              to: '#ecommerce-cart-update-(deprecated)',
+            },
+            {
+              label: 'Ecommerce order confirmation (deprecated)',
+              to: '#ecommerce-order-confirmation-(deprecated)',
+            },
+          ]
+        },
       ],
     },
     generator,
