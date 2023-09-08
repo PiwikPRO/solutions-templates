@@ -153,6 +153,14 @@
   visibility: hidden;
 }
 
+.cardSpoilerContainer{
+  align-self: start;
+}
+
+.cardSpoilerSummary {
+  padding-bottom:10px;
+}
+
 .snippetWrapper {
   display: flex;
   position: relative;
