@@ -161,7 +161,7 @@ function Home() {
           <div className="container">
             <div className={`row ${styles.generatorRow}`}>
               {siteConfig.themeConfig.generator.templates.map(tpl => {
-                // Check if tpl.arguments contains argument with id 'iife'
+                // Check if isolated is false
                 const disableIsolatedFunction = tpl.isolated === false;
   
                 // Create a new array with updated arguments
