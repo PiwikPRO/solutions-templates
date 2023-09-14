@@ -116,9 +116,7 @@ function SnippetGenerator({ template }) {
         <h2 className={styles.cardHeading} id={template.name}>{template.name}</h2>
       </div>
       {template.beforeDescriptionNote && <p className={styles.cardDescription} dangerouslySetInnerHTML={{__html: template.beforeDescriptionNote}} />}
-      <p className={styles.cardDescription}>
-        {template.description}
-      </p>
+      <p className={styles.cardDescription} dangerouslySetInnerHTML={{ __html: template.description }}/>
       <div className={styles.cardSpoilerContainer}>
       {template.spoiler && (
           <details className={styles.cardSpoilerDetails}>
