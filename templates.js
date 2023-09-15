@@ -383,6 +383,906 @@ module.exports = {
     }, 
    ]
   },
+  {
+    id: 'CdpPopup',
+    name: 'CDP Simple Popup',
+    description: `
+    This is a simple popup template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <ul>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
+    </ul>
+    `,
+    spoiler:`
+    <img src='/solutions-templates/img/default-popup.png' alt='CDP Simple Popup'/>
+    `,
+    isolated:false,
+    template: `
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+    </head>
+    <body>
+      <div class="ppms-popup-overlay">
+        <div class="ppms-popup-box">
+          <div class="ppms-popup-close-button">x</div>
+          <!-- classname must stay as it is, otherwise close button will not work -->
+          <div class="ppms-popup-content">
+            <div class="ppms-popup-header">
+              <span class="ppms-popup-header-sub">{{subTitle}}</span>
+              <span class="ppms-popup-header-title">{{title}}</span>
+            </div>
+            <div class="ppms-popup-button-container">
+              <button class="ppms-popup-button-container-button">
+                {{buttonText}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style type="text/css">
+        .ppms-popup-overlay {
+              z-index: 1000;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              position: fixed;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: rgba(0, 0, 0, 0.7);
+        }
+          .ppms-popup-box {
+              width: 360px;
+              height: 360px;
+              box-sizing: border-box;
+              position: relative;
+              background-color: #fff;
+              border-radius: 10px;
+              box-shadow: 8px 8px 30px -14px rgba(66, 68, 90, 1);
+              overflow: hidden;
+        }
+          .ppms-popup-content {
+              padding: 60px 0;
+              font-family: sans-serif;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%;
+              flex-direction: column;
+              box-sizing: border-box;
+              height: 100%;
+        }
+          .ppms-popup-box::after {
+              content: '';
+              position: absolute;
+              background-color: rgb(240, 240, 240);
+              width: 100%;
+              height: 100%;
+              border-radius: 1000px;
+              z-index: 1;
+              bottom: -50%;
+        }
+          .ppms-popup-header {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              z-index: 2;
+        }
+          .ppms-popup-header-sub {
+              font-size: 20px;
+        }
+          .ppms-popup-header-title {
+              text-transform: uppercase;
+              font-weight: bold;
+              color: #086CD4;
+              font-size: 36px;
+              line-height: 44px;
+        }
+          .ppms-popup-button-container {
+              z-index: 2;
+        }
+          .ppms-popup-button-container-button {
+              background-color: #086CD4;
+              border-radius: 0;
+              border: none;
+              color: #fff;
+              font-size: 20px;
+              padding: 10px 25px;
+              text-transform: uppercase;
+              cursor: pointer;
+              box-shadow: 8px 8px 30px -14px rgba(66, 68, 90, 1);
+        }
+          .ppms-popup-button-container-button:hover {
+              background-color: #086CD4;
+        }
+          .ppms-popup-close-button {
+              height: 24px;
+              width: 24px;
+              padding: 4px;
+              z-index: 1000;
+              right: 10px;
+              top: 10px;
+              position: absolute;
+              cursor: pointer;
+              margin: 0;
+              box-sizing: content-box;
+              font-family: sans-serif;
+              font-weight: bold;
+              border-radius: 100%;
+              transition: .3s;
+              color: #000;
+              text-align: center;
+              line-height: 22px;
+              font-size: 24px;
+        }
+          .ppms-popup-close-button:hover {
+              background-color: #ccc;
+              border-color: #ccc;
+              color: #086CD4;
+        }
+          [id^="ppms-popup-wrapper-"] {
+              position: fixed;
+              width: 100vw;
+              height: 100vh;
+              top: 0;
+              left: 0;
+              z-index: 1000;
+        }
+      </style>
+    </body>
+  </html>
+    `,
+    arguments: [ 
+      { id: 'subTitle',
+      type: 'text',
+      displayName: 'Text Line 1',
+      recommended: "Welcome to our",
+      description: 'First line of text',
+      default: "Welcome to our"
+    },  
+    { id: 'title',
+      type: 'text',
+      displayName: 'Text Line 2',
+      recommended: "website!",
+      description: 'Second line of text',
+      default: "website!"
+    },  
+    { id: 'buttonText',
+      type: 'text',
+      displayName: 'Button Text',
+      recommended: "See Today's sale",
+      description: 'Text which is displayed on the button',
+      default: "See Today's sale"
+    },     
+   ]
+  },
+  {
+    id: 'CdpNewsletter',
+    name: 'CDP Newsletter Popup',
+    description: `
+    This is a Newsletter template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <ul>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
+    </ul>
+    `,
+    spoiler:`
+    <img src='/solutions-templates/img/newsletter-popup.png' alt='CDP Newsletter Popup'/>
+    `,
+    isolated:false,
+    template: `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+      </head>
+      <body>
+        <div class="ppms-popup-overlay">
+          <div class="ppms-popup-box">
+            <div class="ppms-popup-close-button">x</div>
+            <!-- classname must stay as it is, otherwise close button will not work -->
+            <div class="ppms-popup-content">
+              <div class="ppms-popup-info-container">
+                <div class="ppms-popup-header">
+                  <span class="ppms-popup-header-sub">{{subTitle}}</span>
+                  <span class="ppms-popup-header-title">{{title}}</span>
+                </div>
+                <div class="ppms-popup-form-container">
+                  <span class="ppms-popup-form-info"
+                    >{{ctaText}}</span
+                  >
+    
+                  <form>
+                    <span class="ppms-popup-form-label">{{inputLabel}}</span>
+                    <input class="ppms-popup-form-input" />
+                    <button class="ppms-popup-form-button">{{buttonText}}</button>
+                  </form>
+                </div>
+              </div>
+              <div class="ppms-popup-image-container">
+                <img
+                  class="ppms-popup-image"
+                  src="https://help.piwik.pro/wp-content/uploads/2019/04/analytics-for-beginners-spaced@2x.png?ver=1614783473"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <style type="text/css">
+           .ppms-popup-overlay {
+               z-index: 1000;
+               width: 100%;
+               height: 100%;
+               top: 0;
+               left: 0;
+               position: fixed;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               background-color: rgba(0, 0, 0, 0.7);
+          }
+           .ppms-popup-box {
+               width: 720px;
+               box-sizing: border-box;
+               position: relative;
+               height: 400px;
+               background-color: #fff;
+               border-radius: 10px;
+               box-shadow: 8px 8px 30px -14px rgba(66, 68, 90, 1);
+               overflow: hidden;
+          }
+           .ppms-popup-content {
+               font-family: sans-serif;
+               --gap: 20px;
+               display: flex;
+               width: 100%;
+               height: 100%;
+               box-sizing: border-box;
+          }
+           .ppms-popup-info-container {
+               padding: 60px 0;
+               display: flex;
+               flex-direction: column;
+               justify-content: space-between;
+               flex: 1;
+          }
+           .ppms-popup-image-container {
+               flex: 1;
+               height: 100%;
+               z-index: 2;
+          }
+           .ppms-popup-image {
+               object-fit: cover;
+               width: 100%;
+               height: 100%;
+               object-position: left;
+          }
+           .ppms-popup-box::after {
+               content: '';
+               position: absolute;
+               background-color: rgb(240, 240, 240);
+               width: 100%;
+               height: 100%;
+               border-radius: 1000px;
+               z-index: 1;
+               bottom: 0;
+               left: -70%;
+          }
+           .ppms-popup-header {
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               z-index: 2;
+          }
+           .ppms-popup-header-sub {
+               font-size: 20px;
+          }
+           .ppms-popup-header-title {
+               text-transform: uppercase;
+               font-weight: bold;
+               color: #086CD4;
+               font-size: 36px;
+               line-height: 44px;
+          }
+           .ppms-popup-form-container {
+               z-index: 2;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               flex-direction: column;
+               width: 100%;
+          }
+           .ppms-popup-form-container form {
+               display: flex;
+               flex-direction: column;
+               width: 70%;
+          }
+           .ppms-popup-form-info{
+               font-size: 18px;
+               margin-bottom: 30px;
+          }
+           .ppms-popup-form-label {
+               font-size: 14px;
+               margin-bottom: 2px;
+          }
+           .ppms-popup-form-input {
+               height: 35px;
+               border: none;
+               border-radius: 5px;
+               border: 1px solid #919191;
+          }
+           .ppms-popup-form-button {
+               background-color: #086CD4;
+               border: none;
+               color: #fff;
+               font-size: 16px;
+               padding: 10px 25px;
+               text-transform: uppercase;
+               cursor: pointer;
+               box-shadow: 8px 8px 30px -14px rgba(66, 68, 90, 1);
+               align-self: center;
+               margin-top: 20px;
+               border-radius: 0;
+          }
+           .ppms-popup-form-button:hover {
+               background-color: #086CD4;
+          }
+           .ppms-popup-close-button {
+               height: 24px;
+               width: 24px;
+               padding: 4px;
+               z-index: 1000;
+               right: 10px;
+               top: 10px;
+               position: absolute;
+               cursor: pointer;
+               margin: 0;
+               box-sizing: content-box;
+               font-family: sans-serif;
+               font-weight: bold;
+               border-radius: 100%;
+               transition: .3s;
+               color: #000;
+               text-align: center;
+               line-height: 22px;
+               font-size: 24px;
+          }
+           .ppms-popup-close-button:hover {
+               background-color: #ccc;
+               border-color: #ccc;
+               color: #086CD4;
+          }
+           [id^="ppms-popup-wrapper-"] {
+               position: fixed;
+               width: 100vw;
+               height: 100vh;
+               top: 0;
+               left: 0;
+               z-index: 1000;
+          }
+           @media (max-width: 720px) {
+               .ppms-popup-box {
+                   width: 360px;
+                   height: 620px
+              }
+               .ppms-popup-content {
+                   flex-direction: column;
+              }
+               .ppms-popup-box::after {
+                   width: 100%;
+                   height: 50%;
+                   top: -35%;
+                   left: 0;
+                   right: 0;
+              }
+          }
+        </style>
+      </body>
+    </html>
+    `,
+    arguments: [ 
+      { id: 'subTitle',
+      type: 'text',
+      displayName: 'Sub Title',
+      recommended: "Welcome to our",
+      description: 'First line of text',
+      default: "Welcome to our"
+    },  
+    { id: 'title',
+      type: 'text',
+      displayName: 'Title',
+      recommended: "website!",
+      description: 'Second line of text',
+      default: "website!"
+    },  
+    { id: 'ctaText',
+      type: 'text',
+      displayName: 'CTA Text',
+      recommended: "Sign up for our newsletter!",
+      description: 'Call to action text',
+      default: "Sign up for our newsletter!"
+    },  
+    { id: 'inputLabel',
+    type: 'text',
+    displayName: 'Input Label',
+    recommended: "Email",
+    description: 'Label above the input field',
+    default: "Email"
+    },  
+    { id: 'buttonText',
+    type: 'text',
+    displayName: 'Button Text',
+    recommended: "SEND",
+    description: 'The text on the button',
+    default: "SEND"
+    },   
+   ]
+  },
+  {
+    id: 'CdpBanner',
+    name: 'CDP Banner',
+    description: `
+    This is a Banner template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <ul>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
+    </ul>
+    `,
+    spoiler:`
+    <img src='/solutions-templates/img/cdp-banner.png' alt='CDP Banner'/>
+    `,
+    isolated:false,
+    template: `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+      </head>
+      <body>
+        <div class="ppms-popup-box">
+          <div class="ppms-popup-close-button">x</div>
+          <!-- classname must stay as it is, otherwise close button will not work -->
+          <div class="ppms-popup-content">
+            <div class="ppms-popup-header">
+              <span class="ppms-popup-header-sub">{{subTitle}}</span>
+              <span class="ppms-popup-header-title">{{title}}</span>
+            </div>
+            <div class="ppms-popup-info">
+              <p class="ppms-popup-info-text">
+                {{infoText}}
+              </p>
+              <div class="ppms-popup-info-badge">
+                <span class="ppms-popup-info-code">{{code}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style type="text/css">
+          .ppms-popup-box {
+               position: absolute;
+               top: 0;
+               width: 100%;
+               height: 200px;
+               box-sizing: border-box;
+               position: relative;
+               background-color: #fff;
+               box-shadow: 8px 8px 30px -14px rgba(66, 68, 90, 1);
+               overflow: hidden;
+          }
+           .ppms-popup-content {
+               padding: 60px;
+               font-family: sans-serif;
+               display: flex;
+               align-items: center;
+               max-width: 1024px;
+               flex-direction: row;
+               margin: 0 auto;
+               justify-content: space-between;
+          }
+           .ppms-popup-box::after {
+               content: '';
+               position: absolute;
+               background-color: rgb(245, 245, 245);
+               width: 100%;
+               height: 5000%;
+               border-radius: 1000px;
+               z-index: 1;
+               bottom: 10%;
+          }
+           .ppms-popup-header {
+               display: flex;
+               height: 100%;
+               flex-direction: column;
+               align-items: center;
+               z-index: 2;
+          }
+           .ppms-popup-header-sub {
+               font-size: 20px;
+          }
+           .ppms-popup-header-title {
+               text-transform: uppercase;
+               font-weight: bold;
+               color: #086CD4;
+               font-size: 36px;
+               line-height: 44px;
+          }
+           .ppms-popup-info {
+               z-index: 2;
+               align-items: center;
+               display: flex;
+               flex-direction: column;
+               justify-content: center;
+          }
+           .ppms-popup-info-text {
+               font-size: 18px;
+               margin: 0 0 20px 0;
+          }
+           .ppms-popup-info-badge {
+               background-color: #086CD4;
+               padding: 10px 25px;
+          }
+           .ppms-popup-info-code {
+               color: #fff;
+               letter-spacing: 4px;
+               text-transform: uppercase;
+          }
+           .ppms-popup-close-button {
+               height: 24px;
+               width: 24px;
+               padding: 4px;
+               z-index: 1000;
+               right: 10px;
+               top: 10px;
+               position: absolute;
+               cursor: pointer;
+               margin: 0;
+               box-sizing: content-box;
+               font-family: sans-serif;
+               font-weight: bold;
+               border-radius: 100%;
+               transition: .3s;
+               color: #000;
+               text-align: center;
+               line-height: 22px;
+               font-size: 24px;
+          }
+           .ppms-popup-close-button:hover {
+               background-color: #ccc;
+               border-color: #ccc;
+               color: #086CD4;
+          }
+           [id^="ppms-popup-wrapper-"] {
+               position: fixed;
+               width: 100vw;
+               height: 100vh;
+               top: 0;
+               left: 0;
+               z-index: 1000;
+          }
+           @media (max-width: 720px) {
+               .ppms-popup-box {
+                   height: auto;
+              }
+               .ppms-popup-content {
+                   flex-direction: column;
+              }
+          }
+        </style>
+      </body>
+    </html>
+    `,
+    arguments: [ 
+      { id: 'subTitle',
+      type: 'text',
+      displayName: 'Sub Title',
+      recommended: "Welcome to our",
+      description: 'First line of text',
+      default: "Welcome to our"
+    },  
+    { id: 'title',
+      type: 'text',
+      displayName: 'Title',
+      recommended: "website!",
+      description: 'Second line of text',
+      default: "website!"
+    },  
+    { id: 'infoText',
+      type: 'text',
+      displayName: 'Info Text',
+      recommended: "Use this promo code to get a discount:",
+      description: 'Informational text',
+      default: "Use this promo code to get a discount:"
+    },   
+    { id: 'code',
+    type: 'text',
+    displayName: 'Code',
+    recommended: "code1234",
+    description: 'Promo code value',
+    default: "code1234"
+    },   
+   ]
+  },
+  {
+    id: 'CdpTimer',
+    name: 'CDP Timer Popup',
+    description: `
+    This is a Timer popup template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <ul>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
+      <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
+    </ul>
+    `,
+    spoiler:`
+    <img src='/solutions-templates/img/cdp-timer.png' alt='CDP Timer'/>
+    `,
+    isolated:false,
+    template: `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+      </head>
+      <body>
+        <div class="ppms-popup-overlay">
+          <div class="ppms-popup-box">
+            <div class="ppms-popup-close-button">x</div>
+            <!-- classname must stay as it is, otherwise close button will not work -->
+            <div class="ppms-popup-content">
+              <div class="ppms-popup-header">
+                <span class="ppms-popup-header-sub">{{subTitle}}</span>
+                <span class="ppms-popup-header-title">{{title}}</span>
+              </div>
+              <div class="ppms-popup-timer">
+                <span class="ppms-popup-timer-info"
+                  >{{infoText}}</span
+                >
+                <div>
+                  <span class="ppms-popup-timer-minutes">{{minutesPlaceholder}}</span>
+                  <span class="ppms-popup-timer-minutes">:</span>
+                  <span
+                    class="ppms-popup-timer-seconds"
+                    id="ppms-popup-timer-seconds"
+                    >{{secondsPlaceholder}}</span
+                  >
+                </div>
+              </div>
+              <div class="ppms-popup-button-container">
+                <button class="ppms-popup-button-container-button">
+                  {{buttonText}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style type="text/css">
+          .ppms-popup-overlay {
+               z-index: 1000;
+               width: 100%;
+               height: 100%;
+               top: 0;
+               left: 0;
+               position: fixed;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               background-color: rgba(0, 0, 0, 0.7);
+          }
+           .ppms-popup-box {
+               width: 360px;
+               height: 450px;
+               box-sizing: border-box;
+               position: relative;
+               background-color: #fff;
+               border-radius: 10px;
+               box-shadow: 8px 8px 30px -14px rgba(66, 68, 90, 1);
+               overflow: hidden;
+          }
+           .ppms-popup-content {
+               padding: 60px 0;
+               font-family: sans-serif;
+               display: flex;
+               align-items: center;
+               width: 100%;
+               flex-direction: column;
+               justify-content: space-between;
+               height: 100%;
+               box-sizing: border-box;
+          }
+           .ppms-popup-box::after {
+               content: '';
+               position: absolute;
+               background-color: rgb(240, 240, 240);
+               width: 100%;
+               height: 100%;
+               border-radius: 1000px;
+               z-index: 1;
+               bottom: -50%;
+          }
+           .ppms-popup-header {
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               z-index: 2;
+               flex: 1;
+          }
+           .ppms-popup-header-sub {
+               font-size: 20px;
+          }
+           .ppms-popup-header-title {
+               text-transform: uppercase;
+               font-weight: bold;
+               color: #086CD4;
+               font-size: 36px;
+               line-height: 44px;
+          }
+           .ppms-popup-button-container {
+               z-index: 2;
+               flex: 1;
+               display: flex;
+               align-items: center;
+          }
+           .ppms-popup-button-container-button {
+               background-color: #086CD4;
+               border-radius: 0;
+               border: none;
+               color: #fff;
+               font-size: 20px;
+               padding: 10px 25px;
+               text-transform: uppercase;
+               cursor: pointer;
+               box-shadow: 8px 8px 30px -14px rgba(66, 68, 90, 1);
+          }
+           .ppms-popup-timer {
+               z-index: 2;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               flex-direction: column;
+               flex: 1;
+          }
+           .ppms-popup-timer-info {
+               font-size: 16px;
+               color: #086CD4;
+               margin-bottom: 20px;
+          }
+           .ppms-popup-timer-minutes {
+               font-size: 62px;
+               color: #383838;
+          }
+           .ppms-popup-timer-seconds {
+               font-size: 62px;
+               font-weight: bold;
+               color: #086CD4;
+          }
+           .ppms-popup-button-container-button:hover {
+               background-color: #086CD4;
+          }
+           .ppms-popup-close-button {
+               height: 24px;
+               width: 24px;
+               padding: 4px;
+               z-index: 1000;
+               right: 10px;
+               top: 10px;
+               position: absolute;
+               cursor: pointer;
+               margin: 0;
+               box-sizing: content-box;
+               font-family: sans-serif;
+               font-weight: bold;
+               border-radius: 100%;
+               transition: .3s;
+               color: #000;
+               text-align: center;
+               line-height: 22px;
+               font-size: 24px;
+          }
+           .ppms-popup-close-button:hover {
+               background-color: #ccc;
+               border-color: #ccc;
+               color: #086CD4;
+          }
+           [id^="ppms-popup-wrapper-"] {
+               position: fixed;
+               width: 100vw;
+               height: 100vh;
+               top: 0;
+               left: 0;
+               z-index: 1000;
+          }
+        </style>
+        <script>
+    let totalTimeInSeconds = {{counterValue}};
+    const minutesElement = document.querySelector(".ppms-popup-timer-minutes");
+    const secondsElement = document.querySelector(".ppms-popup-timer-seconds");
+    const button = document.querySelector(".ppms-popup-button-container-button");
+    const infoText = document.querySelector(".ppms-popup-timer-info");
+    
+    const interval = setInterval(() => {
+        if (totalTimeInSeconds >= 0) {
+            const minutes = Math.floor(totalTimeInSeconds / 60);
+            const seconds = totalTimeInSeconds % 60;
+    
+            // Update the minutes and seconds elements
+            minutesElement.innerHTML = minutes > 9 ? minutes : `+'`0${minutes}`'+`;
+            secondsElement.innerHTML = seconds > 9 ? seconds : `+'`0${seconds}`'+`;
+    
+            totalTimeInSeconds--;
+        } else {
+            clearInterval(interval);
+            infoText.innerHTML = "You cannot get a discount now.";
+            button.style.backgroundColor = 'rgb(170, 170, 170)';
+            infoText.style.color = 'rgb(170, 170, 170)';
+            button.style.cursor = 'not-allowed';
+        }
+    }, 1000);
+        </script>
+      </body>
+    </html>
+    `,
+    arguments: [ 
+      { id: 'subTitle',
+      type: 'text',
+      displayName: 'Sub Title',
+      recommended: "Welcome to our",
+      description: 'First line of text',
+      default: "Welcome to our"
+    },  
+    { id: 'title',
+      type: 'text',
+      displayName: 'Title',
+      recommended: "website!",
+      description: 'Second line of text',
+      default: "website!"
+    },  
+    { id: 'infoText',
+      type: 'text',
+      displayName: 'Info Text',
+      recommended: "You have 1 minute to get a discount!",
+      description: 'Informational text',
+      default: "You have 1 minute to get a discount!"
+    },   
+    { id: 'minutesPlaceholder',
+    type: 'text',
+    displayName: 'Minutes Placeholder',
+    recommended: "01",
+    description: 'The amount of minutes to start from. For example if our counter value is 90 our Minutes Placeholder value should be 01 since there is 1 minute in 90 seconds',
+    default: "01"
+    },  
+    { id: 'secondsPlaceholder',
+    type: 'text',
+    displayName: 'Seconds Placeholder',
+    recommended: "00",
+    description: 'The amount of seconds to start from. For example if our counter value is 90 our Seconds Placeholder value should be 30 since it is 1 minute and 30 seconds',
+    default: "00"
+    }, 
+    { id: 'buttonText',
+    type: 'text',
+    displayName: 'Button Text',
+    recommended: "Get discount",
+    description: 'The text on the button',
+    default: "Get discount"
+    },   
+    { id: 'counterValue',
+    type: 'text',
+    displayName: 'Counter Value',
+    recommended: "60",
+    description: 'The value of the countdown in seconds',
+    default: "60"
+    },      
+   ]
+  },
     {
       id: 'deadClicks',
       name: 'Dead clicks',

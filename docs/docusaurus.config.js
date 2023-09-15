@@ -59,6 +59,28 @@ module.exports = {
           ]
         },
         {
+          label: 'CDP',
+          position: 'left',
+          items: [
+            {
+              label: 'Simple Popup',
+              to: '#cdp-simple-popup',
+            },
+            {
+              label: 'Newsletter Popup',
+              to: '#cdp-newsletter-popup',
+            },
+            {
+              label: 'Banner',
+              to: '#cdp-banner',
+            },
+            {
+              label: 'Timer Popup',
+              to: '#cdp-timer-popup',
+            },
+          ]
+        },
+        {
           label: 'UX research',
           position: 'left',
           items: [

@@ -116,7 +116,15 @@ function SnippetGenerator({ template }) {
         <h2 className={styles.cardHeading} id={template.name}>{template.name}</h2>
       </div>
       {template.beforeDescriptionNote && <p className={styles.cardDescription} dangerouslySetInnerHTML={{__html: template.beforeDescriptionNote}} />}
-      <p className={styles.cardDescription}>{template.description}</p>
+      <p className={styles.cardDescription} dangerouslySetInnerHTML={{ __html: template.description }}/>
+      <div className={styles.cardSpoilerContainer}>
+      {template.spoiler && (
+          <details className={styles.cardSpoilerDetails}>
+            <summary className={styles.cardSpoilerSummary}>Preview</summary>
+           <center><div dangerouslySetInnerHTML={{ __html: template.spoiler }} /></center>
+          </details>
+        )}
+      </div>
       {customize && <SnippetForm args={template.arguments} values={values} onChange={updateValues} />}
       <div className={styles.snippetWrapper}>
         <button type="button" className={styles.customizeButton} onClick={showCustomizeForm}>Customize</button>
@@ -139,8 +147,7 @@ function Home() {
   }, []);
 
   return (
-    <Layout
-      description={siteConfig.tagline}>
+    <Layout description={siteConfig.tagline}>
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className="container">
           <h1 className="hero__title">{siteConfig.themeConfig.navbar.title}</h1>
@@ -151,18 +158,23 @@ function Home() {
         <section>
           <div className="container">
             <div className={`row ${styles.generatorRow}`}>
-              {siteConfig.themeConfig.generator.templates.map(tpl => (
-                <SnippetGenerator 
-                  key={tpl.id} 
-                  template={{
-                    ...tpl, 
-                    arguments: [
-                      ...tpl.arguments, 
-                      ...siteConfig.themeConfig.generator.arguments
-                    ]
-                  }} 
-                />
-              ))}
+              {siteConfig.themeConfig.generator.templates.map(tpl => {
+                const disableIsolatedFunction = tpl.isolated === false;
+
+                const filteredArguments = disableIsolatedFunction
+                  ? [...tpl.arguments]
+                  : [...tpl.arguments, ...siteConfig.themeConfig.generator.arguments];
+
+                return (
+                  <SnippetGenerator
+                    key={tpl.id}
+                    template={{
+                      ...tpl,
+                      arguments: filteredArguments,
+                    }}
+                  />
+                );
+              })}
             </div>
           </div>
         </section>
