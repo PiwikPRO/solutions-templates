@@ -120,7 +120,7 @@ function SnippetGenerator({ template }) {
       <div className={styles.cardSpoilerContainer}>
       {template.spoiler && (
           <details className={styles.cardSpoilerDetails}>
-            <summary className={styles.cardSpoilerSummary}>Spoiler</summary>
+            <summary className={styles.cardSpoilerSummary}>Preview</summary>
            <center><div dangerouslySetInnerHTML={{ __html: template.spoiler }} /></center>
           </details>
         )}
@@ -159,14 +159,12 @@ function Home() {
           <div className="container">
             <div className={`row ${styles.generatorRow}`}>
               {siteConfig.themeConfig.generator.templates.map(tpl => {
-                // Check if isolated is false
                 const disableIsolatedFunction = tpl.isolated === false;
-  
-                // Create a new array with updated arguments
+
                 const filteredArguments = disableIsolatedFunction
                   ? [...tpl.arguments]
                   : [...tpl.arguments, ...siteConfig.themeConfig.generator.arguments];
-  
+
                 return (
                   <SnippetGenerator
                     key={tpl.id}

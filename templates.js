@@ -525,7 +525,6 @@ module.exports = {
               border-color: #ccc;
               color: #086CD4;
         }
-        /* These styles affect your popup tracking. Modify with caution. */
           [id^="ppms-popup-wrapper-"] {
               position: fixed;
               width: 100vw;
@@ -760,7 +759,6 @@ module.exports = {
                border-color: #ccc;
                color: #086CD4;
           }
-          /* These styles affect your popup tracking. Modify with caution. */
            [id^="ppms-popup-wrapper-"] {
                position: fixed;
                width: 100vw;
@@ -962,7 +960,6 @@ module.exports = {
                border-color: #ccc;
                color: #086CD4;
           }
-          /* These styles affect your popup tracking. Modify with caution. */
            [id^="ppms-popup-wrapper-"] {
                position: fixed;
                width: 100vw;
@@ -1168,7 +1165,7 @@ module.exports = {
                font-weight: bold;
                color: #086CD4;
           }
-           .ppms-popup-button-cotainer-button:hover {
+           .ppms-popup-button-container-button:hover {
                background-color: #086CD4;
           }
            .ppms-popup-close-button {
@@ -1196,7 +1193,6 @@ module.exports = {
                border-color: #ccc;
                color: #086CD4;
           }
-          /* These styles affect your popup tracking. Modify with caution. */
            [id^="ppms-popup-wrapper-"] {
                position: fixed;
                width: 100vw;
