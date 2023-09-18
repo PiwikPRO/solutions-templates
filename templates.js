@@ -387,7 +387,7 @@ module.exports = {
     id: 'CdpPopup',
     name: 'CDP Simple Popup',
     description: `
-    This is a simple popup template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <p>This is a simple popup template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:</p>
     <ul>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
@@ -558,14 +558,14 @@ module.exports = {
       recommended: "See Today's sale",
       description: 'Text which is displayed on the button',
       default: "See Today's sale"
-    },     
+    },    
    ]
   },
   {
     id: 'CdpNewsletter',
     name: 'CDP Newsletter Popup',
     description: `
-    This is a Newsletter template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <p>This is a Newsletter template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:</p>
     <ul>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
@@ -829,7 +829,7 @@ module.exports = {
     id: 'CdpBanner',
     name: 'CDP Banner',
     description: `
-    This is a Banner template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <p>This is a Banner template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:</p>
     <ul>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
@@ -1015,7 +1015,7 @@ module.exports = {
     id: 'CdpTimer',
     name: 'CDP Timer Popup',
     description: `
-    This is a Timer popup template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:
+    <p>This is a Timer popup template which can be used in a popup tag for CDP scenarios. For more information please have a look at these articles:</p>
     <ul>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/cdp/6-useful-examples-of-how-to-use-audiences-and-data-activations/">6 useful examples of how to use audiences and data activations</a></li>
       <li><a rel="noopener noreferrer" href="https://help.piwik.pro/support/tag-manager/custom-pop-up-tag/">Custom popup tag</a></li>
