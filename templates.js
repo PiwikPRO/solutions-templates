@@ -1484,11 +1484,11 @@ var unsubscribe = detectExcessiveScroll(function (lastKnownPosition) {
       name: 'Form tracking',
       description: `
         About: This script lets you track interactions with forms on your site.
-        Tracked interactions: (1) focus, blur or change on <input>, <select>, <textarea> and <datalist> in a <form> element,
+        Tracked interactions: (1) focus, blur or change on input, select, textarea and datalist in a form element,
         (2) time spent on a form field, (3) form submission.
         Reporting: All interactions are tracked as custom events.
         You can see them in Analytics > Reports > Custom events or use them in Analytics > Custom reports.
-        Note: This script automatically detects all <form> elements on your site.
+        Note: This script automatically detects all form elements on your site.
         Note: This is a deprecated version because a better one is now available.
         We recommend switching to this solution: Form analytics (beta).
       `,
