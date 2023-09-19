@@ -150,14 +150,6 @@ module.exports = {
               label: 'Video tracking for HTML5 videos (deprecated)',
               to: '#video-tracking-for-html5-videos-(deprecated)',
             },
-            {
-              label: 'Ecommerce cart update (deprecated)',
-              to: '#ecommerce-cart-update-(deprecated)',
-            },
-            {
-              label: 'Ecommerce order confirmation (deprecated)',
-              to: '#ecommerce-order-confirmation-(deprecated)',
-            },
           ]
         },
       ],
