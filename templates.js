@@ -1717,6 +1717,8 @@ trackCopiedText(function (eventData) {
   } else {
     postIframeMessage(eventData);
   }
+}, {
+  filteredElements: ['input', 'textarea']
 });
     `,
     arguments: [
