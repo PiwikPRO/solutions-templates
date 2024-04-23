@@ -1410,28 +1410,6 @@ var unsubscribe = detectQuickBacks(function (url) {
       ],
     },
     {
-      id: 'excessiveScroll',
-      name: 'Excessive Scroll',
-      description: `
-        Excessive scrolling detects when a user scrolls through site content at a higher rate than expected for standard content consumption.
-      `,
-      template: `
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}           
-${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
-
-var unsubscribe = detectExcessiveScroll(function (lastKnownPosition) {
-  pushToAnalytics(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
-
-// unsubscribe(); // Uncomment this line when you want to finish after first trigger
-}, {
-  threshold: {{threshold}},
-});      
-      `,
-      arguments: [
-        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 3 },
-      ],
-    },
-    {
       id: 'formTimingTracking',
       name: 'Form tracking',
       description: `

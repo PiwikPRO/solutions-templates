@@ -105,10 +105,6 @@ module.exports = {
               to: '#quick-back',
             },
             {
-              label: 'Excessive Scroll',
-              to: '#excessive-scroll',
-            },
-            {
               label: 'Copied text',
               to: '#track-copied-text',
             },
