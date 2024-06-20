@@ -1641,35 +1641,37 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         },
       ],
     },
-  {
-    id: 'trackCopiedText',
-    name: 'Track copied text',
-    description: `
-    This template allows you to track pieces of text that are copied to clipboard by your website users.
-    `,
-    template: `
-${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
-${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
-
-trackCopiedText(function (eventData) {
-  var trackFromIframe = {{iframeTracking}}; 
-  if(!trackFromIframe){
-    pushToAnalytics(eventData);
-  } else {
-    postIframeMessage(eventData);
-  }
-});
-    `,
-    arguments: [
-      { id: 'iframeTracking',
-      type: 'boolean',
-      displayName: 'Send messages from iframes',
-      description: 'If checked, you will pass messages to the parent window instead of _paq.push',
-      default: false
-      },      
-   ],
-  },
+    {
+      id: 'trackCopiedText',
+      name: 'Track copied text',
+      description: `
+      This template allows you to track pieces of text that are copied to clipboard by your website users.
+      `,
+      template: `
+  ${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+  ${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
+  ${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
+  
+  trackCopiedText(function (eventData) {
+    var trackFromIframe = {{iframeTracking}}; 
+    if(!trackFromIframe){
+      pushToAnalytics(eventData);
+    } else {
+      postIframeMessage(eventData);
+    }
+  }, {
+    filteredElements: ['input', 'textarea']
+  });
+      `,
+      arguments: [
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
+        default: false
+        },      
+     ],
+    },
   {
     id: 'iframeTrackingHandler',
     name: 'Iframe Tracking Handler',

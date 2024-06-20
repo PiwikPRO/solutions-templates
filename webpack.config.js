@@ -46,6 +46,9 @@ module.exports = {
           {
             test: /\.(ts|tsx|jsx|js)$/,
             loader: require.resolve('ts-loader'),
+            options: {
+              transpileOnly: true,
+            }
           },
         ]
       }
