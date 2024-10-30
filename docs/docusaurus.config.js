@@ -16,7 +16,7 @@ module.exports = {
   baseUrl: '/solutions-templates/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'https://piwik.pro/wp-content/assets/img/favicon.png?ver=1608560712',
+  favicon: 'https://piwik.pro/wp-content/uploads/2024/04/favicon.png',
   organizationName: 'Piwik PRO', // Usually your GitHub org/user name.
   projectName: 'solutions-templates', // Usually your repo name.
   themeConfig: {
@@ -27,7 +27,7 @@ module.exports = {
       title: 'Solution Templates',
       logo: {
         alt: 'Piwik PRO logo',
-        src: 'https://piwik.pro/wp-content/assets/img/pp-logo_dark.svgz?ver=1610458769',
+        src: 'https://piwik.pro/wp-content/themes/main/assets/images/pp-logo_dark.svg',
       },
       items: [
         // Please keep GitHub link to the right for consistency.

@@ -1672,27 +1672,38 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         },      
      ],
     },
-  {
-    id: 'iframeTrackingHandler',
-    name: 'Iframe Tracking Handler',
-    description: `
-      This is an iframe tracking handler.
-      Add one of the templates with iframe tracking turned on to the website
-      that will be shown as an iframe and use this handler to catch the messages
-      sent from the iframe on the parent website and turn them into events.
-    `,
-    template: `
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}   
+    {
+      id: 'iframeTrackingHandler',
+      name: 'Iframe Tracking Handler',
+      description: `
+        This is an iframe tracking handler.
+        Add one of the templates with iframe tracking turned on to the website
+        that will be shown as an iframe and use this handler to catch the messages
+        sent from the iframe on the parent website and turn them into events.
+      `,
+      template: `
+  ${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}   
+  
+  window.addEventListener('message', function(event){ 
+    if (event.origin !== 'https://'+'{{domain}}') {
+      return;
+    }
 
-window.addEventListener('message', function(event){ 
-  if(event.data.type === "PiwikPRO"){
-    pushToAnalytics(event.data.payload); 
-  }
-}, false);  
-    `,
-    arguments: [        
-   ]
-  },
+    if(event.data.type === "PiwikPRO"){
+      pushToAnalytics(event.data.payload); 
+    }
+  }, false);  
+      `,
+      arguments: [
+          {
+              id: 'domain',
+              type: 'text',
+              displayName: 'The origin of the window that sends the message (domain)',
+              description: 'It needs to be a domain for example piwik.pro',
+              default: 'example.com'
+          }        
+     ]
+    }, 
   {
     id: 'heatmapClicks',
     name: 'Heatmap clicks collector (deprecated)',
