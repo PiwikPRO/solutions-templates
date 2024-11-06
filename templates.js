@@ -1410,28 +1410,6 @@ var unsubscribe = detectQuickBacks(function (url) {
       ],
     },
     {
-      id: 'excessiveScroll',
-      name: 'Excessive Scroll',
-      description: `
-        Excessive scrolling detects when a user scrolls through site content at a higher rate than expected for standard content consumption.
-      `,
-      template: `
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}           
-${fs.readFileSync(path.join(__dirname, 'build/detectExcessiveScroll.js'), { encoding: 'utf-8' })}
-
-var unsubscribe = detectExcessiveScroll(function (lastKnownPosition) {
-  pushToAnalytics(['trackEvent', 'UX Research', 'Excessive Scroll', lastKnownPosition]);
-
-// unsubscribe(); // Uncomment this line when you want to finish after first trigger
-}, {
-  threshold: {{threshold}},
-});      
-      `,
-      arguments: [
-        { id: 'threshold', type: 'number', displayName: 'Threshold', default: 3 },
-      ],
-    },
-    {
       id: 'formTimingTracking',
       name: 'Form tracking',
       description: `
@@ -1663,56 +1641,69 @@ fa.sendEvent(formAnalytics.event.{{eventName}});
         },
       ],
     },
-  {
-    id: 'trackCopiedText',
-    name: 'Track copied text',
-    description: `
-    This template allows you to track pieces of text that are copied to clipboard by your website users.
-    `,
-    template: `
-${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
-${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
+    {
+      id: 'trackCopiedText',
+      name: 'Track copied text',
+      description: `
+      This template allows you to track pieces of text that are copied to clipboard by your website users.
+      `,
+      template: `
+  ${fs.readFileSync(path.join(__dirname, 'build/postIframeMessage.js'), { encoding: 'utf-8' })}    
+  ${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}        
+  ${fs.readFileSync(path.join(__dirname, 'build/trackCopiedText.js'), { encoding: 'utf-8' })}
+  
+  trackCopiedText(function (eventData) {
+    var trackFromIframe = {{iframeTracking}}; 
+    if(!trackFromIframe){
+      pushToAnalytics(eventData);
+    } else {
+      postIframeMessage(eventData);
+    }
+  }, {
+    filteredElements: ['input', 'textarea']
+  });
+      `,
+      arguments: [
+        { id: 'iframeTracking',
+        type: 'boolean',
+        displayName: 'Send messages from iframes',
+        description: 'If checked, you will pass messages to the parent window instead of _paq.push',
+        default: false
+        },      
+     ],
+    },
+    {
+      id: 'iframeTrackingHandler',
+      name: 'Iframe Tracking Handler',
+      description: `
+        This is an iframe tracking handler.
+        Add one of the templates with iframe tracking turned on to the website
+        that will be shown as an iframe and use this handler to catch the messages
+        sent from the iframe on the parent website and turn them into events.
+      `,
+      template: `
+  ${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}   
+  
+  window.addEventListener('message', function(event){ 
+    if (event.origin !== 'https://'+'{{domain}}') {
+      return;
+    }
 
-trackCopiedText(function (eventData) {
-  var trackFromIframe = {{iframeTracking}}; 
-  if(!trackFromIframe){
-    pushToAnalytics(eventData);
-  } else {
-    postIframeMessage(eventData);
-  }
-});
-    `,
-    arguments: [
-      { id: 'iframeTracking',
-      type: 'boolean',
-      displayName: 'Send messages from iframes',
-      description: 'If checked, you will pass messages to the parent window instead of _paq.push',
-      default: false
-      },      
-   ],
-  },
-  {
-    id: 'iframeTrackingHandler',
-    name: 'Iframe Tracking Handler',
-    description: `
-      This is an iframe tracking handler.
-      Add one of the templates with iframe tracking turned on to the website
-      that will be shown as an iframe and use this handler to catch the messages
-      sent from the iframe on the parent website and turn them into events.
-    `,
-    template: `
-${fs.readFileSync(path.join(__dirname, 'build/pushToAnalytics.js'), { encoding: 'utf-8' })}   
-
-window.addEventListener('message', function(event){ 
-  if(event.data.type === "PiwikPRO"){
-    pushToAnalytics(event.data.payload); 
-  }
-}, false);  
-    `,
-    arguments: [        
-   ]
-  },
+    if(event.data.type === "PiwikPRO"){
+      pushToAnalytics(event.data.payload); 
+    }
+  }, false);  
+      `,
+      arguments: [
+          {
+              id: 'domain',
+              type: 'text',
+              displayName: 'The origin of the window that sends the message (domain)',
+              description: 'It needs to be a domain for example piwik.pro',
+              default: 'example.com'
+          }        
+     ]
+    }, 
   {
     id: 'heatmapClicks',
     name: 'Heatmap clicks collector (deprecated)',

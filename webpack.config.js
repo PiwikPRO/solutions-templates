@@ -45,7 +45,7 @@ module.exports = {
         oneOf: [
           {
             test: /\.(ts|tsx|jsx|js)$/,
-            loader: require.resolve('ts-loader'),
+            loader: require.resolve('ts-loader'),            
           },
         ]
       }
