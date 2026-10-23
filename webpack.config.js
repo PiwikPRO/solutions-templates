@@ -8,7 +8,7 @@ const DESTINATION = path.resolve( __dirname, 'build' );
 function readDirectoryContents(dirPath){
 
   const output = fs.readdirSync(path.join(__dirname, dirPath))
-    .filter(filename => filename.includes('.'))
+    .filter(filename => /\.(ts|tsx|jsx|js)$/.test(filename))
     .map(filename => filename.split('.'))
     .reduce((acc, next) => {
       acc[next[0]] = `./`+dirPath+`/${next.join('.')}`;
@@ -38,14 +38,14 @@ module.exports = {
     libraryExport: 'default',
     path: DESTINATION,
   },
-  target: 'es5',
+  target: ['web', 'es5'],
   module: {
     rules: [
       {
         oneOf: [
           {
             test: /\.(ts|tsx|jsx|js)$/,
-            loader: require.resolve('ts-loader'),            
+            loader: require.resolve('ts-loader'),
           },
         ]
       }
